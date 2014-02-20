@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<definition name="error/generic" extends="site">
+		<put-attribute name="title" value="Oooooops!!!"/>
+		<put-attribute name="content" value="/errors/generic.jsp" />
+	</definition>
+	<definition name="signup/confirm" extends="site">
+		<put-attribute name="title" value="Registrazione completata"/>
+		<put-attribute name="content" value="/signup/confirm.jsp" />
+	</definition>
+
+</tiles-definitions>

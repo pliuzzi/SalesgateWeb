@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="mvc.xml" />
+
+	<import resource="database.xml" />
+
+	<import resource="security.xml" />
+
+	<context:component-scan base-package="eu.a2a.salesgate" />
+
+	<context:property-placeholder
+		location="classpath:eu/a2a/salesgate/config/application.properties" />
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtpapp.group.local" />
+		<property name="port" value="587" />
+		<property name="username" value="admin@bubblesort.eu" />
+		<property name="password" value="BubbleSort2013" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000" />
+	</bean>
+
+	<bean id="urlLegacySGBA" class="java.lang.String">
+		<!-- <constructor-arg value="http://10.90.103.96:8080/SGBAWeb_PREPROD"/> -->
+		<constructor-arg
+			value="http://10.90.103.96:8080/SalesgateBusinessAreaWeb_PREPROD" />
+		<!-- <constructor-arg value="http://localhost:8782/SalesgateBusinessAreaWeb"/> -->
+	</bean>
+	<bean id="defaultDetector" class="org.apache.tika.detect.CompositeDetector">
+		<constructor-arg>
+			<list>
+				<bean class="org.apache.tika.parser.pkg.ZipContainerDetector" />
+				<bean class="org.apache.tika.parser.microsoft.POIFSContainerDetector" />
+				<bean class="org.apache.tika.detect.TextDetector" />
+				<bean class="org.apache.tika.detect.TypeDetector" />
+				<bean class="org.apache.tika.mime.MimeTypes" factory-method="getDefaultMimeTypes" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>
