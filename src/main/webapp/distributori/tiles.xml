@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <definition name="app/distributore/cerca" extends="app">
+    <put-attribute name="title" value="Cerca Distributore" />
+    <put-attribute name="content" value="/distributori/cerca.jsp" />
+  </definition>
+
+  <definition name="app/distributore/visualizza" extends="app">
+    <put-attribute name="title" value="Visualizza Distributore"/>
+    <put-attribute name="content" value="/distributori/visualizza.jsp"/>
+  </definition>
+  <definition name="app/distributore/canali/visualizza" extends="app">
+    <put-attribute name="title" value="Visualizza Canali"/>
+    <put-attribute name="content" value="/distributori/canali/visualizza.jsp"/>
+  </definition>
+  <definition name="app/distributore/pec/visualizza" extends="app">
+    <put-attribute name="title" value="Visualizza PEC"/>
+    <put-attribute name="content" value="/distributori/pec/visualizza.jsp"/>
+  </definition>
+  <definition name="app/distributore/pec/modifica" extends="app">
+    <put-attribute name="title" value="Visualizza PEC"/>
+    <put-attribute name="content" value="/distributori/pec/modifica.jsp"/>
+  </definition>
+  <definition name="app/distributore/nuovo" extends="app">
+    <put-attribute name="title" value="Visualizza PEC"></put-attribute>
+    <put-attribute name="content" value="/distributori/nuovo.jsp"></put-attribute>
+  </definition>
+
+</tiles-definitions>

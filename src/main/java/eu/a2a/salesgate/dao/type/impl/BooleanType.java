@@ -4,19 +4,27 @@ import eu.a2a.salesgate.dao.type.Type;
 
 public class BooleanType implements Type<Boolean> {
 
-	public static final String YES = "Y";
-	public static final String NO = "N";
+  public static final String YES = "Y";
+  public static final String NO = "N";
 
-	@Override
-	public Boolean fromSQL(Object o) {
+  private final Object cacheValue;
 
-		return ((String) o).equals(YES);
-	}
+  public BooleanType(Object in) {
+    this.cacheValue = in;
+  }
 
-	@Override
-	public Object toSQL(Boolean t) {
+  @Override
+  public Boolean fromSQL() {
+    if (cacheValue == null)
+      return false;
+    return ((String) cacheValue).equals(YES);
+  }
 
-		return t ? YES : NO;
-	}
+  @Override
+  public String toSQL() {
+    if (cacheValue == null)
+      return NO;
+    return ((Boolean) cacheValue) ? YES : NO;
+  }
 
 }

@@ -1,6 +1,4 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/js/ext/datepicker/bootstrap-datepicker.js"></script>
-<script src="${pageContext.request.contextPath}/js/ext/datepicker/locales/bootstrap-datepicker.it.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/ui/jquery-ui.js"></script>
@@ -18,6 +16,9 @@
 <script src="${pageContext.request.contextPath}/js/ext/jquery/fileupload/jquery.fileupload.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/json2/json2.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/filedownload/jquery.fileDownload.js"></script>
+<!-- lo metto per ultimo perch&egrave; se no si crea l'oggetto tramite il file query-ui.js -->
+<script src="${pageContext.request.contextPath}/js/ext/datepicker/bootstrap-datepicker.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/datepicker/locales/bootstrap-datepicker.it.js"></script>
 <script>
 	$(function() {
 		$('.form_date').datepicker({

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="app/pratiche/gas/cerca" extends="app">
+		<put-attribute name="title" value="Cerca Pratica Gas" />
+		<put-attribute name="content" value="/pratiche/gas/cerca.jsp" />
+	</definition>
+
+	<definition name="app/pratiche/gas/visualizza" extends="app">
+		<put-attribute name="title" value="Visualizza Pratica Gas"/>
+		<put-attribute name="content" value="app/pratiche/gas/visualizza/sub"/>
+	</definition>
+	<definition name="app/pratiche/gas/visualizza/sub" template="/pratiche/gas/visualizza.jsp">
+		<put-attribute name="formAnagrafica" value="/pratiche/gas/sub/anagrafica.jsp"/>
+		<put-attribute name="formIndirizzo" value="/pratiche/gas/sub/indirizzo.jsp"/>
+		<put-attribute name="formMisuratore" value="/pratiche/gas/sub/misuratore.jsp"/>
+		<put-attribute name="formConvertitore" value="/pratiche/gas/sub/convertitore.jsp"/>
+		<put-attribute name="formNote" value="/pratiche/gas/sub/note.jsp"/>
+		<put-attribute name="formDate" value="/pratiche/gas/sub/date.jsp"/>
+		<put-attribute name="formDatiTecnici" value="/pratiche/gas/sub/datiTecnici.jsp"/>
+	</definition>
+
+</tiles-definitions>

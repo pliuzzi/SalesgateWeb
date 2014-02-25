@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  
+  <definition name="app/legacy" extends="app">
+    <put-attribute name="title" value="SalesgateWeb"></put-attribute>
+    <put-attribute name="content" value="/legacy/view.jsp"></put-attribute>
+  </definition>
+
+</tiles-definitions>
