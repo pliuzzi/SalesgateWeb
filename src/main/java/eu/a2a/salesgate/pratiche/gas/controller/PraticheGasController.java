@@ -21,13 +21,13 @@ import org.springframework.web.context.request.WebRequest;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.service.DistributoreService;
-import eu.a2a.salesgate.pratiche.beans.CampiObbligatori;
-import eu.a2a.salesgate.pratiche.beans.FlussiSalvabili;
-import eu.a2a.salesgate.pratiche.gas.beans.FiltroPraticheGas;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGas;
+import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
+import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
+import eu.a2a.salesgate.pratiche.gas.bean.FiltroPraticheGas;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 import eu.a2a.salesgate.pratiche.gas.service.LavoriGasService;
 import eu.a2a.salesgate.utility.service.UtilityService;
-import eu.a2a.salesgate.validators.CustomValidator;
+import eu.a2a.salesgate.validator.CustomValidator;
 
 @Controller
 public class PraticheGasController extends AbstractController {

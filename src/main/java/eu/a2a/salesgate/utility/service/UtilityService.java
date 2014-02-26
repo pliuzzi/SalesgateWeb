@@ -8,9 +8,9 @@ import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
-import eu.a2a.salesgate.pratiche.beans.CampiObbligatori;
-import eu.a2a.salesgate.pratiche.beans.FlussiSalvabili;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGas;
+import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
+import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 
 public interface UtilityService {
 

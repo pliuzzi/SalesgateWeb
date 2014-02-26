@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.pratiche.gas.beans;
+package eu.a2a.salesgate.pratiche.gas.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.distributori.bean.Distributore;
-import eu.a2a.salesgate.pratiche.beans.AnagAmmissibilita;
-import eu.a2a.salesgate.pratiche.beans.AvanzamentoFlussi;
+import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
+import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
 
 @Component
 public class LavoriGas extends CodDescBean {

@@ -2,12 +2,12 @@ package eu.a2a.salesgate.pratiche.gas.dao;
 
 import java.util.List;
 
-import eu.a2a.salesgate.pratiche.gas.beans.FiltroPraticheGas;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGas;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasExtension;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasXCliente;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasXIndirizzo;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasXMisuratore;
+import eu.a2a.salesgate.pratiche.gas.bean.FiltroPraticheGas;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasExtension;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXCliente;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXIndirizzo;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXMisuratore;
 
 public interface LavoriGasDAO {
 

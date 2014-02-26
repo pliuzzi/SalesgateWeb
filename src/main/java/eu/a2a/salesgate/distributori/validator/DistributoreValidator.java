@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.distributori.validators;
+package eu.a2a.salesgate.distributori.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

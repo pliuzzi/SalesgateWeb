@@ -8,12 +8,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import eu.a2a.salesgate.pratiche.gas.beans.FiltroPraticheGas;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGas;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasExtension;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasXCliente;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasXIndirizzo;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasXMisuratore;
+import eu.a2a.salesgate.pratiche.gas.bean.FiltroPraticheGas;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasExtension;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXCliente;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXIndirizzo;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXMisuratore;
 import eu.a2a.salesgate.pratiche.gas.dao.LavoriGasDAO;
 import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasExtensionJdbcHandler;
 import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasJdbcHandler;

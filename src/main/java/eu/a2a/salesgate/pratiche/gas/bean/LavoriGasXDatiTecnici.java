@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.pratiche.gas.beans;
+package eu.a2a.salesgate.pratiche.gas.bean;
 
 // Generated 27-set-2013 11.36.08 by Hibernate Tools 4.0.0
 

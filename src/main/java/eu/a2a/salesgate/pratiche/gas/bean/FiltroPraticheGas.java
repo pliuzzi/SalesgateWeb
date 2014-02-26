@@ -1,6 +1,6 @@
-package eu.a2a.salesgate.pratiche.gas.beans;
+package eu.a2a.salesgate.pratiche.gas.bean;
 
-import eu.a2a.salesgate.pratiche.beans.FiltroPratiche;
+import eu.a2a.salesgate.pratiche.bean.FiltroPratiche;
 
 public class FiltroPraticheGas extends FiltroPratiche {
 

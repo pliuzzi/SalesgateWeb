@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.pratiche.gas.beans;
+package eu.a2a.salesgate.pratiche.gas.bean;
 
 public class HtmlHelper {
 

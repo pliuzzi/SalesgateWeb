@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.pratiche.beans;
+package eu.a2a.salesgate.pratiche.bean;
 
 import java.util.HashMap;
 import java.util.Map;

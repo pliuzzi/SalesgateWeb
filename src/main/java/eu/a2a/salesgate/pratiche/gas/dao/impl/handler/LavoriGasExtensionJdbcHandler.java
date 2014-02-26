@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import org.springframework.util.StringUtils;
 
 import eu.a2a.salesgate.dao.handler.base.JdbcHandler;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGasExtension;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasExtension;
 
 public class LavoriGasExtensionJdbcHandler extends JdbcHandler<LavoriGasExtension> {
 

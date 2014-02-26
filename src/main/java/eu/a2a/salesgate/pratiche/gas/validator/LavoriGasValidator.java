@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.pratiche.gas.validators;
+package eu.a2a.salesgate.pratiche.gas.validator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
-import eu.a2a.salesgate.pratiche.beans.CampiObbligatori;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGas;
-import eu.a2a.salesgate.validators.CustomValidator;
+import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
+import eu.a2a.salesgate.validator.CustomValidator;
 
 @Component
 // ("LavoriGasValidator")

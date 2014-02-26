@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import eu.a2a.salesgate.dao.handler.base.JdbcHandler;
-import eu.a2a.salesgate.pratiche.gas.beans.LavoriGas;
+import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 
 public class LavoriGasJdbcHandler extends JdbcHandler<LavoriGas> {
 

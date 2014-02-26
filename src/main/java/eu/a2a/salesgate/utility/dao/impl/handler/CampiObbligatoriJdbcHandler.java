@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import eu.a2a.salesgate.dao.handler.base.JdbcHandler;
-import eu.a2a.salesgate.pratiche.beans.CampiObbligatori;
+import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 
 public class CampiObbligatoriJdbcHandler extends JdbcHandler<CampiObbligatori> {
 
