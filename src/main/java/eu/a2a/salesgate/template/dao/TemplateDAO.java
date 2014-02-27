@@ -1,13 +1,15 @@
 package eu.a2a.salesgate.template.dao;
 
 import java.util.List;
-import java.util.Map;
+
+import eu.a2a.salesgate.template.bean.Campo;
+import eu.a2a.salesgate.template.bean.TemplateInstance;
 
 public interface TemplateDAO {
 
-  List<TemplateInstance> getAllTemplate(Map<String, Object> map);
+  List<TemplateInstance> getAllTemplate(String idDistr, String direzione);
 
-  int updateFileTemplate(Map<String, Object> map);
+  int updateFileTemplate(String id, byte[] file, String fileName, String fileType);
 
   TemplateInstance getFileTemplate(String id);
 

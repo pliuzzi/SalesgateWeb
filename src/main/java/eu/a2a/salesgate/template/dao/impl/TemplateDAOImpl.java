@@ -1,143 +1,199 @@
 package eu.a2a.salesgate.template.dao.impl;
 
-import it.a2a.salesgate.beans.Campo;
-import it.a2a.salesgate.beans.Distributore;
-import it.a2a.salesgate.beans.ServizioCanale;
-import it.a2a.salesgate.beans.ServizioPEC;
-import it.a2a.salesgate.beans.TemplateInstance;
-
-import java.util.HashMap;
-import java.util.Iterator;
+import java.sql.Types;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
+import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
+import eu.a2a.salesgate.template.bean.Campo;
+import eu.a2a.salesgate.template.bean.TemplateInstance;
 import eu.a2a.salesgate.template.dao.TemplateDAO;
+import eu.a2a.salesgate.template.dao.impl.handler.CampoJdbcHandler;
+import eu.a2a.salesgate.template.dao.impl.handler.TemplateInstanceJdbcHandler;
 
 @Component
-public class TemplateDAOImpl implements TemplateDAO{
+public class TemplateDAOImpl implements TemplateDAO {
 
-	private final static String SELECT_ALL_TEMPLATE = "selectAllTemplate";
-	private final static String UPDATE_FILE_TEMPLATE = "updateFileTemplate";
-	private final static String SELECT_FILE_TEMPLATE = "selectFileTemplate";
-	private final static String SELECT_CAMPI_TEMPLATE_OUTBOUND = "selectCampiTemplateOutbound";
-	private final static String SELECT_CAMPI_TEMPLATE_INBOUND = "selectCampiTemplateInbound";
-	private final static String SELECT_TEMPLATE = "selectTemplate";
-	private final static String SELECT_CAMPI_OUTBOUND = "selectCampiOutbound";
-	private final static String SELECT_CAMPI_INBOUND = "selectCampiInbound";
-	private final static String SELECT_EVENT_CODE = "selectEventCode";
-	private final static String DELETE_CAMPI_INBOUND = "deleteCampiInbound";
-	private final static String DELETE_CAMPI_OUTBOUND = "deleteCampiOutbound";
-	private final static String INSERT_CAMPI_INBOUND = "insertCampiInbound";
-	private final static String INSERT_CAMPI_OUTBOUND = "insertCampiOutbound";
-	private final static String UPDATE_ANAG_TEMPLATE = "updateAnagTemplate";
-	private final static String INSERT_ANAG_TEMPLATE = "insertAnagTemplate";
-	private final static String INSERT_TEMPLATE_INSTANCE = "insertTemplateInstance";
-	private final static String INSERT_SCHED_EVENT_PARAMETERS = "insertSchedEventParameters";
-	private final static String INSERT_SCHED_EVENT_SCHEDULE = "insertSchedEventSchedule";
-	
-	@Autowired
-	SqlSession sqlSessionSGUSR;
-	
-	@Override
-  public List<TemplateInstance> getAllTemplate(Map<String, Object> map){
-		return sqlSessionSGUSR.selectList(SELECT_ALL_TEMPLATE, map);
-	}
-	
-	@Override
-  public int updateFileTemplate(Map<String, Object> map){
-		return sqlSessionSGUSR.update(UPDATE_FILE_TEMPLATE, map);
-	}
+  private final static String SELECT_ALL_TEMPLATE = "selectAllTemplate";
+  private final static String UPDATE_FILE_TEMPLATE = "updateFileTemplate";
+  private final static String SELECT_FILE_TEMPLATE = "selectFileTemplate";
+  private final static String SELECT_CAMPI_TEMPLATE_OUTBOUND = "selectCampiTemplateOutbound";
+  private final static String SELECT_CAMPI_TEMPLATE_INBOUND = "selectCampiTemplateInbound";
+  private final static String SELECT_TEMPLATE = "selectTemplate";
+  private final static String SELECT_CAMPI_OUTBOUND = "selectCampiOutbound";
+  private final static String SELECT_CAMPI_INBOUND = "selectCampiInbound";
+  private final static String SELECT_EVENT_CODE = "selectEventCode";
+  private final static String DELETE_CAMPI_INBOUND = "deleteCampiInbound";
+  private final static String DELETE_CAMPI_OUTBOUND = "deleteCampiOutbound";
+  private final static String INSERT_CAMPI_INBOUND = "insertCampiInbound";
+  private final static String INSERT_CAMPI_OUTBOUND = "insertCampiOutbound";
+  private final static String UPDATE_ANAG_TEMPLATE = "updateAnagTemplate";
+  private final static String INSERT_ANAG_TEMPLATE = "insertAnagTemplate";
+  private final static String INSERT_TEMPLATE_INSTANCE = "insertTemplateInstance";
+  private final static String INSERT_SCHED_EVENT_PARAMETERS = "insertSchedEventParameters";
+  private final static String INSERT_SCHED_EVENT_SCHEDULE = "insertSchedEventSchedule";
 
-	@Override
+  @Autowired
+  JdbcTemplate jdbcTemplate;
+
+  @Override
+  public List<TemplateInstance> getAllTemplate(String idDistr, String direzione) {
+
+    String sql = "SELECT ti.id, fk_distributore, fk_cod_servizio, fk_cod_flusso, fk_utility, fk_template, colonne_totali, colonne_effettive, flag_attivo, "
+        + " event_code, nome, file_content, first_row, file_type, separatore, n_max_righe, in_out, created, last_updated, af.code, af.description, "
+        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc "
+        + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
+        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility "
+        + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and afl.nome_action <> 'INSERT_E01' "
+        + " and ti.fk_distributore = ? and in_out = ? ";
+
+    return jdbcTemplate.query(sql, new TemplateInstanceJdbcHandler().getRowMapper(), idDistr, direzione);
+  }
+
+  @Override
+  public int updateFileTemplate(String id, byte[] file, String fileName, String fileType) {
+    String sql = "update anag_template set file_content = ?, nome = ?, file_type = ? where id = ?";
+
+    int nTot = jdbcTemplate.update(sql, new Object[] { new SqlLobValue(file), fileName, fileType, id }, new int[] {
+        Types.BLOB, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR });
+    return nTot;
+  }
+
+  @Override
   public TemplateInstance getFileTemplate(String id) {
-		return sqlSessionSGUSR.selectOne(SELECT_FILE_TEMPLATE, id);
-	}
-	
-	@Override
-  public List<Campo> getCampiTemplateOutbound(String idTemplate){
-		return sqlSessionSGUSR.selectList(SELECT_CAMPI_TEMPLATE_OUTBOUND, idTemplate);
-	}
-	
-	@Override
-  public List<Campo> getCampiTemplateInbound(String idTemplate){
-		return sqlSessionSGUSR.selectList(SELECT_CAMPI_TEMPLATE_INBOUND, idTemplate);
-	}
-	
-	@Override
-  public TemplateInstance getTemplate(String idTemplate){
-		return sqlSessionSGUSR.selectOne(SELECT_TEMPLATE, idTemplate);
-	}
-	
-	@Override
-  public List<Campo> getCampiOutbound(String utility){
-		return sqlSessionSGUSR.selectList(SELECT_CAMPI_OUTBOUND, utility);
-	}
-	
-	@Override
-  public List<Campo> getCampiInbound(String utility){
-		return sqlSessionSGUSR.selectList(SELECT_CAMPI_INBOUND, utility);
-	}
-	
-	@Override
-  public int updateTemplate(TemplateInstance templateInstance){
-		int nTot = sqlSessionSGUSR.update(UPDATE_ANAG_TEMPLATE, templateInstance);
-		//aggiungere update instance ??
-		return nTot;
-	}
+    String sql = "select file_content, nome from anag_template where id = ?";
+    return jdbcTemplate.query(sql, new TemplateInstanceJdbcHandler().getResultSetExtractor(), id);
+  }
 
-	@Override
+  @Override
+  public List<Campo> getCampiTemplateOutbound(String idTemplate) {
+    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_out_type aot, template_spool_config "
+        + " where aot.id = fk_type_outbound " + " and fk_template_instance = ? " + " order by posizione asc";
+    List<Campo> list = jdbcTemplate.query(sql, new CampoJdbcHandler().getRowMapper(), idTemplate);
+    return list;
+  }
+
+  @Override
+  public List<Campo> getCampiTemplateInbound(String idTemplate) {
+    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_inb_type aot, template_load_config "
+        + " where aot.id = fk_type_inbound " + " and fk_template_instance = ? " + " order by posizione asc";
+    List<Campo> list = jdbcTemplate.query(sql, new CampoJdbcHandler().getRowMapper(), idTemplate);
+    return list;
+  }
+
+  @Override
+  public TemplateInstance getTemplate(String idTemplate) {
+    String sql = "SELECT ti.id, fk_distributore, fk_cod_servizio, fk_cod_flusso, fk_utility, fk_template, colonne_totali, colonne_effettive, flag_attivo, "
+        + " event_code, nome, file_content, first_row, file_type, separatore, n_max_righe, in_out, created, last_updated, af.code, af.description, "
+        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc "
+        + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
+        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility "
+        + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and afl.nome_action <> 'INSERT_E01' "
+        + " and ti.id = ? ";
+
+    return jdbcTemplate.query(sql, new TemplateInstanceJdbcHandler().getResultSetExtractor(), idTemplate);
+  }
+
+  @Override
+  public List<Campo> getCampiOutbound(String utility) {
+
+    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_out_type aot where utility = ? "
+        + " order by categoria asc, nome_logico asc";
+    List<Campo> list = jdbcTemplate.query(sql, new CampoJdbcHandler().getRowMapper(), utility);
+    return list;
+  }
+
+  @Override
+  public List<Campo> getCampiInbound(String utility) {
+    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_inb_type aot where utility = ? "
+        + " order by categoria asc, nome_logico asc";
+    List<Campo> list = jdbcTemplate.query(sql, new CampoJdbcHandler().getRowMapper(), utility);
+    return list;
+  }
+
+  @Override
+  public int updateTemplate(TemplateInstance ti) {
+    String sql = "update anag_template set first_row = ?, separatore = ?, file_type = ?, n_max_righe = ?"
+        + " where id = ?";
+    int nRows = jdbcTemplate.update(sql, ti.getAnagTemplate().getFirstRow(), ti.getAnagTemplate().getSeparatore(), ti
+        .getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getnMaxRighe(), ti.getAnagTemplate().getId());
+    return nRows;
+  }
+
+  @Override
   public int deleteMapping(String idTemplate, String direzione) {
-		if("IN".equals(direzione)){
-			return sqlSessionSGUSR.delete(DELETE_CAMPI_INBOUND, idTemplate);
-		}else
-			return sqlSessionSGUSR.delete(DELETE_CAMPI_OUTBOUND, idTemplate);
-	}
+    String sql = "";
+    if ("IN".equals(direzione)) {
+      sql = "delete from template_load_config where fk_template_instance = ?";
+    } else {
+      sql = "delete from template_spool_config where fk_template_instance = ?";
+    }
+    int nRows = jdbcTemplate.update(sql, idTemplate);
+    return nRows;
+  }
 
-	@Override
+  @Override
   public int insertMapping(List<String> mapping, String idTemplate, String direzione) {
-		Map<String, Object> param = null;
-		String insert = ("IN".equals(direzione)) ? INSERT_CAMPI_INBOUND : INSERT_CAMPI_OUTBOUND;
-		int nTot = 0;
-		for(int i = 0; i < mapping.size(); i++){
-			param = new HashMap<String, Object>();
-			param.put("idTemplate", idTemplate);
-			param.put("idCampo", mapping.get(i));
-			param.put("posizione", (i+1));
-			nTot += sqlSessionSGUSR.insert(insert, param);
-		}
-		
-		return nTot;
-		
-	}
+    String sqlIN = "INSERT INTO template_load_config (id, fk_template_instance, fk_type_inbound, posizione) VALUES (seq_generic.nextval, ?, ?, ?)";
+    String sqlOUT = "INSERT INTO template_spool_config (id, fk_template_instance, fk_type_outbound, posizione) VALUES (seq_generic.nextval, ?, ?, ?)";
+    String insert = ("IN".equals(direzione)) ? sqlIN : sqlOUT;
+    int nTot = 0;
+    for (int i = 0; i < mapping.size(); i++) {
+      nTot += jdbcTemplate.update(insert, idTemplate, mapping.get(i), (i + 1));
+    }
 
-	@Override
-  public int insertTemplate(TemplateInstance templateInstance) {
-		int idAnagTemplate = sqlSessionSGUSR.selectOne("selectIdAnagTemplate");
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
-		int idTemplateInstance = sqlSessionSGUSR.selectOne("selectIdAnagTemplate");
-		templateInstance.getAnagTemplate().setId(idAnagTemplate + "");
-		templateInstance.setId(idTemplateInstance + "");
-		
-		sqlSessionSGUSR.insert(INSERT_ANAG_TEMPLATE, templateInstance);
-		sqlSessionSGUSR.insert(INSERT_TEMPLATE_INSTANCE, templateInstance);
-		if("IN".equals(templateInstance.getAnagTemplate().getInOut())){
-			sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_SCHEDULE, templateInstance);
-			sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_PARAMETERS, templateInstance);
-		}
-		return idTemplateInstance;
-	}
+    return nTot;
 
-	@Override
+  }
+
+  @Override
+  public int insertTemplate(TemplateInstance ti) {
+    int idAnagTemplate = jdbcTemplate.query("select seq_template.nextval from dual",
+        new IntegerJdbcHandler().getResultSetExtractor());
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+    }
+    int idTemplateInstance = jdbcTemplate.query("select seq_template.nextval from dual",
+        new IntegerJdbcHandler().getResultSetExtractor());
+    ti.getAnagTemplate().setId(idAnagTemplate + "");
+    ti.setId(idTemplateInstance + "");
+
+    // sqlSessionSGUSR.insert(INSERT_ANAG_TEMPLATE, templateInstance);
+    String sqlInsertAnagTemplate = "INSERT INTO ANAG_TEMPLATE (ID, FIRST_ROW, FILE_TYPE, SEPARATORE, N_MAX_RIGHE, IN_OUT, CREATED, NOME, FILE_CONTENT)"
+        + " VALUES ( ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
+    jdbcTemplate.update(sqlInsertAnagTemplate, ti.getAnagTemplate().getId(), ti.getAnagTemplate().getFirstRow(), ti
+        .getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getSeparatore(), ti.getAnagTemplate()
+        .getnMaxRighe(), ti.getAnagTemplate().getInOut(), ti.getAnagTemplate().getNomeFile(), ti.getAnagTemplate()
+        .getFileContent());
+    // sqlSessionSGUSR.insert(INSERT_TEMPLATE_INSTANCE, templateInstance);
+    String sqlInsertTemplateInstance = "INSERT INTO TEMPLATE_INSTANCE (ID, FK_DISTRIBUTORE, FK_COD_SERVIZIO, FK_COD_FLUSSO, FK_UTILITY, FK_TEMPLATE, "
+        + " FLAG_ATTIVO, EVENT_CODE) VALUES (?, ?, ?, ?, ?, ?, 'Y', ?)";
+    jdbcTemplate.update(sqlInsertTemplateInstance, ti.getId(), ti.getDistributore().getId(), ti.getCodiceServizio()
+        .getCode(), ti.getCodFlusso().getId(), ti.getUtility(), ti.getAnagTemplate().getId(), ti.getEventCode());
+    if ("IN".equals(ti.getAnagTemplate().getInOut())) {
+      // sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_SCHEDULE, templateInstance);
+      String sqlInsertSchedEventSchedule = "INSERT INTO SCHED_EVENT_SCHEDULE (CD_EVENTO, PKG_NAME, TIME_POLLING, FLAG_ONOFF, PRIORITY) "
+          + " VALUES ( '" + ti.getEventCode() + "', 'ETL_INBOUND_MASSIVO.MAIN', 1, 1, 1)";
+      jdbcTemplate.update(sqlInsertSchedEventSchedule);
+      String sqlInsertEventParameters = "INSERT INTO SCHED_EVENT_PARAMETERS (CD_EVENTO, PARAM_NAME, PARAM_VALUE, DESC_EVENTO, CODICE_AUTORITY) "
+          + " VALUES ( ?, 'TABLE', 'LAVORI', ?, ? )";
+      // sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_PARAMETERS, templateInstance);
+      jdbcTemplate.update(sqlInsertEventParameters, ti.getEventCode(), ti.getDistributore().getName(), ti
+          .getDistributore().getId());
+    }
+    return idTemplateInstance;
+  }
+
+  @Override
   public int verifyEventCode(TemplateInstance templateInstance) {
-		return ((List<?>) sqlSessionSGUSR.selectList(SELECT_EVENT_CODE, templateInstance)).size();
-	}
-	
+    int n = jdbcTemplate.query("select * from template_instance where event_code = ?",
+        new TemplateInstanceJdbcHandler().getRowMapper(), templateInstance.getEventCode()).size();
+    return n;
+  }
+
 }

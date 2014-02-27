@@ -35,5 +35,8 @@
 			todayHighlight : true,
 			format : "dd/mm/yyyy hh:ii:ss"
 		});
+		$('input').tooltip();
+		$('textarea').tooltip();
+		  
 	});
 </script>

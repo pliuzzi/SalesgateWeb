@@ -109,9 +109,9 @@
                     <span class="glyphicon glyphicon-cog"></span> Configura <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="<c:url value="/app/distributore/${distributore.id}/canali/visualizza"/>">Configura Canali</a></li>
-                    <li><a href="<c:url value="/app/distributore/${distributore.id}/PEC/visualizza"/>">Configura Indirizzi PEC</a></li>
-                    <li><a href="visualizzaElencoTemplate.do?id_distr=${distributore.id}">Configura Template</a></li>
+                    <li><a href="${pageContext.request.contextPath}/app/distributore/${distributore.id}/canali/visualizza">Configura Canali</a></li>
+                    <li><a href="${pageContext.request.contextPath}/app/distributore/${distributore.id}/PEC/visualizza">Configura Indirizzi PEC</a></li>
+                    <li><a href="${pageContext.request.contextPath}/app/template/${distributore.id}/elenco">Configura Template</a></li>
                   </ul>
                 </div>
                 <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
