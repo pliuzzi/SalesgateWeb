@@ -152,7 +152,7 @@
                   class="btn btn-success ${empty fn:trim(lavoriGas.lavoriGasExtension.fkFiles) ? 'disabled' : ''}">
                   <span class="glyphicon glyphicon-download"></span> Download
                 </button> -->
-                <a target="_blank" href="download.do?id=${lavoriGas.lavoriGasExtension.fkFiles}" id="lnkDownload"
+                <a target="_blank" href="${pageContext.request.contextPath}/app/files/${lavoriGas.lavoriGasExtension.fkFiles}/download" id="lnkDownload"
                   data-id-file="${lavoriGas.lavoriGasExtension.fkFiles}"
                   class="btn btn-success ${empty fn:trim(lavoriGas.lavoriGasExtension.fkFiles) ? 'disabled' : ''}">
                   <span class="glyphicon glyphicon-download"></span> Download

@@ -47,7 +47,7 @@ public class LavoriGasServiceImpl implements LavoriGasService {
     Distributore distributore = distributoreDao.getDistributore(pratica.getFkDistributore());
     AnagAmmissibilita anagAmmissibilita;
     if (!StringUtils.isEmpty(pratica.getFkAmmissibilita()))
-      anagAmmissibilita = utilityDao.geAnagAmmissibilita(pratica.getFkAmmissibilita());
+      anagAmmissibilita = utilityDao.getAnagAmmissibilita(pratica.getFkAmmissibilita());
     else
       anagAmmissibilita = new AnagAmmissibilita();
     AvanzamentoFlussi avanzamentoFlussi = utilityDao.estraiAvanzamentoFlussi(pratica);

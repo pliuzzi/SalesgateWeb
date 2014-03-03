@@ -1,6 +1,5 @@
 package eu.a2a.salesgate.utility.dao.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +10,20 @@ import eu.a2a.salesgate.bean.AnagFlussi;
 import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
+import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
+import eu.a2a.salesgate.utility.dao.impl.handler.AnagAmmissibilitaJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagFlussiJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagRichiesteJdbcHandler;
+import eu.a2a.salesgate.utility.dao.impl.handler.AvanzamentoFlussiJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.CampiObbligatoriJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.FileTypeJdbcHandler;
+import eu.a2a.salesgate.utility.dao.impl.handler.FlussiSalvabiliJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.ParamsJdbcHandler;
 
 @Component
@@ -43,22 +46,31 @@ public class UtilityDAOImpl implements UtilityDAO {
   private final static String SELECT_FILE_TYPE = "selectFileType";
 
   @Autowired
-  JdbcTemplate jdbcTemplate;
+  JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
-  public List<AnagAmmissibilita> getAllAnagAmmissibilita() {
-    return null;// sqlSessionSGUSR.selectList(SELECT_ALL_ANAG_AMMISSIBILITA);
+  public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id) {
+    String sql = "select * from anag_ammissibilita ";
+    if (id != null)
+      sql += " where id = " + id;
+    return jdbcTemplateSalesgate.query(sql, new AnagAmmissibilitaJdbcHandler().getRowMapper());
   }
 
   @Override
-  public AnagAmmissibilita geAnagAmmissibilita(String id) {
-    return null;// sqlSessionSGUSR.selectOne(SELECT_ANAG_AMMISSIBILITA, id);
+  public AnagAmmissibilita getAnagAmmissibilita(String id) {
+
+    return getAllAnagAmmissibilita(id).size() > 0 ? getAllAnagAmmissibilita(id).get(0) : null;
   }
 
   @Override
   public List<FlussiSalvabili> getAllFlussiSalvabili(LavoriGas pratica) {
-    return null;// sqlSessionSGUSR.selectList(SELECT_ALL_FLUSSI_SALVABILI,
-    // pratica);
+    String sql = "select distinct cod_flusso_acc, AF.DESCRIPTION" + " from CONFIG_STATI_FLUSSI csf, anag_flussi af "
+        + " where CSF.COD_FLUSSO_ACC = AF.COD_FLUSSO " + " and CSF.COMMODITY = AF.UTILITY "
+        + " and CSF.FLAG_STATO_FINALE = 'Y' " + " and cod_servizio in ('DEFAULT', ?) " + " and cod_flusso_att = ? "
+        + " and stato_pratica_att = ? " + " and NVL(commodity, 'DEFAULT') in ('DEFAULT', ?) "
+        + " and cod_flusso_acc not in ('XXX', '0200', '0600', '0999', '0210', '8150', '8101', '8102')";
+    return jdbcTemplateSalesgate.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), pratica.getCodServizio(),
+        pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
   }
 
   @Override
@@ -67,14 +79,16 @@ public class UtilityDAOImpl implements UtilityDAO {
         + " and piva_dl in ('00000000000', '" + pratica.getDistributore().getPiva() + "') " + " and fk_anag_ric_id = '"
         + pratica.getCodServizio() + "' " + " and fk_anag_ric_utl = '" + pratica.getUtility() + "' "
         + " and cod_flusso = '" + pratica.getCodFlusso() + "' " + " and obbligatorio = 'Y'";
-    List<CampiObbligatori> list = jdbcTemplate.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
+    List<CampiObbligatori> list = jdbcTemplateSalesgate.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
     return list;
   }
 
   @Override
   public AvanzamentoFlussi estraiAvanzamentoFlussi(LavoriGas pratica) {
-    return null;// sqlSessionSGUSR.selectOne(SELECT_AVANZAMENTO_FLUSSI,
-    // pratica);
+    String sql = "SELECT FK_PRATICA, FK_LAVORI, COD_SERVIZIO, COMMODITY, COD_FLUSSO, STATO, FLAG_STATO, NUM_REINVIO, CREATED, LAST_UPDATED "
+        + " FROM AVANZAMENTO_FLUSSI " + " where fk_pratica = '" + pratica.getId() + "'";
+
+    return jdbcTemplateSalesgate.query(sql, new AvanzamentoFlussiJdbcHandler().getResultSetExtractor());
   }
 
   @Override
@@ -82,12 +96,12 @@ public class UtilityDAOImpl implements UtilityDAO {
     String sql = "update avanzamento_flussi set cod_flusso = '" + pratica.getAvanzamentoFlussi().getCodFlusso()
         + "', stato = '" + pratica.getAvanzamentoFlussi().getStato() + "', flag_stato = '"
         + pratica.getAvanzamentoFlussi().getFlagStato() + "' " + " where fk_pratica = '" + pratica.getId() + "'";
-    return jdbcTemplate.update(sql);
+    return jdbcTemplateSalesgate.update(sql);
   }
 
   @Override
   public List<Params> getParams(String category) {
-    List<Params> list = jdbcTemplate.query("SELECT ID, NAME, VALUE, CATEGORY FROM PARAMS where category = ?",
+    List<Params> list = jdbcTemplateSalesgate.query("SELECT ID, NAME, VALUE, CATEGORY FROM PARAMS where category = ?",
         new ParamsJdbcHandler().getRowMapper(), category);
 
     return list;
@@ -98,7 +112,7 @@ public class UtilityDAOImpl implements UtilityDAO {
 
     String sql = "select id, code, description, mime_type, is_template from anag_filetype where is_template = ?";
 
-    List<FileType> list = jdbcTemplate.query(sql, new FileTypeJdbcHandler().getRowMapper(), isTemplate);
+    List<FileType> list = jdbcTemplateSalesgate.query(sql, new FileTypeJdbcHandler().getRowMapper(), isTemplate);
 
     return list;
   }
@@ -107,24 +121,24 @@ public class UtilityDAOImpl implements UtilityDAO {
   public FileType getFileType(String mimeType) {
     String sql = "select id, code, description, mime_type, is_template from anag_filetype where mime_type = ? and is_template = 'SI'";
 
-    FileType ft = jdbcTemplate.query(sql, new FileTypeJdbcHandler().getResultSetExtractor(), mimeType);
+    FileType ft = jdbcTemplateSalesgate.query(sql, new FileTypeJdbcHandler().getResultSetExtractor(), mimeType);
 
     return ft;
   }
 
   @Override
-  public BigDecimal getSeqGenericNextVal() {
+  public Integer getSeqGenericNextVal() {
 
     String sql = "select seq_generic.nextval from dual";
 
-    return null;// sqlSessionSGUSR.selectOne(SELECT_SEQ_GENERIC);
+    return jdbcTemplateSalesgate.query(sql, new IntegerJdbcHandler().getResultSetExtractor());
   }
 
   @Override
   public List<AnagRichieste> getAnagRichieste(String utility) {
     String sql = "select id, description, code, utility, flag_risottomissione, flag_sg, flag_matrice, flag_semaforo, flag_compatibilita "
         + " from anag_richieste " + " where utility = '" + utility + "'" + " and flag_sg = 'Y'";
-    return jdbcTemplate.query(sql, new AnagRichiesteJdbcHandler().getRowMapper());
+    return jdbcTemplateSalesgate.query(sql, new AnagRichiesteJdbcHandler().getRowMapper());
   }
 
   @Override
@@ -132,7 +146,7 @@ public class UtilityDAOImpl implements UtilityDAO {
     String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione "
         + " from anag_flussi " + " where direzione = decode('" + direzione + "', 'IN', 'INBOUND', 'OUTBOUND') "
         + " and utility = '" + utility + "'";
-    return jdbcTemplate.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
+    return jdbcTemplateSalesgate.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
   }
 
 }

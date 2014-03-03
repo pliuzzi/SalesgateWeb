@@ -87,7 +87,7 @@
             </div>
             <div class="col-lg-4" align="right">
               <div class="btn-group">
-                <a href="visualizzaElencoTemplate.do?id_distr=${templateInstance.distributore.id}" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                <a href="${pageContext.request.contextPath}/app/template/${templateInstance.distributore.id}/elenco" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
               </div>
 
               <c:if test="${error}">

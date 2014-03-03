@@ -64,7 +64,7 @@
             <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Netgate<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="<c:url value="/app/recuperaEsitiInvoloNG" />">Recupera Esiti</a></li>
+                  <li><a href="<c:url value="/app/netgate/recuperaesiti" />">Recupera Esiti</a></li>
                 </ul></li>
             </sec:authorize>
           </ul>

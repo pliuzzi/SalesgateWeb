@@ -19,7 +19,7 @@
     </div>
     <div class="panel-body">
       
-      <form:form modelAttribute="distributore" commandName="distributore" action="${pageContext.request.contextPath}/modificaDistributorePEC.do" class="form-horizontal" method="post">
+      <form:form modelAttribute="distributore" commandName="distributore" action="${pageContext.request.contextPath}/app/distributore/${distributore.id}/PEC/${pec.id}/modifica" class="form-horizontal" method="post">
         <form:hidden path="id" />
         <form:hidden path="utility" />
         <!-- <div class="btn-group">

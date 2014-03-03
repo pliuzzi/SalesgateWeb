@@ -41,7 +41,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
   private final static String INSERT_OR_UPDATE_LAVORI_GAS_X_CLIENTE = "insertOrUpdateClienteGas";
 
   @Autowired
-  JdbcTemplate jdbcTemplate;
+  JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
   public List<LavoriGas> cercaPerFiltro(FiltroPraticheGas filtro) {
@@ -61,22 +61,22 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     else
       sql += " and verifica_esito = '0'";
 
-    jdbcTemplate.setMaxRows(1000);
-    List<LavoriGas> list = jdbcTemplate.query(sql, new LavoriGasJdbcHandler().getRowMapper());
+    jdbcTemplateSalesgate.setMaxRows(1000);
+    List<LavoriGas> list = jdbcTemplateSalesgate.query(sql, new LavoriGasJdbcHandler().getRowMapper());
     return list;
   }
 
   @Override
   public LavoriGas cercaPerCodicePraticaSG(String codicePraticaSG) {
     String sqlLavoriGas = "select * from lavori_gas where id = '" + codicePraticaSG + "'";
-    LavoriGas pratica = jdbcTemplate.query(sqlLavoriGas, new LavoriGasJdbcHandler().getResultSetExtractor());
+    LavoriGas pratica = jdbcTemplateSalesgate.query(sqlLavoriGas, new LavoriGasJdbcHandler().getResultSetExtractor());
     return pratica;
   }
 
   @Override
   public LavoriGasExtension estraiLavoriGasExtension(String codicePraticaSG) {
     String sql = "select * from lavori_gas_extension where fk_lavori_gas = '" + codicePraticaSG + "'";
-    LavoriGasExtension lavoriGasExtension = jdbcTemplate.query(sql,
+    LavoriGasExtension lavoriGasExtension = jdbcTemplateSalesgate.query(sql,
         new LavoriGasExtensionJdbcHandler().getResultSetExtractor());
     return lavoriGasExtension;
   }
@@ -84,7 +84,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
   @Override
   public LavoriGasXMisuratore estraiLavoriGasXMisuratore(String id) {
     String sql = "select * from lavori_gas_x_misuratore where id = " + id;
-    LavoriGasXMisuratore lavoriGasXMisuratore = jdbcTemplate.query(sql,
+    LavoriGasXMisuratore lavoriGasXMisuratore = jdbcTemplateSalesgate.query(sql,
         new LavoriGasXMisuratoreJdbcHandler().getResultSetExtractor());
     return lavoriGasXMisuratore;
   }
@@ -92,7 +92,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
   @Override
   public LavoriGasXIndirizzo estraiLavoriGasXIndirizzo(String id) {
     String sql = "select * from lavori_gas_x_indirizzo where id = " + id;
-    LavoriGasXIndirizzo lavoriGasXIndirizzo = jdbcTemplate.query(sql,
+    LavoriGasXIndirizzo lavoriGasXIndirizzo = jdbcTemplateSalesgate.query(sql,
         new LavoriGasXIndirizzoJdbcHandler().getResultSetExtractor());
     return lavoriGasXIndirizzo;
   }
@@ -100,7 +100,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
   @Override
   public LavoriGasXCliente estraiLavoriGasXCliente(String id) {
     String sql = "select * from lavori_gas_x_cliente where id = " + id;
-    LavoriGasXCliente lavoriGasXCliente = jdbcTemplate.query(sql,
+    LavoriGasXCliente lavoriGasXCliente = jdbcTemplateSalesgate.query(sql,
         new LavoriGasXClienteJdbcHandler().getResultSetExtractor());
     return lavoriGasXCliente;
   }
@@ -136,7 +136,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     pratica.setVerificaEsito(new BigDecimal(0));
     String sql = "UPDATE LAVORI_GAS "
         + " SET CODICE_PRATICA_DL = NVL(CODICE_PRATICA_DL, ?), STATO = ?, VERIFICA_ESITO = ?" + " WHERE ID = ?";
-    jdbcTemplate.update(sql, pratica.getCodicePraticaDl(), pratica.getStato(), pratica.getVerificaEsito(),
+    jdbcTemplateSalesgate.update(sql, pratica.getCodicePraticaDl(), pratica.getStato(), pratica.getVerificaEsito(),
         pratica.getId());
 
   }
@@ -169,7 +169,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
         + " DATA_CONCLUSIONE_RICHIESTA = ?, DETTAGLIO_VERIFICA_ESITO = ?, STRUTTURA_DATI_TECNICI = ?, REVOCA_DISATTIVAZIONE = ?, SOSP_POT_PERICOLO = ?,"
         + " TIPOLOGIA_APPARTENENZA = ?, DATA_RICEZIONE_BONUS = ?, COD_ERRORE_AGENDA = ?, MOTIVAZIONE_AGENDA = ?,  STATO_AMMISIBILITA = ?, COD_PRAT_VN1 = ?"
         + " WHERE FK_LAVORI_GAS = ?";
-    int nRows = jdbcTemplate.update(sql, lge.getCodiceFlusso(), lge.getIdRichiestaCrm(), lge.getCodiceContratto(),
+    int nRows = jdbcTemplateSalesgate.update(sql, lge.getCodiceFlusso(), lge.getIdRichiestaCrm(), lge.getCodiceContratto(),
         lge.getSegmentoCliente(), lge.getDataRicRichiesta(), lge.getNPdrAttivi(), lge.getPdrTipo(),
         lge.getPdrCodProfPrel(), lge.getCodiceRemi(), lge.getPressioneMisura(), lge.getMaxPrelOra(),
         lge.getMaxPotUtilizzazione(), lge.getCategoriaUso(), lge.getDescCategoriaUso(), lge.getClassePrelievo(),
@@ -221,7 +221,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     // modificato
     String sql = "UPDATE LAVORI_GAS_X_CLIENTE SET NOME = ?, COGNOME  = ?, RAGIONE_SOCIALE = ?, PIVA = ?, COD_FIS = ?, TELEFONO = ?, "
         + " CELLULARE = ?, EMAIL = ?, FAX  = ? WHERE  ID = ?";
-    int nRows = jdbcTemplate.update(sql, c.getNome(), c.getCognome(), c.getRagioneSociale(), c.getPiva(),
+    int nRows = jdbcTemplateSalesgate.update(sql, c.getNome(), c.getCognome(), c.getRagioneSociale(), c.getPiva(),
         c.getCodFis(), c.getTelefono(), c.getCellulare(), c.getEmail(), c.getFax(), c.getId());
     return nRows;
 
@@ -233,7 +233,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     // modificato
     String sql = "UPDATE LAVORI_GAS_X_INDIRIZZO SET TOPONIMO = ?, VIA = ?, CIVICO= ?, SCALA = ?, PIANO = ?, INTERNO  = ?, "
         + "CAP = ?, ISTAT = ?, COMUNE = ?, PROVINCIA = ?, NAZIONE = ?, PRESSO = ? WHERE ID = ?";
-    int nRows = jdbcTemplate.update(sql, i.getToponimo(), i.getVia(), i.getCivico(), i.getScala(), i.getPiano(),
+    int nRows = jdbcTemplateSalesgate.update(sql, i.getToponimo(), i.getVia(), i.getCivico(), i.getScala(), i.getPiano(),
         i.getInterno(), i.getCap(), i.getIstat(), i.getComune(), i.getProvincia(), i.getNazione(), i.getPresso(),
         i.getId());
     return nRows;
@@ -246,7 +246,7 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     String sql = "UPDATE LAVORI_GAS_X_MISURATORE SET MATRICOLA = ?, VALORE_LETTURA = ?, DATA_LETTURA = ?, TIPO_LETTURA = ?, "
         + " SEGN = ?, SOSTITUZIONE = ?, RIMOZIONE = ?, N_CIFRE = ?, STATO = ?, DATA_AUTOLETTURA = ?, VALORE_AUTOLETTURA = ?, "
         + " DATA_DISATTIVAZIONE = ? WHERE ID = ?";
-    int nRows = jdbcTemplate.update(sql, m.getMatricola(), m.getValoreLettura(), m.getDataAutolettura(),
+    int nRows = jdbcTemplateSalesgate.update(sql, m.getMatricola(), m.getValoreLettura(), m.getDataAutolettura(),
         m.getTipoLettura(), m.getSegn(), m.getSostituzione(), m.getRimozione(), m.getNCifre(), m.getStato(),
         m.getDataAutolettura(), m.getValoreAutolettura(), m.getDataDisattivazione(), m.getId());
     return nRows;

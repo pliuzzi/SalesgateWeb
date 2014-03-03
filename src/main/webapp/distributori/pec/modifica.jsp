@@ -100,7 +100,7 @@
             </div>
             <div class="col-lg-3" align="right">
               <div class="btn-group">
-                <a href="visualizzaDistributorePEC.do?id_distr=${pec.codiceDistributore}"" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
+                <a href="${pageContext.request.contextPath}/app/distributore/visualizza/${pec.codiceDistributore}" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
                 <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
               </div>
               <c:if test="${error}">

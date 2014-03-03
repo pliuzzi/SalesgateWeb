@@ -1,6 +1,5 @@
 package eu.a2a.salesgate.utility.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +67,7 @@ public class UtilityServiceImpl implements UtilityService {
   }
 
   @Override
-  public BigDecimal estraiIdGenerico() {
+  public Integer estraiIdGenerico() {
 
     return utilityDao.getSeqGenericNextVal();
   }

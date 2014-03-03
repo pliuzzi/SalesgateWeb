@@ -10,7 +10,7 @@
       <li><a href="${pageContext.request.contextPath}/app/home">Home</a></li>
       <li><a href="${pageContext.request.contextPath}/app/distributore/cerca/init">Cerca Distributore</a></li>
       <li><a href="${pageContext.request.contextPath}/app/distributore/visualizza/${templateInstance.distributore.id}">${templateInstance.distributore.name }</a></li>
-      <li><a href="${pageContext.request.contextPath}/app/template/${distributore.id}/elenco">Visualizza Template</a></li>
+      <li><a href="${pageContext.request.contextPath}/app/template/${templateInstance.distributore.id}/elenco">Visualizza Template</a></li>
       <li class="active">Dettaglio Template</li>
     </ol>
     <div class="panel panel-primary">
@@ -85,7 +85,7 @@
             </div>
             <div class="col-lg-4" align="right">
               <div class="btn-group">
-                <a href="visualizzaElencoTemplate.do?id_distr=${templateInstance.distributore.id}" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                <a href="${pageContext.request.contextPath}/app/template/${templateInstance.distributore.id}/elenco" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
               </div>
 
               <c:if test="${error}">

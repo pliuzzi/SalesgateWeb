@@ -1,6 +1,5 @@
 package eu.a2a.salesgate.utility.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import eu.a2a.salesgate.bean.AnagFlussi;
@@ -28,6 +27,6 @@ public interface UtilityService {
 
   public List<AnagRichieste> estraiRichieste(String utility);
 
-  public BigDecimal estraiIdGenerico();
+  public Integer estraiIdGenerico();
 
 }

@@ -1,6 +1,5 @@
 package eu.a2a.salesgate.utility.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import eu.a2a.salesgate.bean.AnagFlussi;
@@ -15,9 +14,9 @@ import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 
 public interface UtilityDAO {
 
-  List<AnagAmmissibilita> getAllAnagAmmissibilita();
+  List<AnagAmmissibilita> getAllAnagAmmissibilita(String id);
 
-  AnagAmmissibilita geAnagAmmissibilita(String id);
+  AnagAmmissibilita getAnagAmmissibilita(String id);
 
   List<FlussiSalvabili> getAllFlussiSalvabili(LavoriGas pratica);
 
@@ -37,6 +36,6 @@ public interface UtilityDAO {
 
   List<AnagFlussi> getAnagFlussi(String utility, String direzione);
 
-  BigDecimal getSeqGenericNextVal();
+  Integer getSeqGenericNextVal();
 
 }

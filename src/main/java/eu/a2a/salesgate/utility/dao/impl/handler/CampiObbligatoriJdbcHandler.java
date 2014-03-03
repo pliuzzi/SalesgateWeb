@@ -10,8 +10,11 @@ public class CampiObbligatoriJdbcHandler extends JdbcHandler<CampiObbligatori> {
 
   @Override
   protected CampiObbligatori createObjectFromResultSet(ResultSet rs) throws SQLException {
-    // TODO Auto-generated method stub
-    return null;
+    CampiObbligatori co = new CampiObbligatori();
+    co.setCampo(rs.getString("campo"));
+    co.setAlert(rs.getString("alert"));
+
+    return co;
   }
 
 }

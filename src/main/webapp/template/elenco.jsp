@@ -7,8 +7,8 @@
 <div>
   <ol class="breadcrumb">
     <li><a href="${pageContext.request.contextPath}/app/home">Home</a></li>
-    <li><a href="${pageContext.request.contextPath}/app/distributori/cerca/init">Cerca Distributore</a></li>
-    <li><a href="${pageContext.request.contextPath}/app/distributori/visualizza/${distributore.id}">${distributore.name }</a></li>
+    <li><a href="${pageContext.request.contextPath}/app/distributore/cerca/init">Cerca Distributore</a></li>
+    <li><a href="${pageContext.request.contextPath}/app/distributore/visualizza/${distributore.id}">${distributore.name }</a></li>
     <li class="active">Visualizza Template</li>
   </ol>
   <div class="panel panel-primary">
@@ -204,7 +204,7 @@ function clonaTemplate(id, idDistributore, codiceServizio, codiceFlusso, utility
               if(data.codErrore){
                 $('<p/>').text("Si è verificato un errore: " + data.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#cloneResult');
               }else{
-                $('<p/>').text("Template clonato con successo.").append("<a href=\"visualizzaTemplate.do?id_template=" + data.idTemplateNew + "\" class=\"alert-link\">Vai al template</a>").prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-success").appendTo('#cloneResult');
+                $('<p/>').text("Template clonato con successo.").append("<a href=\"${pageContext.request.contextPath}/app/template/" + data.idTemplateNew + "/visualizza\" class=\"alert-link\">Vai al template</a>").prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-success").appendTo('#cloneResult');
               }
           });
    });
