@@ -45,7 +45,7 @@
 		<bean id="dataSourceSdm" class="oracle.jdbc.pool.OracleDataSource">
 			<property name="URL" value="${prop.svil.db.sdm.url}" />
 			<property name="user" value="${prop.svil.db.sdm.user}" />
-			<property name="password" value="${prop.svil.sdm.db.password}" />
+			<property name="password" value="${prop.svil.db.sdm.password}" />
 		</bean>
 	</beans>
 	<beans profile="prod">

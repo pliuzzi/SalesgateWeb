@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.utility.dao.impl;
+package eu.a2a.salesgate.normalizzatore.dao.impl;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
+import eu.a2a.salesgate.normalizzatore.dao.UtilityDAO;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
-import eu.a2a.salesgate.utility.dao.UtilityDAO;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagAmmissibilitaJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagFlussiJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagRichiesteJdbcHandler;
@@ -26,34 +26,18 @@ import eu.a2a.salesgate.utility.dao.impl.handler.FileTypeJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.FlussiSalvabiliJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.ParamsJdbcHandler;
 
-@Repository("utilityDaoSalesgate")
+@Repository("utilityDaoSdm")
 public class UtilityDAOImpl implements UtilityDAO {
 
-  private final static String SELECT_ALL_ANAG_AMMISSIBILITA = "selectAllAnagAmmissibilita";
-  private final static String SELECT_ANAG_AMMISSIBILITA = "selectAnagAmmissibilita";
-
-  private final static String SELECT_ALL_FLUSSI_SALVABILI = "selectAllFlussiSalvabili";
-  private final static String SELECT_ALL_FLUSSI = "selectAllAnagFlussi";
-  private final static String SELECT_ALL_RICHIESTE = "selectAllAnagRichieste";
-
-  private final static String SELECT_ALL_CAMPI_OBBLIGATORI = "selectCampiObbligatori";
-
-  private final static String SELECT_AVANZAMENTO_FLUSSI = "selectAvanzamentoFlussi";
-  private final static String UPDATE_AVANZAMENTO_FLUSSI = "updateAvanzamentoFlussi";
-
-  private final static String SELECT_PARAMS = "selectParams";
-  private final static String SELECT_FILE_TYPES = "selectFileTypes";
-  private final static String SELECT_FILE_TYPE = "selectFileType";
-
   @Autowired
-  JdbcTemplate jdbcTemplateSalesgate;
+  JdbcTemplate jdbcTemplateSdm;
 
   @Override
   public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id) {
     String sql = "select * from anag_ammissibilita ";
     if (id != null)
       sql += " where id = " + id;
-    return jdbcTemplateSalesgate.query(sql, new AnagAmmissibilitaJdbcHandler().getRowMapper());
+    return jdbcTemplateSdm.query(sql, new AnagAmmissibilitaJdbcHandler().getRowMapper());
   }
 
   @Override
@@ -69,7 +53,7 @@ public class UtilityDAOImpl implements UtilityDAO {
         + " and CSF.FLAG_STATO_FINALE = 'Y' " + " and cod_servizio in ('DEFAULT', ?) " + " and cod_flusso_att = ? "
         + " and stato_pratica_att = ? " + " and NVL(commodity, 'DEFAULT') in ('DEFAULT', ?) "
         + " and cod_flusso_acc not in ('XXX', '0200', '0600', '0999', '0210', '8150', '8101', '8102')";
-    return jdbcTemplateSalesgate.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), pratica.getCodServizio(),
+    return jdbcTemplateSdm.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), pratica.getCodServizio(),
         pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
   }
 
@@ -79,7 +63,7 @@ public class UtilityDAOImpl implements UtilityDAO {
         + " and piva_dl in ('00000000000', '" + pratica.getDistributore().getPiva() + "') " + " and fk_anag_ric_id = '"
         + pratica.getCodServizio() + "' " + " and fk_anag_ric_utl = '" + pratica.getUtility() + "' "
         + " and cod_flusso = '" + pratica.getCodFlusso() + "' " + " and obbligatorio = 'Y'";
-    List<CampiObbligatori> list = jdbcTemplateSalesgate.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
+    List<CampiObbligatori> list = jdbcTemplateSdm.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
     return list;
   }
 
@@ -88,7 +72,7 @@ public class UtilityDAOImpl implements UtilityDAO {
     String sql = "SELECT FK_PRATICA, FK_LAVORI, COD_SERVIZIO, COMMODITY, COD_FLUSSO, STATO, FLAG_STATO, NUM_REINVIO, CREATED, LAST_UPDATED "
         + " FROM AVANZAMENTO_FLUSSI " + " where fk_pratica = '" + pratica.getId() + "'";
 
-    return jdbcTemplateSalesgate.query(sql, new AvanzamentoFlussiJdbcHandler().getResultSetExtractor());
+    return jdbcTemplateSdm.query(sql, new AvanzamentoFlussiJdbcHandler().getResultSetExtractor());
   }
 
   @Override
@@ -96,12 +80,12 @@ public class UtilityDAOImpl implements UtilityDAO {
     String sql = "update avanzamento_flussi set cod_flusso = '" + pratica.getAvanzamentoFlussi().getCodFlusso()
         + "', stato = '" + pratica.getAvanzamentoFlussi().getStato() + "', flag_stato = '"
         + pratica.getAvanzamentoFlussi().getFlagStato() + "' " + " where fk_pratica = '" + pratica.getId() + "'";
-    return jdbcTemplateSalesgate.update(sql);
+    return jdbcTemplateSdm.update(sql);
   }
 
   @Override
   public List<Params> getParams(String category) {
-    List<Params> list = jdbcTemplateSalesgate.query("SELECT ID, NAME, VALUE, CATEGORY FROM PARAMS where category = ?",
+    List<Params> list = jdbcTemplateSdm.query("SELECT ID, NAME, VALUE, CATEGORY FROM PARAMS where category = ?",
         new ParamsJdbcHandler().getRowMapper(), category);
 
     return list;
@@ -112,7 +96,7 @@ public class UtilityDAOImpl implements UtilityDAO {
 
     String sql = "select id, code, description, mime_type, is_template from anag_filetype where is_template = ?";
 
-    List<FileType> list = jdbcTemplateSalesgate.query(sql, new FileTypeJdbcHandler().getRowMapper(), isTemplate);
+    List<FileType> list = jdbcTemplateSdm.query(sql, new FileTypeJdbcHandler().getRowMapper(), isTemplate);
 
     return list;
   }
@@ -121,7 +105,7 @@ public class UtilityDAOImpl implements UtilityDAO {
   public FileType getFileType(String mimeType) {
     String sql = "select id, code, description, mime_type, is_template from anag_filetype where mime_type = ? and is_template = 'SI'";
 
-    FileType ft = jdbcTemplateSalesgate.query(sql, new FileTypeJdbcHandler().getResultSetExtractor(), mimeType);
+    FileType ft = jdbcTemplateSdm.query(sql, new FileTypeJdbcHandler().getResultSetExtractor(), mimeType);
 
     return ft;
   }
@@ -131,14 +115,14 @@ public class UtilityDAOImpl implements UtilityDAO {
 
     String sql = "select seq_generic.nextval from dual";
 
-    return jdbcTemplateSalesgate.query(sql, new IntegerJdbcHandler().getResultSetExtractor());
+    return jdbcTemplateSdm.query(sql, new IntegerJdbcHandler().getResultSetExtractor());
   }
 
   @Override
   public List<AnagRichieste> getAnagRichieste(String utility) {
     String sql = "select id, description, code, utility, flag_risottomissione, flag_sg, flag_matrice, flag_semaforo, flag_compatibilita "
         + " from anag_richieste " + " where utility = '" + utility + "'" + " and flag_sg = 'Y'";
-    return jdbcTemplateSalesgate.query(sql, new AnagRichiesteJdbcHandler().getRowMapper());
+    return jdbcTemplateSdm.query(sql, new AnagRichiesteJdbcHandler().getRowMapper());
   }
 
   @Override
@@ -146,7 +130,7 @@ public class UtilityDAOImpl implements UtilityDAO {
     String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione "
         + " from anag_flussi " + " where direzione = decode('" + direzione + "', 'IN', 'INBOUND', 'OUTBOUND') "
         + " and utility = '" + utility + "'";
-    return jdbcTemplateSalesgate.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
+    return jdbcTemplateSdm.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
   }
 
 }

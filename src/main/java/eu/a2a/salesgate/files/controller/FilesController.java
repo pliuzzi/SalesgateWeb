@@ -33,7 +33,7 @@ import eu.a2a.salesgate.files.service.FilesService;
 public class FilesController {
 
   @Autowired
-  private FilesService filesService;
+  private FilesService filesServiceSalesgate;
 
   private Detector getDefaultDetectors() {
 
@@ -61,7 +61,7 @@ public class FilesController {
       HttpSession session, HttpServletResponse response) {
 
     try {
-      Files file = filesService.estraiFiles(id);
+      Files file = filesServiceSalesgate.estraiFiles(id);
 
       response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getNomeFile() + "\"");
       OutputStream out = response.getOutputStream();

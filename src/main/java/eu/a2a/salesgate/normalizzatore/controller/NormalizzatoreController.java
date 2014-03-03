@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.template.controller;
+package eu.a2a.salesgate.normalizzatore.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -36,57 +36,92 @@ import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
+import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.service.DistributoreService;
+import eu.a2a.salesgate.normalizzatore.service.TemplateService;
+import eu.a2a.salesgate.normalizzatore.service.UtilityService;
 import eu.a2a.salesgate.template.bean.AnagTemplate;
 import eu.a2a.salesgate.template.bean.Campo;
 import eu.a2a.salesgate.template.bean.TemplateInstance;
-import eu.a2a.salesgate.template.service.TemplateService;
-import eu.a2a.salesgate.utility.service.UtilityService;
 
 @Controller
-public class TemplateController {
-
-  @Autowired
-  private TemplateService templateServiceSalesgate;
+public class NormalizzatoreController extends AbstractController {
 
   @Autowired
   private DistributoreService distributoreService;
 
   @Autowired
-  private UtilityService utilityServiceSalesgate;
+  // package normalizzatore
+  private TemplateService templateServiceSdm;
+
+  @Autowired
+  // package normalizzatore
+  private UtilityService utilityServiceSdm;
 
   @Autowired
   private Detector defaultDetector;
 
   @Autowired
-  private Validator templateInstanceValidatorSalesgate;
+  private Validator templateInstanceValidatorSdm;
+
   @Autowired
-  private Validator cloneTemplateInstanceValidatorSalesgate;
+  private Validator cloneTemplateInstanceValidatorSdm;
 
   private List<Params> listChannel;
 
   private final Logger logger = Logger.getLogger(this.getClass());
 
-  /*
-   * @InitBinder public void dateBinder(WebDataBinder dataBinder) {
-   * 
-   * SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); CustomDateEditor cde = new
-   * CustomDateEditor(sdf, true); dataBinder.registerCustomEditor(Date.class, cde);
-   * 
-   * }
-   */
-
   @ModelAttribute(value = "listChannel")
   public List<Params> getAllChannels() {
     if (listChannel == null) {
-      listChannel = utilityServiceSalesgate.estraiParams("CHANNELS");
+      listChannel = utilityServiceSdm.estraiParams("CHANNELS");
       // list.add(0, new Distributore());
     }
     return listChannel;
   }
 
-  @RequestMapping(value = "/app/template/{idDistr}/elenco", method = RequestMethod.GET)
+  /**
+   * Distributore
+   */
+
+  @RequestMapping(value = "/app/normalizzatore/cercadistributore/{init}", method = RequestMethod.GET)
+  public String initCercaDistributore(@PathVariable(value = "init") String init, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
+    Distributore filtro = new Distributore();
+    model.addAttribute("filtro", filtro);
+    model.addAttribute("init", init.equals("init"));
+    logger.debug(model);
+    if (init.equals("init"))
+      session.removeAttribute("ricerca_normalizzatore_salvata");
+    else
+      model.addAttribute("listDistributori", session.getAttribute("ricerca_normalizzatore_salvata"));
+    return "app/normalizzatore/cerca";
+  }
+
+  @RequestMapping(value = { "/app/normalizzatore/cercadistributore" }, method = RequestMethod.POST)
+  public String cercaDistributore(@ModelAttribute("filtro") Distributore filtro, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
+
+    if ("-".equals(filtro.getUtility()))
+      filtro.setUtility("");
+
+    List<Distributore> distributori = distributoreService.getDistributori(filtro);
+    model.addAttribute("filtro", filtro);
+    model.addAttribute("listDistributori", distributori);
+    session.setAttribute("ricerca_normalizzatore_salvata", distributori);
+    logger.debug(model);
+    return "app/normalizzatore/cerca";
+  }
+
+  /**
+   * Distributore
+   */
+
+  /**
+   * Template
+   */
+  @RequestMapping(value = "/app/normalizzatore/template/{idDistr}/elenco", method = RequestMethod.GET)
   public String visualizzaElencoTemplate(@PathVariable("idDistr") String idDistr, Model model, WebRequest request,
       Principal principal, HttpSession session) {
 
@@ -97,14 +132,14 @@ public class TemplateController {
     model.addAttribute("listDistributori", distributoreService.getDistributori(filtro));
 
     /*
-     * List<TemplateInstance> listTemplateInstance = templateServiceSalesgate.getTemplates(id_distr, direzione);
+     * List<TemplateInstance> listTemplateInstance = templateService.getTemplates(id_distr, direzione);
      * model.addAttribute("listTemplateInstance", listTemplateInstance);
      */
 
-    return "app/template/elenco";
+    return "app/normalizzatore/template/elenco";
   }
 
-  @RequestMapping(value = "/app/json/template/{idDistr}/{direzione}", method = RequestMethod.GET)
+  @RequestMapping(value = "/app/json/normalizzatore/template/{idDistr}/{direzione}", method = RequestMethod.GET)
   public @ResponseBody
   Object visualizzaElencoTemplateJson(@PathVariable("idDistr") String idDistr,
       @PathVariable("direzione") String direzione, Model model, WebRequest request, Principal principal,
@@ -115,7 +150,7 @@ public class TemplateController {
      * distributore); model.addAttribute("direzione", direzione);
      */
     HashMap<String, Object> map = new HashMap<>();
-    List<TemplateInstance> listTemplateInstance = templateServiceSalesgate.getTemplates(idDistr, direzione);
+    List<TemplateInstance> listTemplateInstance = templateServiceSdm.getTemplates(idDistr, direzione);
     model.addAttribute("listTemplateInstance", listTemplateInstance);
     map.put("aaData", listTemplateInstance);
     map.put("sEcho", 1);
@@ -124,7 +159,7 @@ public class TemplateController {
     return map;
   }
 
-  @RequestMapping(value = "/app/json/template/upload", method = RequestMethod.POST)
+  @RequestMapping(value = "/app/json/normalizzatore/template/upload", method = RequestMethod.POST)
   public @ResponseBody
   Object uploadTemplateFile(@RequestParam("files[]") MultipartFile file, @RequestParam("id") String id,
       @RequestParam("separatore") String separatore, Model model, WebRequest request, Principal principal,
@@ -143,15 +178,14 @@ public class TemplateController {
 
       // System.out.println(mimeType);
 
-      FileType fileType = utilityServiceSalesgate.estraiFileType(mimeType);
+      FileType fileType = utilityServiceSdm.estraiFileType(mimeType);
       if (fileType != null) {
         if (StringUtils.isEmpty(separatore) && (fileType.getId().equals("2"))) {
           res.put("codErrore", "SEP_CSV");
           res.put("descErrore", "Il separatore è obbligatorio per il tipo file \"Testo Delimitato CSV \"");
         } else {
           // if(!file.getOriginalFilename().contains("debug")){
-          templateServiceSalesgate
-              .updateFileTemplate(id, file.getBytes(), file.getOriginalFilename(), fileType.getId());
+          templateServiceSdm.updateFileTemplate(id, file.getBytes(), file.getOriginalFilename(), fileType.getId());
           // }
 
           res.put("files", files);
@@ -171,12 +205,12 @@ public class TemplateController {
 
   }
 
-  @RequestMapping(value = "/app/template/{id}/download", method = RequestMethod.GET)
+  @RequestMapping(value = "/app/normalizzatore/template/{id}/download", method = RequestMethod.GET)
   public void dowloadTemplateFile(@PathVariable("id") String id, Model model, WebRequest request, Principal principal,
       HttpSession session, HttpServletResponse response) {
 
     try {
-      TemplateInstance file = templateServiceSalesgate.getFileTemplate(id);
+      TemplateInstance file = templateServiceSdm.getFileTemplate(id);
       String nome = file.getAnagTemplate().getNomeFile();
       byte[] fileContent = file.getAnagTemplate().getFileContent();
 
@@ -202,20 +236,20 @@ public class TemplateController {
 
   }
 
-  @RequestMapping(value = "/app/template/{idTemplate}/visualizza", method = RequestMethod.GET)
+  @RequestMapping(value = "/app/normalizzatore/template/{idTemplate}/visualizza", method = RequestMethod.GET)
   public String visualizzaTemplate(@PathVariable("idTemplate") String idTemplate,
       @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
       Principal principal, HttpSession session) {
 
-    TemplateInstance ti = templateServiceSalesgate.getTemplate(idTemplate);
+    TemplateInstance ti = templateServiceSdm.getTemplate(idTemplate);
     List<Campo> campiDisponibili = null;
-    List<FileType> fileType = utilityServiceSalesgate.estraiFileTypes(SiNo.SI);
+    List<FileType> fileType = utilityServiceSdm.estraiFileTypes(SiNo.SI);
     if ("IN".equals(ti.getAnagTemplate().getInOut())) {
-      ti.setMapping(templateServiceSalesgate.getCampiTemplateInbound(idTemplate));
-      campiDisponibili = templateServiceSalesgate.getCampiInbound(ti.getUtility());
+      ti.setMapping(templateServiceSdm.getCampiTemplateInbound(idTemplate));
+      campiDisponibili = templateServiceSdm.getCampiInbound(ti.getUtility());
     } else {
-      ti.setMapping(templateServiceSalesgate.getCampiTemplateOutbound(idTemplate));
-      campiDisponibili = templateServiceSalesgate.getCampiOutbound(ti.getUtility());
+      ti.setMapping(templateServiceSdm.getCampiTemplateOutbound(idTemplate));
+      campiDisponibili = templateServiceSdm.getCampiOutbound(ti.getUtility());
     }
 
     ti.setDistributore(distributoreService.getDistributore(ti.getDistributore().getId()));
@@ -240,55 +274,55 @@ public class TemplateController {
     if ((save != null) && ("OK".equals(save))) {
       model.addAttribute("messaggio", "Template salvato correttamente");
     }
-    return "app/template/visualizza";
+    return "app/normalizzatore/template/visualizza";
 
   }
 
-  @RequestMapping(value = { "/app/template/modifica" }, method = RequestMethod.POST)
+  @RequestMapping(value = { "/app/normalizzatore/template/modifica" }, method = RequestMethod.POST)
   public String modificaTemplate(@ModelAttribute("templateInstance") TemplateInstance templateInstance,
       BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     Distributore distributore = distributoreService.getDistributore(templateInstance.getDistributore().getId());
     templateInstance.setEventCode(distributore.getId() + templateInstance.getCodiceServizio().getCode()
         + templateInstance.getCodFlusso().getId() + distributore.getUtility());
-    templateInstanceValidatorSalesgate.validate(templateInstance, result);
+    templateInstanceValidatorSdm.validate(templateInstance, result);
 
     if (result.hasErrors()) {
       templateInstance.setDistributore(distributore);
       if ("IN".equals(templateInstance.getAnagTemplate().getInOut())) {
-        templateInstance.setMapping(templateServiceSalesgate.getCampiTemplateInbound(templateInstance.getId()));
+        templateInstance.setMapping(templateServiceSdm.getCampiTemplateInbound(templateInstance.getId()));
       } else {
-        templateInstance.setMapping(templateServiceSalesgate.getCampiTemplateOutbound(templateInstance.getId()));
+        templateInstance.setMapping(templateServiceSdm.getCampiTemplateOutbound(templateInstance.getId()));
       }
       model.addAttribute("templateInstance", templateInstance);
       List<Campo> campiDisponibili = getCampiDisponibili(templateInstance);
       model.addAttribute("campiDisponibili", campiDisponibili);
-      List<FileType> fileType = utilityServiceSalesgate.estraiFileTypes(SiNo.SI);
+      List<FileType> fileType = utilityServiceSdm.estraiFileTypes(SiNo.SI);
       List<String> categorie = getCategorie(campiDisponibili);
       model.addAttribute("categorie", categorie);
       model.addAttribute("listFileType", fileType);
       model.addAttribute("error", true);
       logger.debug(model);
       if (StringUtils.isEmpty(templateInstance.getId())) {
-        List<AnagRichieste> anagRichieste = utilityServiceSalesgate.estraiRichieste(distributore.getUtility());
-        List<AnagFlussi> anagFlussi = utilityServiceSalesgate.estraiFlussi(distributore.getUtility(), templateInstance
+        List<AnagRichieste> anagRichieste = utilityServiceSdm.estraiRichieste(distributore.getUtility());
+        List<AnagFlussi> anagFlussi = utilityServiceSdm.estraiFlussi(distributore.getUtility(), templateInstance
             .getAnagTemplate().getInOut());
         model.addAttribute("listAnagRichieste", anagRichieste);
         model.addAttribute("listAnagFlussi", anagFlussi);
-        return "app/template/nuovo";
+        return "app/normalizzatore/template/nuovo";
       }
-      return "app/template/visualizza";
+      return "app/normalizzatore/template/visualizza";
     }
     if (StringUtils.isEmpty(templateInstance.getId())) {
-      templateServiceSalesgate.insertTemplate(templateInstance);
+      templateServiceSdm.insertTemplate(templateInstance);
     } else {
-      templateServiceSalesgate.updateTemplate(templateInstance);
+      templateServiceSdm.updateTemplate(templateInstance);
     }
 
-    return "redirect:/app/template/" + templateInstance.getId() + "/visualizza?save=OK";
+    return "redirect:/app/normalizzatore/template/" + templateInstance.getId() + "/visualizza?save=OK";
   }
 
-  @RequestMapping(value = "/app/template/{idDistr}/{direzione}/nuovo", method = RequestMethod.GET)
+  @RequestMapping(value = "/app/normalizzatore/template/{idDistr}/{direzione}/nuovo", method = RequestMethod.GET)
   public String nuovoTemplate(@PathVariable("direzione") String direzione, @PathVariable("idDistr") String idDistr,
       Model model, WebRequest request, Principal principal, HttpSession session) {
 
@@ -303,9 +337,9 @@ public class TemplateController {
     ti.setDistributore(distributore);
 
     List<Campo> campiDisponibili = getCampiDisponibili(ti);
-    List<FileType> fileType = utilityServiceSalesgate.estraiFileTypes(SiNo.SI);
-    List<AnagRichieste> anagRichieste = utilityServiceSalesgate.estraiRichieste(distributore.getUtility());
-    List<AnagFlussi> anagFlussi = utilityServiceSalesgate.estraiFlussi(distributore.getUtility(), direzione);
+    List<FileType> fileType = utilityServiceSdm.estraiFileTypes(SiNo.SI);
+    List<AnagRichieste> anagRichieste = utilityServiceSdm.estraiRichieste(distributore.getUtility());
+    List<AnagFlussi> anagFlussi = utilityServiceSdm.estraiFlussi(distributore.getUtility(), direzione);
 
     model.addAttribute("templateInstance", ti);
     model.addAttribute("campiDisponibili", campiDisponibili);
@@ -317,11 +351,11 @@ public class TemplateController {
 
     model.addAttribute("categorie", categorie);
 
-    return "app/template/nuovo";
+    return "app/normalizzatore/template/nuovo";
 
   }
 
-  @RequestMapping(value = "/app/template/clona", method = RequestMethod.GET)
+  @RequestMapping(value = "/app/normalizzatore/template/clona", method = RequestMethod.GET)
   public @ResponseBody
   Object uploadTemplateFile(@RequestParam("idTemplate") String idTemplate,
       @RequestParam("codiceServizio") String codiceServizio, @RequestParam("codiceFlusso") String codiceFlusso,
@@ -329,12 +363,12 @@ public class TemplateController {
       WebRequest request, Principal principal, HttpSession session) {
     HashMap<String, Object> res = new HashMap<>();
 
-    TemplateInstance templateInstance = templateServiceSalesgate.getTemplate(idTemplate);
+    TemplateInstance templateInstance = templateServiceSdm.getTemplate(idTemplate);
 
     if ("IN".equals(templateInstance.getAnagTemplate().getInOut())) {
-      templateInstance.setMapping(templateServiceSalesgate.getCampiTemplateInbound(templateInstance.getId()));
+      templateInstance.setMapping(templateServiceSdm.getCampiTemplateInbound(templateInstance.getId()));
     } else {
-      templateInstance.setMapping(templateServiceSalesgate.getCampiTemplateOutbound(templateInstance.getId()));
+      templateInstance.setMapping(templateServiceSdm.getCampiTemplateOutbound(templateInstance.getId()));
     }
     templateInstance.setId(null);
     Distributore distributore = distributoreService.getDistributore(idDistributore);
@@ -343,13 +377,13 @@ public class TemplateController {
         + templateInstance.getCodFlusso().getId() + distributore.getUtility());
     DataBinder db = new DataBinder(templateInstance);
     BindingResult result = db.getBindingResult();
-    cloneTemplateInstanceValidatorSalesgate.validate(templateInstance, result);
+    cloneTemplateInstanceValidatorSdm.validate(templateInstance, result);
 
     if (result.hasErrors()) {
       res.put("codErrore", "TEMP_DUP");
       res.put("descErrore", "Template già esistente");
     } else {
-      int idTemplateNew = templateServiceSalesgate.insertTemplate(templateInstance);
+      int idTemplateNew = templateServiceSdm.insertTemplate(templateInstance);
       List<String> mappingNew = new ArrayList<>();
       Iterator<Campo> i = templateInstance.getMapping().iterator();
       while (i.hasNext()) {
@@ -357,7 +391,7 @@ public class TemplateController {
         mappingNew.add(campo.getId());
       }
       templateInstance.setMappingNew(mappingNew);
-      templateServiceSalesgate.updateTemplate(templateInstance);
+      templateServiceSdm.updateTemplate(templateInstance);
       res.put("idTemplateNew", idTemplateNew);
     }
 
@@ -369,9 +403,9 @@ public class TemplateController {
 
     List<Campo> campiDisponibili = null;
     if ("IN".equals(ti.getAnagTemplate().getInOut())) {
-      campiDisponibili = templateServiceSalesgate.getCampiInbound(ti.getUtility());
+      campiDisponibili = templateServiceSdm.getCampiInbound(ti.getUtility());
     } else {
-      campiDisponibili = templateServiceSalesgate.getCampiOutbound(ti.getUtility());
+      campiDisponibili = templateServiceSdm.getCampiOutbound(ti.getUtility());
     }
     return campiDisponibili;
   }

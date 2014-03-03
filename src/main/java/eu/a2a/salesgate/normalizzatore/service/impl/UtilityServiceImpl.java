@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.utility.service.impl;
+package eu.a2a.salesgate.normalizzatore.service.impl;
 
 import java.util.List;
 
@@ -11,67 +11,67 @@ import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
+import eu.a2a.salesgate.normalizzatore.dao.UtilityDAO;
+import eu.a2a.salesgate.normalizzatore.service.UtilityService;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
-import eu.a2a.salesgate.utility.dao.UtilityDAO;
-import eu.a2a.salesgate.utility.service.UtilityService;
 
-@Service("utilityServiceSalesgate")
-@Transactional("transactionManagerSalesgate")
+@Service("utilityServiceSdm")
+@Transactional("transactionManagerSdm")
 public class UtilityServiceImpl implements UtilityService {
 
   @Autowired
-  private UtilityDAO utilityDaoSalesgate;
+  private UtilityDAO utilityDaoSdm;
 
   @Override
   public List<FlussiSalvabili> estraiFlussiSalvabili(LavoriGas pratica) {
 
-    List<FlussiSalvabili> list = utilityDaoSalesgate.getAllFlussiSalvabili(pratica);
+    List<FlussiSalvabili> list = utilityDaoSdm.getAllFlussiSalvabili(pratica);
 
     return list;
   }
 
   @Override
   public List<CampiObbligatori> estraiCampiObbligatori(LavoriGas pratica) {
-    List<CampiObbligatori> list = utilityDaoSalesgate.getAllCampiObbligatori(pratica);
+    List<CampiObbligatori> list = utilityDaoSdm.getAllCampiObbligatori(pratica);
     return list;
   }
 
   @Override
   public List<Params> estraiParams(String category) {
-    List<Params> list = utilityDaoSalesgate.getParams(category);
+    List<Params> list = utilityDaoSdm.getParams(category);
     return list;
   }
 
   @Override
   public List<FileType> estraiFileTypes(SiNo isTemplate) {
-    List<FileType> list = utilityDaoSalesgate.getFileTypes(isTemplate.toString());
+    List<FileType> list = utilityDaoSdm.getFileTypes(isTemplate.toString());
     return list;
   }
 
   @Override
   public FileType estraiFileType(String mimeType) {
-    FileType fileType = utilityDaoSalesgate.getFileType(mimeType);
+    FileType fileType = utilityDaoSdm.getFileType(mimeType);
     return fileType;
   }
 
   @Override
   public List<AnagFlussi> estraiFlussi(String utility, String direzione) {
-    List<AnagFlussi> list = utilityDaoSalesgate.getAnagFlussi(utility, direzione);
+    List<AnagFlussi> list = utilityDaoSdm.getAnagFlussi(utility, direzione);
     return list;
   }
 
   @Override
   public List<AnagRichieste> estraiRichieste(String utility) {
-    List<AnagRichieste> list = utilityDaoSalesgate.getAnagRichieste(utility);
+    List<AnagRichieste> list = utilityDaoSdm.getAnagRichieste(utility);
     return list;
   }
 
   @Override
   public Integer estraiIdGenerico() {
 
-    return utilityDaoSalesgate.getSeqGenericNextVal();
+    return utilityDaoSdm.getSeqGenericNextVal();
   }
 
 }

@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.template.validator;
+package eu.a2a.salesgate.normalizzatore.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,11 +9,11 @@ import org.springframework.validation.Validator;
 
 import eu.a2a.salesgate.template.bean.TemplateInstance;
 
-@Component("templateInstanceValidatorSalesgate")
+@Component("templateInstanceValidatorSdm")
 public class TemplateInstanceValidator implements Validator {
 
   @Autowired
-  Validator cloneTemplateInstanceValidatorSalesgate;
+  Validator cloneTemplateInstanceValidatorSdm;
 
   @Override
   public boolean supports(Class<?> tiClass) {
@@ -26,7 +26,7 @@ public class TemplateInstanceValidator implements Validator {
     TemplateInstance ti = (TemplateInstance) target;
 
     if (StringUtils.isEmpty(ti.getId()))
-      ValidationUtils.invokeValidator(cloneTemplateInstanceValidatorSalesgate, target, errors);
+      ValidationUtils.invokeValidator(cloneTemplateInstanceValidatorSdm, target, errors);
 
     if (StringUtils.isEmpty(ti.getCodiceServizio().getCode())) {
       errors.rejectValue("codiceServizio.code", "required", "Selezionare il codice servizio");

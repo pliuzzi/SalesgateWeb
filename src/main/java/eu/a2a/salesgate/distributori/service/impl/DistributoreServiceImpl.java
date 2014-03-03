@@ -2,13 +2,6 @@ package eu.a2a.salesgate.distributori.service.impl;
 
 import java.util.List;
 
-
-
-
-
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,60 +11,57 @@ import eu.a2a.salesgate.distributori.bean.ServizioPEC;
 import eu.a2a.salesgate.distributori.dao.DistributoreDAO;
 import eu.a2a.salesgate.distributori.service.DistributoreService;
 
-@Service
-public class DistributoreServiceImpl implements DistributoreService{
+@Service("distributoriServiceSalesgate")
+@Transactional("transactionManagerSalesgate")
+public class DistributoreServiceImpl implements DistributoreService {
 
-	@Autowired
-	private DistributoreDAO distributoreDao;
-	
-	@Override
-	public List<Distributore> getDistributori(Distributore distributore) {
-		return distributoreDao.getAllDistributori(distributore);
-	}
+  @Autowired
+  private DistributoreDAO distributoreDaoSalesgate;
 
-	@Override
-	public Distributore getDistributore(String id) {
-		return distributoreDao.getDistributore(id);
-	}
+  @Override
+  public List<Distributore> getDistributori(Distributore distributore) {
+    return distributoreDaoSalesgate.getAllDistributori(distributore);
+  }
 
-	@Override
-	@Transactional
-	public void updateDistributore(Distributore distributore) {
-		distributoreDao.updateDistributore(distributore);
-	}
+  @Override
+  public Distributore getDistributore(String id) {
+    return distributoreDaoSalesgate.getDistributore(id);
+  }
 
-	@Override
-	@Transactional
-	public void updateCanali(Distributore distributore) {
-		distributoreDao.updateCanali(distributore);
-	}
+  @Override
+  public void updateDistributore(Distributore distributore) {
+    distributoreDaoSalesgate.updateDistributore(distributore);
+  }
 
-	@Override
-	@Transactional
-	public void updatePEC(ServizioPEC pec) {
-		distributoreDao.updatePEC(pec);
-	}
+  @Override
+  public void updateCanali(Distributore distributore) {
+    distributoreDaoSalesgate.updateCanali(distributore);
+  }
 
-	@Override
-	public ServizioPEC getPEC(String id_pec) {
-		return distributoreDao.getPEC(id_pec);
-	}
+  @Override
+  public void updatePEC(ServizioPEC pec) {
+    distributoreDaoSalesgate.updatePEC(pec);
+  }
 
-	@Override
-	public int verifyIdDistributore(String id) {
-		return distributoreDao.verifyIdDistributore(id);
-	}
+  @Override
+  public ServizioPEC getPEC(String id_pec) {
+    return distributoreDaoSalesgate.getPEC(id_pec);
+  }
 
-	@Override
-	public int verifyPivaDistributore(String piva) {
-		return distributoreDao.verifyPivaDistributore(piva);
-	}
-	
-	@Override
-	@Transactional
-	public int insertNewDistributore(Distributore distributore){
-		int nRowsDistributore = distributoreDao.insertNewDistributore(distributore);
-		return nRowsDistributore;
-	}
-	
+  @Override
+  public int verifyIdDistributore(String id) {
+    return distributoreDaoSalesgate.verifyIdDistributore(id);
+  }
+
+  @Override
+  public int verifyPivaDistributore(String piva) {
+    return distributoreDaoSalesgate.verifyPivaDistributore(piva);
+  }
+
+  @Override
+  public int insertNewDistributore(Distributore distributore) {
+    int nRowsDistributore = distributoreDaoSalesgate.insertNewDistributore(distributore);
+    return nRowsDistributore;
+  }
+
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import eu.a2a.salesgate.pratiche.gas.bean.FiltroPraticheGas;
@@ -21,7 +21,7 @@ import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasXClienteJdbcHandl
 import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasXIndirizzoJdbcHandler;
 import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasXMisuratoreJdbcHandler;
 
-@Component
+@Repository("lavoriGasDaoSalesgate")
 public class LavoriGasDAOImpl implements LavoriGasDAO {
 
   private final static String SELECT_LAVORI_GAS_PER_FILTRO = "selectLavoriGasFiltro";
@@ -169,9 +169,9 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
         + " DATA_CONCLUSIONE_RICHIESTA = ?, DETTAGLIO_VERIFICA_ESITO = ?, STRUTTURA_DATI_TECNICI = ?, REVOCA_DISATTIVAZIONE = ?, SOSP_POT_PERICOLO = ?,"
         + " TIPOLOGIA_APPARTENENZA = ?, DATA_RICEZIONE_BONUS = ?, COD_ERRORE_AGENDA = ?, MOTIVAZIONE_AGENDA = ?,  STATO_AMMISIBILITA = ?, COD_PRAT_VN1 = ?"
         + " WHERE FK_LAVORI_GAS = ?";
-    int nRows = jdbcTemplateSalesgate.update(sql, lge.getCodiceFlusso(), lge.getIdRichiestaCrm(), lge.getCodiceContratto(),
-        lge.getSegmentoCliente(), lge.getDataRicRichiesta(), lge.getNPdrAttivi(), lge.getPdrTipo(),
-        lge.getPdrCodProfPrel(), lge.getCodiceRemi(), lge.getPressioneMisura(), lge.getMaxPrelOra(),
+    int nRows = jdbcTemplateSalesgate.update(sql, lge.getCodiceFlusso(), lge.getIdRichiestaCrm(),
+        lge.getCodiceContratto(), lge.getSegmentoCliente(), lge.getDataRicRichiesta(), lge.getNPdrAttivi(),
+        lge.getPdrTipo(), lge.getPdrCodProfPrel(), lge.getCodiceRemi(), lge.getPressioneMisura(), lge.getMaxPrelOra(),
         lge.getMaxPotUtilizzazione(), lge.getCategoriaUso(), lge.getDescCategoriaUso(), lge.getClassePrelievo(),
         lge.getDescClassePrelievo(), lge.getPrelAnnuoPrev(), lge.getPotMaxRichiesta(), lge.getPotTotInst(),
         lge.getRilevanza(), lge.getValoreLettura(), lge.getDataLettura(), lge.getTipoLettura(),
@@ -233,9 +233,9 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     // modificato
     String sql = "UPDATE LAVORI_GAS_X_INDIRIZZO SET TOPONIMO = ?, VIA = ?, CIVICO= ?, SCALA = ?, PIANO = ?, INTERNO  = ?, "
         + "CAP = ?, ISTAT = ?, COMUNE = ?, PROVINCIA = ?, NAZIONE = ?, PRESSO = ? WHERE ID = ?";
-    int nRows = jdbcTemplateSalesgate.update(sql, i.getToponimo(), i.getVia(), i.getCivico(), i.getScala(), i.getPiano(),
-        i.getInterno(), i.getCap(), i.getIstat(), i.getComune(), i.getProvincia(), i.getNazione(), i.getPresso(),
-        i.getId());
+    int nRows = jdbcTemplateSalesgate.update(sql, i.getToponimo(), i.getVia(), i.getCivico(), i.getScala(),
+        i.getPiano(), i.getInterno(), i.getCap(), i.getIstat(), i.getComune(), i.getProvincia(), i.getNazione(),
+        i.getPresso(), i.getId());
     return nRows;
   }
 

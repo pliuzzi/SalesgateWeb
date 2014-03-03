@@ -8,7 +8,7 @@ import eu.a2a.salesgate.files.bean.Files;
 import eu.a2a.salesgate.files.dao.FilesDAO;
 import eu.a2a.salesgate.files.dao.impl.handler.FilesJdbcHandler;
 
-@Repository
+@Repository("filesDaoSalesgate")
 public class FilesDAOImpl implements FilesDAO {
 
   private final static String SELECT_FILES_ID = "selectFilesId";

@@ -18,7 +18,7 @@ import eu.a2a.salesgate.distributori.dao.impl.handler.DistributoreJdbcHandler;
 import eu.a2a.salesgate.distributori.dao.impl.handler.ServizioCanaleJdbcHandler;
 import eu.a2a.salesgate.distributori.dao.impl.handler.ServizioPECJdbcHandler;
 
-@Repository
+@Repository("distributoreDaoSalesgate")
 public class DistributoreDAOImpl implements DistributoreDAO {
 
   private final static String SELECT_ALL_DISTRIBUTORI = "selectAllDistributori";
@@ -39,7 +39,8 @@ public class DistributoreDAOImpl implements DistributoreDAO {
   @Override
   public List<Distributore> getAllDistributori(Distributore distributore) {
 
-    String sql = "SELECT ID, NAME, PIVA, UTILITY, REFERENTE, TEL_REFERENTE, EMAIL_REFERENTE, PEC, SITO_WEB, FLAG_ADEMPIENTE_147, " + " DATA_ADEMPIENTE, FLAG_ATTIVO,  FLAG_NOTIFICA_SWO, FLAG_RUC, FLAG_ATTIVO, LAST_UPDATED_FLG_SWO, "
+    String sql = "SELECT ID, NAME, PIVA, UTILITY, REFERENTE, TEL_REFERENTE, EMAIL_REFERENTE, PEC, SITO_WEB, FLAG_ADEMPIENTE_147, "
+        + " DATA_ADEMPIENTE, FLAG_ATTIVO,  FLAG_NOTIFICA_SWO, FLAG_RUC, FLAG_ATTIVO, LAST_UPDATED_FLG_SWO, "
         + " LAST_UPDATED_FLG_RUC FROM ANAG_DL" + " WHERE 1=1 ";
     if (!StringUtils.isEmpty(distributore.getId()))
       sql += " AND id = '" + distributore.getId() + "'";
@@ -61,12 +62,16 @@ public class DistributoreDAOImpl implements DistributoreDAO {
 
     Distributore distributore = getAllDistributori(DistributoreFactory.getDistributoreById(codiceAutority)).get(0);
     String sqlPec = "SELECT csp.fk_distr, csp.id, csp.cod_servizio, csp.ora_inizio, csp.pec_from_mail, csp.pec_from_password, csp.pec_from_username, csp.pec_to_mail, csp.subject, csp.tempo_reinvio, ar.description "
-        + " FROM config_servizio_pec csp, anag_richieste ar " + " WHERE ar.code = csp.cod_servizio and ar.utility = csp.utility and csp.fk_distr = ?";
-    distributore.setListServizioPEC(jdbcTemplateSalesgate.query(sqlPec, new ServizioPECJdbcHandler().getRowMapper(), codiceAutority));
+        + " FROM config_servizio_pec csp, anag_richieste ar "
+        + " WHERE ar.code = csp.cod_servizio and ar.utility = csp.utility and csp.fk_distr = ?";
+    distributore.setListServizioPEC(jdbcTemplateSalesgate.query(sqlPec, new ServizioPECJdbcHandler().getRowMapper(),
+        codiceAutority));
 
-    String sqlCanali = "SELECT arc.id, arc.flag_canale, p.name desc_canale, arc.cod_servizio, ar.description desc_servizio " + " FROM anag_richieste_canale arc, params p, anag_richieste ar "
+    String sqlCanali = "SELECT arc.id, arc.flag_canale, p.name desc_canale, arc.cod_servizio, ar.description desc_servizio "
+        + " FROM anag_richieste_canale arc, params p, anag_richieste ar "
         + " WHERE arc.flag_canale = p.VALUE AND arc.cod_servizio = ar.code AND arc.utility = ar.utility AND p.category = 'CHANNELS' AND arc.fk_anag_dl = ?";
-    distributore.setListServizioCanale(jdbcTemplateSalesgate.query(sqlCanali, new ServizioCanaleJdbcHandler().getRowMapper(), codiceAutority));
+    distributore.setListServizioCanale(jdbcTemplateSalesgate.query(sqlCanali,
+        new ServizioCanaleJdbcHandler().getRowMapper(), codiceAutority));
 
     return distributore;
   }
@@ -75,9 +80,13 @@ public class DistributoreDAOImpl implements DistributoreDAO {
   public int updateDistributore(Distributore distributore) {
     int nRows = 0;
 
-    String sql = "UPDATE ANAG_DL " + " SET NAME = ?, PIVA = ?, REFERENTE = ?, TEL_REFERENTE = ?, EMAIL_REFERENTE = ?, PEC = ?, SITO_WEB = ?, FLAG_NOTIFICA_SWO = ?, FLAG_RUC = ? " + " WHERE ID = ? ";
-    nRows = jdbcTemplateSalesgate.update(sql, distributore.getName(), distributore.getPiva(), distributore.getReferente(), distributore.getTelReferente(), distributore.getEmailReferente(), distributore.getPec(), distributore.getSitoWeb(), new BooleanType(
-        distributore.getFlagNotificaSwo()).toSQL(), new BooleanType(distributore.getFlagRuc()).toSQL(), distributore.getId());
+    String sql = "UPDATE ANAG_DL "
+        + " SET NAME = ?, PIVA = ?, REFERENTE = ?, TEL_REFERENTE = ?, EMAIL_REFERENTE = ?, PEC = ?, SITO_WEB = ?, FLAG_NOTIFICA_SWO = ?, FLAG_RUC = ? "
+        + " WHERE ID = ? ";
+    nRows = jdbcTemplateSalesgate.update(sql, distributore.getName(), distributore.getPiva(),
+        distributore.getReferente(), distributore.getTelReferente(), distributore.getEmailReferente(),
+        distributore.getPec(), distributore.getSitoWeb(), new BooleanType(distributore.getFlagNotificaSwo()).toSQL(),
+        new BooleanType(distributore.getFlagRuc()).toSQL(), distributore.getId());
 
     return nRows;
   }
@@ -97,8 +106,11 @@ public class DistributoreDAOImpl implements DistributoreDAO {
   @Override
   public int updatePEC(ServizioPEC pec) {
     int nRows = 0;// sqlSessionSGUSR.update(UPDATE_PEC, pec);
-    String sql = "UPDATE CONFIG_SERVIZIO_PEC " + " SET PEC_FROM_MAIL = ?, PEC_FROM_USERNAME = ?, PEC_FROM_PASSWORD = ?, PEC_TO_MAIL = ?, SUBJECT = ?, ORA_INIZIO = ?, TEMPO_REINVIO = ? " + " WHERE ID = ?";
-    nRows = jdbcTemplateSalesgate.update(sql, pec.getPecFrom(), pec.getPecUsername(), pec.getPecPassword(), pec.getPecTo(), pec.getSubject(), pec.getOraInizio(), pec.getTempoReinvio(), pec.getId());
+    String sql = "UPDATE CONFIG_SERVIZIO_PEC "
+        + " SET PEC_FROM_MAIL = ?, PEC_FROM_USERNAME = ?, PEC_FROM_PASSWORD = ?, PEC_TO_MAIL = ?, SUBJECT = ?, ORA_INIZIO = ?, TEMPO_REINVIO = ? "
+        + " WHERE ID = ?";
+    nRows = jdbcTemplateSalesgate.update(sql, pec.getPecFrom(), pec.getPecUsername(), pec.getPecPassword(),
+        pec.getPecTo(), pec.getSubject(), pec.getOraInizio(), pec.getTempoReinvio(), pec.getId());
     return nRows;
   }
 
@@ -108,7 +120,7 @@ public class DistributoreDAOImpl implements DistributoreDAO {
     String sql = "SELECT ID, null description, FK_DISTR, COD_SERVIZIO, PEC_FROM_MAIL, PEC_FROM_USERNAME, PEC_FROM_PASSWORD, PEC_TO_MAIL, SUBJECT, UTILITY, LAST_UPDATED, ORA_INIZIO, TEMPO_REINVIO, ATTIVO, ULTIMO_INVIO FROM CONFIG_SERVIZIO_PEC where id = ?";
 
     return jdbcTemplateSalesgate.query(sql, new ServizioPECJdbcHandler().getResultSetExtractor(), id_pec);// sqlSessionSGUSR.selectOne(SELECT_PEC,
-                                                                                                 // id_pec);
+    // id_pec);
 
   }
 
@@ -129,16 +141,23 @@ public class DistributoreDAOImpl implements DistributoreDAO {
     int nRowsCanali = 0;// sqlSessionSGUSR.insert(INSERT_CANALI, distributore);
     int nRowsPec = 0;// sqlSessionSGUSR.insert(INSERT_PEC, distributore);
 
-    String sqlInsertDistributore = "INSERT INTO ANAG_DL " + " (ID, NAME, PIVA, UTILITY, REFERENTE, TEL_REFERENTE, EMAIL_REFERENTE, PEC, SITO_WEB, FLAG_ATTIVO, FLAG_NOTIFICA_SWO, FLAG_RUC, LAST_UPDATED_FLG_SWO, LAST_UPDATED_FLG_RUC) "
+    String sqlInsertDistributore = "INSERT INTO ANAG_DL "
+        + " (ID, NAME, PIVA, UTILITY, REFERENTE, TEL_REFERENTE, EMAIL_REFERENTE, PEC, SITO_WEB, FLAG_ATTIVO, FLAG_NOTIFICA_SWO, FLAG_RUC, LAST_UPDATED_FLG_SWO, LAST_UPDATED_FLG_RUC) "
         + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Y', ?, ?, sysdate, sysdate )";
-    nRowsDistributore = jdbcTemplateSalesgate.update(sqlInsertDistributore, distributore.getId(), distributore.getName(), distributore.getPiva(), distributore.getUtility(), distributore.getReferente(), distributore.getTelReferente(),
-        distributore.getEmailReferente(), distributore.getPec(), distributore.getSitoWeb(), new BooleanType(distributore.getFlagNotificaSwo()).toSQL(), new BooleanType(distributore.getFlagRuc()).toSQL());
+    nRowsDistributore = jdbcTemplateSalesgate.update(sqlInsertDistributore, distributore.getId(), distributore
+        .getName(), distributore.getPiva(), distributore.getUtility(), distributore.getReferente(), distributore
+        .getTelReferente(), distributore.getEmailReferente(), distributore.getPec(), distributore.getSitoWeb(),
+        new BooleanType(distributore.getFlagNotificaSwo()).toSQL(), new BooleanType(distributore.getFlagRuc()).toSQL());
 
-    String sqlInsertCanali = "INSERT INTO ANAG_RICHIESTE_CANALE (ID, UTILITY, FK_ANAG_DL, FLAG_CANALE, COD_SERVIZIO)" + " (select seq_generic.nextval, ?, ?, '-1', code from anag_richieste where utility = ? and flag_sg = 'Y')";
-    nRowsCanali = jdbcTemplateSalesgate.update(sqlInsertCanali, distributore.getUtility(), distributore.getId(), distributore.getUtility());
+    String sqlInsertCanali = "INSERT INTO ANAG_RICHIESTE_CANALE (ID, UTILITY, FK_ANAG_DL, FLAG_CANALE, COD_SERVIZIO)"
+        + " (select seq_generic.nextval, ?, ?, '-1', code from anag_richieste where utility = ? and flag_sg = 'Y')";
+    nRowsCanali = jdbcTemplateSalesgate.update(sqlInsertCanali, distributore.getUtility(), distributore.getId(),
+        distributore.getUtility());
 
-    String sqlInsertPEC = "INSERT INTO CONFIG_SERVIZIO_PEC (ID, FK_DISTR, COD_SERVIZIO, UTILITY, ATTIVO)" + " (select seq_generic.nextval, ?, code, ?, 'Y' from anag_richieste where utility = ? and flag_sg = 'Y')";
-    nRowsPec = jdbcTemplateSalesgate.update(sqlInsertPEC, distributore.getId(), distributore.getUtility(), distributore.getUtility());
+    String sqlInsertPEC = "INSERT INTO CONFIG_SERVIZIO_PEC (ID, FK_DISTR, COD_SERVIZIO, UTILITY, ATTIVO)"
+        + " (select seq_generic.nextval, ?, code, ?, 'Y' from anag_richieste where utility = ? and flag_sg = 'Y')";
+    nRowsPec = jdbcTemplateSalesgate.update(sqlInsertPEC, distributore.getId(), distributore.getUtility(),
+        distributore.getUtility());
 
     return nRowsDistributore + nRowsCanali + nRowsPec;
   }

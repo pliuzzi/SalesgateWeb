@@ -79,7 +79,7 @@
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
           <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
-            
+            <li class="list-group-item">Gestione Template (NEW)<a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Vai</a></li>
           </sec:authorize>
           <li class="list-group-item">Gestione Template <a href="<c:url value="/app/legacy/initSDMBusinessArea" />">Vai</a></li>
           <li class="list-group-item">File Uploader <a href="<c:url value="/app/legacy/initSDMFileUploader" />">Vai</a></li>

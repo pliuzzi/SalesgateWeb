@@ -33,10 +33,10 @@ import eu.a2a.salesgate.utility.service.UtilityService;
 public class DistributoreController extends AbstractController {
 
   @Autowired
-  private DistributoreService distributoreService;
+  private DistributoreService distributoriServiceSalesgate;
 
   @Autowired
-  private UtilityService utilityService;
+  private UtilityService utilityServiceSalesgate;
 
   private List<Params> listChannel;
 
@@ -48,7 +48,7 @@ public class DistributoreController extends AbstractController {
   @ModelAttribute(value = "listChannel")
   public List<Params> getAllChannels() {
     if (listChannel == null) {
-      listChannel = utilityService.estraiParams("CHANNELS");
+      listChannel = utilityServiceSalesgate.estraiParams("CHANNELS");
       // list.add(0, new Distributore());
     }
     return listChannel;
@@ -59,16 +59,15 @@ public class DistributoreController extends AbstractController {
    * 
    * @Override public void initBinder(WebDataBinder dataBinder) {
    * 
-   * super.initBinder(dataBinder); SimpleDateFormat sdf = new
-   * SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); CustomDateEditor cde = new
-   * CustomDateEditor(sdf, true); dataBinder.registerCustomEditor(Date.class,
-   * cde);
+   * super.initBinder(dataBinder); SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); CustomDateEditor
+   * cde = new CustomDateEditor(sdf, true); dataBinder.registerCustomEditor(Date.class, cde);
    * 
    * }
    */
 
   @RequestMapping(value = "/app/distributore/cerca/{init}", method = RequestMethod.GET)
-  public String initCercaDistributore(@PathVariable(value = "init") String init, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String initCercaDistributore(@PathVariable(value = "init") String init, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
     Distributore filtro = new Distributore();
     model.addAttribute("filtro", filtro);
     model.addAttribute("init", init.equals("init"));
@@ -81,12 +80,13 @@ public class DistributoreController extends AbstractController {
   }
 
   @RequestMapping(value = { "/app/distributore/cerca" }, method = RequestMethod.POST)
-  public String cercaDistributore(@ModelAttribute("filtro") Distributore filtro, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String cercaDistributore(@ModelAttribute("filtro") Distributore filtro, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
     if ("-".equals(filtro.getUtility()))
       filtro.setUtility("");
 
-    List<Distributore> distributori = distributoreService.getDistributori(filtro);
+    List<Distributore> distributori = distributoriServiceSalesgate.getDistributori(filtro);
     model.addAttribute("filtro", filtro);
     model.addAttribute("listDistributori", distributori);
     session.setAttribute("ricerca_distributore_salvata", distributori);
@@ -95,7 +95,8 @@ public class DistributoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/distributore/nuovo/{utility}", method = RequestMethod.GET)
-  public String nuovoDistributore(@PathVariable(value = "utility") String utility, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String nuovoDistributore(@PathVariable(value = "utility") String utility, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
     // ModelAndView model = new ModelAndView("formNuovoDistributore");
     Distributore distributore = new Distributore();
@@ -107,7 +108,8 @@ public class DistributoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/distributore/nuovo", method = RequestMethod.POST)
-  public String nuovoDistributore(@ModelAttribute("distributore") Distributore distributore, BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String nuovoDistributore(@ModelAttribute("distributore") Distributore distributore, BindingResult result,
+      Model model, WebRequest request, Principal principal, HttpSession session) {
     logger.debug(model);
     distributoreValidator.validate(distributore, result);
     if (result.hasErrors()) {
@@ -117,21 +119,23 @@ public class DistributoreController extends AbstractController {
       return "app/distributore/nuovo";
     }
 
-    distributoreService.insertNewDistributore(distributore);
+    distributoriServiceSalesgate.insertNewDistributore(distributore);
 
     return "redirect:/app/distributore/visualizza/" + distributore.getId() + "?save=OK";
 
   }
 
   @RequestMapping(value = "/app/distributore/visualizza/{id}", method = RequestMethod.GET)
-  public String visualizzaDistributore(@PathVariable(value = "id") String id, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String visualizzaDistributore(@PathVariable(value = "id") String id,
+      @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
     // ModelAndView model = new ModelAndView("formVisualizzaDistributore");
     Distributore distributore;
     if (StringUtils.isEmpty(id)) {
       distributore = new Distributore();
     } else {
-      distributore = distributoreService.getDistributore(id);
+      distributore = distributoriServiceSalesgate.getDistributore(id);
     }
 
     model.addAttribute("distributore", distributore);
@@ -145,7 +149,8 @@ public class DistributoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/distributore/modifica", method = RequestMethod.POST)
-  public String modificaDistributore(@ModelAttribute("distributore") Distributore distributore, BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String modificaDistributore(@ModelAttribute("distributore") Distributore distributore, BindingResult result,
+      Model model, WebRequest request, Principal principal, HttpSession session) {
     logger.debug(model);
     distributoreValidator.validate(distributore, result);
     if (result.hasErrors()) {
@@ -155,19 +160,21 @@ public class DistributoreController extends AbstractController {
       return "app/distributore/visualizza";
     }
 
-    distributoreService.updateDistributore(distributore);
+    distributoriServiceSalesgate.updateDistributore(distributore);
 
     return "redirect:/app/distributore/visualizza/" + distributore.getId() + "?save=OK";
 
   }
 
   @RequestMapping(value = "/app/distributore/{idDistr}/canali/visualizza", method = RequestMethod.GET)
-  public String visualizzaDistributoreCanali(@PathVariable("idDistr") String id_distr, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String visualizzaDistributoreCanali(@PathVariable("idDistr") String id_distr,
+      @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
     // ModelAndView model = new
     // ModelAndView("formVisualizzaDistributoreCanali");
 
-    Distributore distributore = distributoreService.getDistributore(id_distr);
+    Distributore distributore = distributoriServiceSalesgate.getDistributore(id_distr);
 
     model.addAttribute("distributore", distributore);
     if ((save != null) && ("OK".equals(save))) {
@@ -180,7 +187,8 @@ public class DistributoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/distributore/{idDistr}/canali/modifica", method = RequestMethod.POST)
-  public String modificaDistributoreCanali(@ModelAttribute("distributore") Distributore distributore, BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String modificaDistributoreCanali(@ModelAttribute("distributore") Distributore distributore,
+      BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
     logger.debug(model);
     // distributoreValidator.validate(distributore, result);
     if (result.hasErrors()) {
@@ -190,16 +198,18 @@ public class DistributoreController extends AbstractController {
       return "app/distributore/canali/visualizza";
     }
 
-    distributoreService.updateCanali(distributore);
+    distributoriServiceSalesgate.updateCanali(distributore);
 
     return "redirect:/app/distributore/" + distributore.getId() + "/canali/visualizza?save=OK";
 
   }
 
   @RequestMapping(value = "/app/distributore/{idDistr}/PEC/visualizza", method = RequestMethod.GET)
-  public String visualizzaDistributorePEC(@PathVariable("idDistr") String idDistr, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String visualizzaDistributorePEC(@PathVariable("idDistr") String idDistr,
+      @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
-    Distributore distributore = distributoreService.getDistributore(idDistr);
+    Distributore distributore = distributoriServiceSalesgate.getDistributore(idDistr);
 
     model.addAttribute("distributore", distributore);
     if ((save != null) && ("OK".equals(save))) {
@@ -212,19 +222,21 @@ public class DistributoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/distributore/{idDistr}/PEC/{idPEC}/modifica", method = RequestMethod.GET)
-  public String modificaDistributorePEC(@PathVariable("idDistr") String idDistr, @PathVariable("idPEC") String idPEC, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String modificaDistributorePEC(@PathVariable("idDistr") String idDistr, @PathVariable("idPEC") String idPEC,
+      Model model, WebRequest request, Principal principal, HttpSession session) {
 
-    ServizioPEC pec = distributoreService.getPEC(idPEC);
+    ServizioPEC pec = distributoriServiceSalesgate.getPEC(idPEC);
     model.addAttribute("pec", pec);
-    model.addAttribute("name_distr", distributoreService.getDistributore(idDistr).getName());
+    model.addAttribute("name_distr", distributoriServiceSalesgate.getDistributore(idDistr).getName());
 
     return "app/distributore/pec/modifica";
 
   }
 
   @RequestMapping(value = "/app/distributore/{idDistr}/PEC/{idPEC}/modifica", method = RequestMethod.POST)
-  public String modificaDistributorePEC(@ModelAttribute("pec") ServizioPEC pec, BindingResult result, @PathVariable("idDistr") String idDistr, @PathVariable("idPEC") String idPEC, Model model, WebRequest request, Principal principal,
-      HttpSession session) {
+  public String modificaDistributorePEC(@ModelAttribute("pec") ServizioPEC pec, BindingResult result,
+      @PathVariable("idDistr") String idDistr, @PathVariable("idPEC") String idPEC, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
     logger.debug(model);
     // distributoreValidator.validate(pec, result);
     if (result.hasErrors()) {
@@ -234,7 +246,7 @@ public class DistributoreController extends AbstractController {
       return "app/distributore/pec/modifica";
     }
 
-    distributoreService.updatePEC(pec);
+    distributoriServiceSalesgate.updatePEC(pec);
 
     return "redirect:/app/distributore/" + pec.getCodiceDistributore() + "/PEC/visualizza?save=OK";
 
@@ -242,18 +254,20 @@ public class DistributoreController extends AbstractController {
 
   @RequestMapping(value = "/app/distributore/verifica/id/{id}", method = RequestMethod.GET)
   public @ResponseBody
-  Map<String, Object> verificaIdDistributore(@PathVariable("id") String id, Model model, WebRequest request, Principal principal, HttpSession session) {
+  Map<String, Object> verificaIdDistributore(@PathVariable("id") String id, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
     Map<String, Object> m = new HashMap<String, Object>();
-    m.put("idEsistente", distributoreService.verifyIdDistributore(id) > 0);
+    m.put("idEsistente", distributoriServiceSalesgate.verifyIdDistributore(id) > 0);
 
     return m;
   }
 
   @RequestMapping(value = "/app/distributore/verifica/piva/{piva}", method = RequestMethod.GET)
   public @ResponseBody
-  Map<String, Object> verificaPivaDistributore(@PathVariable("piva") String piva, Model model, WebRequest request, Principal principal, HttpSession session) {
+  Map<String, Object> verificaPivaDistributore(@PathVariable("piva") String piva, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
     Map<String, Object> m = new HashMap<String, Object>();
-    m.put("pivaEsistente", distributoreService.verifyPivaDistributore(piva) > 0);
+    m.put("pivaEsistente", distributoriServiceSalesgate.verifyPivaDistributore(piva) > 0);
 
     return m;
   }
