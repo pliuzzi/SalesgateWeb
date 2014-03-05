@@ -42,14 +42,18 @@ public class DistributoreDAOImpl implements DistributoreDAO {
     String sql = "SELECT ID, NAME, PIVA, UTILITY, REFERENTE, TEL_REFERENTE, EMAIL_REFERENTE, PEC, SITO_WEB, FLAG_ADEMPIENTE_147, "
         + " DATA_ADEMPIENTE, FLAG_ATTIVO,  FLAG_NOTIFICA_SWO, FLAG_RUC, FLAG_ATTIVO, LAST_UPDATED_FLG_SWO, "
         + " LAST_UPDATED_FLG_RUC FROM ANAG_DL" + " WHERE 1=1 ";
-    if (!StringUtils.isEmpty(distributore.getId()))
+    if (!StringUtils.isEmpty(distributore.getId())) {
       sql += " AND id = '" + distributore.getId() + "'";
-    if (!StringUtils.isEmpty(distributore.getName()))
+    }
+    if (!StringUtils.isEmpty(distributore.getName())) {
       sql += " AND lower(name) like '%" + distributore.getName() + "%'";
-    if (!StringUtils.isEmpty(distributore.getPiva()))
+    }
+    if (!StringUtils.isEmpty(distributore.getPiva())) {
       sql += " AND piva = '" + distributore.getPiva() + "'";
-    if (!StringUtils.isEmpty(distributore.getUtility()))
+    }
+    if (!StringUtils.isEmpty(distributore.getUtility())) {
       sql += " AND utility = '" + distributore.getUtility() + "'";
+    }
 
     List<Distributore> list = jdbcTemplateSalesgate.query(sql, new DistributoreJdbcHandler().getRowMapper());
 
@@ -60,7 +64,8 @@ public class DistributoreDAOImpl implements DistributoreDAO {
   @Override
   public Distributore getDistributore(String codiceAutority) {
 
-    Distributore distributore = getAllDistributori(DistributoreFactory.getDistributoreById(codiceAutority)).get(0);
+    Distributore distributore = getAllDistributori(DistributoreFactory.newDistributore(codiceAutority, null, null))
+        .get(0);
     String sqlPec = "SELECT csp.fk_distr, csp.id, csp.cod_servizio, csp.ora_inizio, csp.pec_from_mail, csp.pec_from_password, csp.pec_from_username, csp.pec_to_mail, csp.subject, csp.tempo_reinvio, ar.description "
         + " FROM config_servizio_pec csp, anag_richieste ar "
         + " WHERE ar.code = csp.cod_servizio and ar.utility = csp.utility and csp.fk_distr = ?";
@@ -126,12 +131,12 @@ public class DistributoreDAOImpl implements DistributoreDAO {
 
   @Override
   public int verifyIdDistributore(String id) {
-    return getAllDistributori(DistributoreFactory.getDistributoreById(id)).size();
+    return getAllDistributori(DistributoreFactory.newDistributore(id, null, null)).size();
   }
 
   @Override
   public int verifyPivaDistributore(String piva) {
-    return getAllDistributori(DistributoreFactory.getDistributoreByPiva(piva)).size();
+    return getAllDistributori(DistributoreFactory.newDistributore(null, null, piva)).size();
   }
 
   @Override

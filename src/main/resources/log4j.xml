@@ -14,7 +14,7 @@
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core.env.PropertySourcesPropertyResolver">
-	 <level value="debug"></level>
+	 <level value="warn"/>
 	</logger>
 	<logger name="org.springframework.core">
 		<level value="warn" />
