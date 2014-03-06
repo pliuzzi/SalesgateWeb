@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 import eu.a2a.salesgate.cutoff.dao.CutOffDAO;
 import eu.a2a.salesgate.cutoff.dao.impl.handler.CutOffItemJdbcHandler;
+import eu.a2a.salesgate.cutoff.dao.impl.handler.PraticaCutOffJdbcHandler;
 import eu.a2a.salesgate.dao.handler.StringJdbcHandler;
 
 @Repository("cutOffDaoSalesgate")
@@ -31,47 +32,6 @@ public class CutOffDAOImpl implements CutOffDAO {
     }
     List<CutOffItem> list = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getRowMapper());
     return list;
-    /*
-     * String sqlStato = " and f.stato_file = '" + stato + "'"; String sqlUtility =
-     * "select distinct utility from files f where 1=1 ";
-     * 
-     * 
-     * if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) { sqlUtility += sqlStato; }
-     * 
-     * List<CutOffNode> list = jdbcTemplateSalesgate.query(sqlUtility, new CutOffNodeJdbcHandler().getRowMapper());
-     * 
-     * for (CutOffNode coNode : list) { String sqlDistributore = "select distinct ad.id, ad.name" +
-     * " from files f, anag_dl ad " + " where ad.id = f.fk_distributore " + " and f.utility = '" + coNode.getUtility() +
-     * "'"; if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) { sqlDistributore += sqlStato; } sqlDistributore
-     * += " order by ad.name asc"; coNode.setListDistributore(jdbcTemplateSalesgate.query(sqlDistributore, new
-     * DistributoreJdbcHandler().getRowMapper()));
-     * 
-     * for (Distributore distributore : coNode.getListDistributore()) { String sqlCodServizio =
-     * "select distinct ar.code, ar.description" + " from files f, anag_richieste ar " +
-     * " where f.cod_servizio = ar.code " + " and f.utility = '" + coNode.getUtility() + "' and fk_distributore = '" +
-     * distributore.getId() + "'"; if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) { sqlCodServizio +=
-     * sqlStato; } sqlCodServizio += " order by ar.code asc";
-     * 
-     * distributore.setListCodiceServizio(jdbcTemplateSalesgate.query(sqlCodServizio, new
-     * CodiceServizioJdbcHandler().getRowMapper()));
-     * 
-     * for (CodiceServizio cs : distributore.getListCodiceServizio()) {
-     * 
-     * String sqlFiles =
-     * "select f.id, f.cod_servizio, f.cod_flusso, f.utility, f.nome_file, f.stato_file, conta_righe, created, closed_by, closed_date"
-     * + " from files f where fk_distributore = '" + distributore.getId() + "'" + " and f.cod_servizio = '" +
-     * cs.getCode() + "'"; if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) { sqlFiles += sqlStato; } sqlFiles
-     * += " order by f.created asc";
-     * 
-     * cs.setFiles(jdbcTemplateSalesgate.query(sqlFiles, new FilesJdbcHandler().getRowMapper())); }
-     * 
-     * }
-     * 
-     * }
-     * 
-     * return list;
-     */
-
   }
 
   @Override
@@ -85,6 +45,16 @@ public class CutOffDAOImpl implements CutOffDAO {
         + " and f.id = ?";
 
     CutOffItem coi = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getResultSetExtractor(), id);
+
+    String sqlPratiche = "select id, id_sistema_sorgente, pod, mercato, stato, le.created ";
+    sqlPratiche += " from lavori_ele l, lavori_ele_extension le where l.id = le.fk_lavori_ele ";
+    sqlPratiche += " and le.fk_files = " + id;
+    sqlPratiche += " union ";
+    sqlPratiche += " select id, id_sistema_sorgente, pdr, null, stato, lg.created ";
+    sqlPratiche += " from lavori_gas l, lavori_gas_extension lg where l.id = lg.fk_lavori_gas ";
+    sqlPratiche += " and lg.fk_files = " + id;
+
+    coi.setPratiche(jdbcTemplateSalesgate.query(sqlPratiche, new PraticaCutOffJdbcHandler().getRowMapper()));
 
     return coi;
   }

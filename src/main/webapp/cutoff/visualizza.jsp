@@ -12,7 +12,8 @@
       </h4>
     </div>
     <div class="panel-body">
-      <div class=""><!-- well? -->
+      <div class="">
+        <!-- well? -->
         <form class="form form-horizontal">
           <div class="row">
             <div class="col-lg-8">
@@ -27,7 +28,7 @@
                 <div class="form-group">
                   <label for="numeroRecord" class="col-lg-4 control-label">Servizio - flusso</label>
                   <div class="col-lg-8">
-                    <p class="form-control-static">${cutoff.servizio.code} - ${cutoff.files.codiceFlusso }</p>
+                    <p class="form-control-static">${cutoff.servizio.code}- ${cutoff.files.codiceFlusso }</p>
                   </div>
                 </div>
                 <div class="form-group">
@@ -46,7 +47,7 @@
                   <label for="numeroRecord" class="col-lg-4 control-label">stato</label>
                   <div class="col-lg-8">
                     <p class="form-control-static">${cutoff.files.statoFile == 'DA_ELABORARE' ? 'ERRORE (da rielaborare)' : cutoff.files.statoFile}</p>
-                    <input type="hidden" id="statoFile" value="${cutoff.files.statoFile}"/>
+                    <input type="hidden" id="statoFile" value="${cutoff.files.statoFile}" />
                   </div>
                 </div>
               </fieldset>
@@ -55,9 +56,52 @@
               <fieldset>
                 <legend>Operazioni Disponibili</legend>
                 <button type="button" id="btnDoCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Elabora File</button>
-                <a target="_self" href="${pageContext.request.contextPath}/app/files/${cutoff.files.id}/download" id="btnDownloadCutOff"
-                  class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Download File</a>
+                <a target="_self" href="${pageContext.request.contextPath}/app/files/${cutoff.files.id}/download" id="btnDownloadCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Download File</a>
                 <button type="button" id="btnCloseCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Chiudi File</button>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <fieldset>
+                <legend>Pratiche</legend>
+                <table id="tblResult" class="table table-condensed table-hover unselectable" unselectable="on">
+                  <thead>
+                    <tr>
+                      <th class="middle">N</th>
+                      <th class="middle">Codice Salesgate</th>
+                      <th class="middle">Codice Mittente</th>
+                      <th class="middle">POD/PDR</th>
+                      <th class="middle">Stato</th>
+                      <th class="middle">Created</th>
+                      <th class="middle"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <c:forEach varStatus="iterSt" var="pratica" items="${cutoff.pratiche}">
+                      <tr data-codice-pratica="${pratica.id}">
+                        <td class="middle">${iterSt.count}</td>
+                        <td class="middle">${pratica.id}</td>
+                        <td class="middle">${pratica.codicePraticaMittente}</td>
+                        <td class="middle">${pratica.pod}</td>
+                        <td class="middle">${pratica.stato}</td>
+                        <td class="middle">${pratica.created}</td>
+                        <td class="middle"><a title="Visualizza Pratica" href="${pageContext.request.contextPath}/app/pratiche/${cutoff.utility}/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                      </tr>
+                    </c:forEach>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="middle">N</th>
+                      <th class="middle">Codice Salesgate</th>
+                      <th class="middle">Codice Mittente</th>
+                      <th class="middle">POD/PDR</th>
+                      <th class="middle">Stato</th>
+                      <th class="middle">Created</th>
+                      <th class="middle"></th>
+                    </tr>
+                  </tfoot>
+                </table>
               </fieldset>
             </div>
           </div>
@@ -89,20 +133,20 @@
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
-	function showConfirm() {
-		$('#saveConfirm').modal('show');
-	}
+  function showConfirm() {
+    $('#saveConfirm').modal('show');
+  }
 
-	$('#btnSaveConfirm').click(function(e) {
-		$('#distributore').submit();
-	});
-	$('#btnSaveConfirmAndSend').click(function(e) {
-    $('#inviaSap').val('true');
-    $('#lavoriGas').submit();
+  $(function(){
+    $('#btnSaveConfirm').click(function(e) {
+  	  $('#distributore').submit();
+    });
+    $('#btnSaveConfirmAndSend').click(function(e) {
+  	  $('#inviaSap').val('true');
+  	  $('#lavoriGas').submit();
+    });
+    $('#tblResult').dataTable({
+	      sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
+	    });
   });
-
-	$('input').tooltip();
-	$('textarea').tooltip();
-
-
 </script>

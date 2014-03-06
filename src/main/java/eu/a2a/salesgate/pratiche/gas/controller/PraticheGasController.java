@@ -102,8 +102,9 @@ public class PraticheGasController extends AbstractController {
   public String cercaPraticaGAS(@ModelAttribute("filtro") FiltroPraticheGas filtro, Model model, WebRequest request,
       Principal principal, HttpSession session) {
 
-    if ("-".equals(filtro.getCodiceDistributore()))
+    if ("-".equals(filtro.getCodiceDistributore())) {
       filtro.setCodiceDistributore("");
+    }
     List<LavoriGas> pratiche = lavoriGasService.cercaPerFiltro(filtro);
     model.addAttribute("filtro", filtro);
     model.addAttribute("listPraticheGas", pratiche);
@@ -112,7 +113,7 @@ public class PraticheGasController extends AbstractController {
     return "app/pratiche/gas/cerca";
   }
 
-  @RequestMapping(value = "/app/pratiche/gas/{id}/visualizza", method = RequestMethod.GET)
+  @RequestMapping(value = { "/app/pratiche/gas/{id}/visualizza", "/app/pratiche/GAS/{id}/visualizza" }, method = RequestMethod.GET)
   public String getPraticaGasById(@PathVariable("id") String id,
       @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
       Principal principal, HttpSession session) {

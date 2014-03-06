@@ -1,5 +1,7 @@
 package eu.a2a.salesgate.cutoff.bean;
 
+import java.util.List;
+
 import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.distributori.bean.Distributore;
@@ -12,6 +14,8 @@ public class CutOffItem extends CodDescBean {
   private Distributore distributore;
   private AnagRichieste servizio;
   private Files files;
+
+  private List<PraticaCutOff> pratiche;
 
   public Distributore getDistributore() {
     return distributore;
@@ -43,6 +47,14 @@ public class CutOffItem extends CodDescBean {
 
   public void setUtility(String utility) {
     this.utility = utility;
+  }
+
+  public List<PraticaCutOff> getPratiche() {
+    return pratiche;
+  }
+
+  public void setPratiche(List<PraticaCutOff> pratiche) {
+    this.pratiche = pratiche;
   }
 
 }
