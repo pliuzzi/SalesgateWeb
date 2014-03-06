@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.lambdaj.group.Group;
+import eu.a2a.salesgate.bean.tree.RootNode;
+import eu.a2a.salesgate.bean.tree.TreeNode;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
-import eu.a2a.salesgate.cutoff.bean.RootNode;
-import eu.a2a.salesgate.cutoff.bean.TreeNode;
 import eu.a2a.salesgate.cutoff.dao.CutOffDAO;
 import eu.a2a.salesgate.cutoff.helper.CutOffHelper;
 import eu.a2a.salesgate.cutoff.service.CutOffService;

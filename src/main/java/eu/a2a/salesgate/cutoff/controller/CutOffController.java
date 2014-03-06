@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
-import eu.a2a.salesgate.cutoff.bean.RootNode;
 import eu.a2a.salesgate.cutoff.service.CutOffService;
 import eu.a2a.salesgate.utility.MapUtility;
 

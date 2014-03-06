@@ -3,8 +3,8 @@ package eu.a2a.salesgate.cutoff.service;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
-import eu.a2a.salesgate.cutoff.bean.RootNode;
 
 public interface CutOffService {
 

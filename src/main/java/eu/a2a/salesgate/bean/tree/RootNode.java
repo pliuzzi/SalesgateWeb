@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.cutoff.bean;
+package eu.a2a.salesgate.bean.tree;
 
 import java.util.List;
 
