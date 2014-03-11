@@ -52,16 +52,18 @@ public class TemplateDAOImpl implements TemplateDAO {
 
   @Override
   public List<Campo> getCampiTemplateOutbound(String idTemplate) {
-    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_out_type aot, template_spool_config "
-        + " where aot.id = fk_type_outbound " + " and fk_template_instance = ? " + " order by posizione asc";
+    String sql = "select aot.id, nome_logico, nome_fisico, categoria, posizione"
+        + " from anag_out_type aot, template_spool_config " + " where aot.id = fk_type_outbound "
+        + " and fk_template_instance = ? " + " order by posizione asc";
     List<Campo> list = jdbcTemplateSalesgate.query(sql, new CampoJdbcHandler().getRowMapper(), idTemplate);
     return list;
   }
 
   @Override
   public List<Campo> getCampiTemplateInbound(String idTemplate) {
-    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_inb_type aot, template_load_config "
-        + " where aot.id = fk_type_inbound " + " and fk_template_instance = ? " + " order by posizione asc";
+    String sql = "select aot.id, nome_logico, nome_fisico, categoria, posizione"
+        + " from anag_inb_type aot, template_load_config " + " where aot.id = fk_type_inbound "
+        + " and fk_template_instance = ? " + " order by posizione asc";
     List<Campo> list = jdbcTemplateSalesgate.query(sql, new CampoJdbcHandler().getRowMapper(), idTemplate);
     return list;
   }
@@ -82,7 +84,7 @@ public class TemplateDAOImpl implements TemplateDAO {
   @Override
   public List<Campo> getCampiOutbound(String utility) {
 
-    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_out_type aot where utility = ? "
+    String sql = "select aot.id, nome_logico, nome_fisico, categoria, null posizione from anag_out_type aot where utility = ? "
         + " order by categoria asc, nome_logico asc";
     List<Campo> list = jdbcTemplateSalesgate.query(sql, new CampoJdbcHandler().getRowMapper(), utility);
     return list;
@@ -90,7 +92,7 @@ public class TemplateDAOImpl implements TemplateDAO {
 
   @Override
   public List<Campo> getCampiInbound(String utility) {
-    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_inb_type aot where utility = ? "
+    String sql = "select aot.id, nome_logico, nome_fisico, categoria, null posizione from anag_inb_type aot where utility = ? "
         + " order by categoria asc, nome_logico asc";
     List<Campo> list = jdbcTemplateSalesgate.query(sql, new CampoJdbcHandler().getRowMapper(), utility);
     return list;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <definition name="app/etl/elenco" extends="app">
+    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="content" value="/etl/elenco.jsp"/>
+  </definition>
+  <definition name="app/etl/tree" extends="app">
+    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="content" value="/etl/tree.jsp"/>
+  </definition>
+  <definition name="app/etl/istanze" extends="app">
+    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="content" value="/etl/istanze.jsp"/>
+  </definition>
+  <definition name="app/etl/istanza" extends="app">
+    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="content" value="/etl/istanza.jsp"/>
+  </definition>
+
+</tiles-definitions>

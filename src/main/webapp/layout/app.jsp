@@ -38,6 +38,7 @@
                 <li class="divider"></li>
                 <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
                   <li><a href="<c:url value="/app/cutoff/elenco" />">Cut Off Vendita (NEW)</a></li>
+                  <li><a href="<c:url value="/app/etl/elenco" />">Esiti Massivi (NEW)</a></li>
                   <li class="divider"></li>
                 </sec:authorize>
                 <li><a href="<c:url value="/app/legacy/initSalesgateBusinessArea" />">Cut Off Vendita</a></li>
