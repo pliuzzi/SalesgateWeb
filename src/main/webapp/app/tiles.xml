@@ -8,6 +8,12 @@
     <put-attribute name="jsPost" value="/layout/jsPost.jsp"/>
     <put-attribute name="menu" value="/app/menu.jsp" />
   </definition>
+  
+  <definition name="popup" templateExpression="/layout/popup.jsp">
+    <put-attribute name="css" value="/layout/css.jsp"/>
+    <put-attribute name="jsPre" value="/layout/jsPre.jsp"/>
+    <put-attribute name="jsPost" value="/layout/jsPost.jsp"/>
+  </definition>
 
   <definition name="app/home" extends="app">
     <put-attribute name="title" value="Benvenuto" />

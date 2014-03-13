@@ -13,12 +13,8 @@
 <title><tiles:insertAttribute name="title" /></title>
 <tiles:insertAttribute name="jsPre" />
 </head>
-<body class="logo">
-  <div id="wrap">
-    <tiles:insertAttribute name="menu" ignore="true"/>
-    <div class="container">
-      <tiles:insertAttribute name="content" />
-    </div>
+<body>
+  <tiles:insertAttribute name="content" />
   </div>
 
 

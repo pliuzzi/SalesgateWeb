@@ -32,7 +32,7 @@
                 <tbody>
                   <c:forEach varStatus="iterSt" var="istanza" items="${istanze}">
                     <tr data-istanza-id="${istanza.id}">
-                      <td class="middle"><a data-toggle="modal" href="${pageContext.request.contextPath}/app/etl/${istanza.eventCode}/${istanza.id}/staging" data-target="#modalPratiche">${istanza.id}</a></td>
+                      <td class="middle"><a class="staging" name="staging" href="${pageContext.request.contextPath}/app/etl/${istanza.eventCode}/${istanza.id}/staging">${istanza.id}</a></td>
                       <td class="middle">${istanza.stato.description}</td>
                       <td class="middle">${istanza.recordTotali}</td>
                       <td class="middle">${istanza.recordProcessati}</td>
@@ -89,6 +89,8 @@
     }
 
     $(function() {
+
+	
 	$('#btnSaveConfirm').click(function(e) {
 	    $('#distributore').submit();
 	});

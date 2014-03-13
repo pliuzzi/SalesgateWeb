@@ -43,14 +43,6 @@
 <!-- /.modal -->
 <script>
 	$(function() {
-
-		$("#modalPratiche").on("shown.bs.modal", function(e){
-        $('#tblResult1')
-        .dataTable(
-          {
-              sDom : "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
-          });
-		});
 		// in fase di caricamento della pagina  
 		$("body").css("cursor", "progress");
 		loadTree();
@@ -103,7 +95,9 @@
           $('#tblResult').dataTable({
             sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
           });
-          
+          $('.staging').popupWindow({ 
+              centerBrowser:1 
+          });
         });
 
     }

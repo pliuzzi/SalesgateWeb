@@ -19,6 +19,8 @@
 <!-- lo metto per ultimo perch&egrave; se no si crea l'oggetto tramite il file query-ui.js -->
 <script src="${pageContext.request.contextPath}/js/ext/datepicker/bootstrap-datepicker.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datepicker/locales/bootstrap-datepicker.it.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/jquery/migrate/jquery.migrate.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/jquery/popupwindow/jquery.popupWindow.js"></script>
 <script>
 	$(function() {
 		$('.form_date').datepicker({

@@ -14,7 +14,7 @@
     <put-attribute name="title" value="Cut Off"/>
     <put-attribute name="content" value="/etl/istanze.jsp"/>
   </definition>
-  <definition name="app/etl/istanza" extends="app">
+  <definition name="app/etl/istanza" extends="popup">
     <put-attribute name="title" value="Cut Off"/>
     <put-attribute name="content" value="/etl/istanza.jsp"/>
   </definition>
