@@ -1,6 +1,7 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/datatables/Scroller.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/ui/jquery-ui.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/ui/sortable/jquery.ui.sortable.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/ui/draggable/jquery.ui.draggable.js"></script>

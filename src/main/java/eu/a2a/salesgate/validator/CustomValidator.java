@@ -9,6 +9,6 @@ import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 
 public interface CustomValidator extends Validator {
 
-	public void validate(Object object, Errors errors, List<CampiObbligatori> campiObbligatori);
+  public void validate(Object object, Errors errors, List<CampiObbligatori> campiObbligatori);
 
 }

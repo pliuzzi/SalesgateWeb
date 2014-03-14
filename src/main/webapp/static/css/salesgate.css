@@ -234,3 +234,4 @@ p.indexSortable{
 	/*font-size: 11px;*/
 	
 }
+th, td { white-space: nowrap; }

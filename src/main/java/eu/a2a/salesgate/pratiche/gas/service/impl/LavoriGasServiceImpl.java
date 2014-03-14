@@ -65,18 +65,12 @@ public class LavoriGasServiceImpl implements LavoriGasService {
 
     LavoriGasExtension lavoriGasExtension = lavoriGasDaoSalesgate.estraiLavoriGasExtension(codicePraticaSG);
 
-    LavoriGasXMisuratore misuratore = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension
-        .getFkMisuratore().toPlainString());
-    LavoriGasXMisuratore convertitore = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension
-        .getFkConvertitore().toPlainString());
-    LavoriGasXMisuratore misuratoreCliente = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension
-        .getFkMisuratoreCliente().toPlainString());
-    LavoriGasXMisuratore convertitoreCliente = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension
-        .getFkConvertitoreCliente().toPlainString());
-    LavoriGasXMisuratore misuratoreRim = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension
-        .getFkMisuratoreRim().toPlainString());
-    LavoriGasXMisuratore convertitoreRim = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension
-        .getFkConvertitoreRim().toPlainString());
+    LavoriGasXMisuratore misuratore = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension.getFkMisuratore().toPlainString());
+    LavoriGasXMisuratore convertitore = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension.getFkConvertitore().toPlainString());
+    LavoriGasXMisuratore misuratoreCliente = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension.getFkMisuratoreCliente().toPlainString());
+    LavoriGasXMisuratore convertitoreCliente = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension.getFkConvertitoreCliente().toPlainString());
+    LavoriGasXMisuratore misuratoreRim = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension.getFkMisuratoreRim().toPlainString());
+    LavoriGasXMisuratore convertitoreRim = lavoriGasDaoSalesgate.estraiLavoriGasXMisuratore(lavoriGasExtension.getFkConvertitoreRim().toPlainString());
 
     lavoriGasExtension.setMisuratore(misuratore);
     lavoriGasExtension.setConvertitore(convertitore);
@@ -85,16 +79,11 @@ public class LavoriGasServiceImpl implements LavoriGasService {
     lavoriGasExtension.setMisuratoreRim(misuratoreRim);
     lavoriGasExtension.setConvertitoreRim(convertitoreRim);
 
-    LavoriGasXCliente clienteUsc = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteUsc()
-        .toPlainString());
-    LavoriGasXCliente clienteFinale = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension
-        .getFkClienteFinale().toPlainString());
-    LavoriGasXCliente clienteRef = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteRef()
-        .toPlainString());
-    LavoriGasXCliente clienteEsaz = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteEsaz()
-        .toPlainString());
-    LavoriGasXCliente clienteBenef = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension
-        .getFkClienteBenef().toPlainString());
+    LavoriGasXCliente clienteUsc = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteUsc().toPlainString());
+    LavoriGasXCliente clienteFinale = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteFinale().toPlainString());
+    LavoriGasXCliente clienteRef = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteRef().toPlainString());
+    LavoriGasXCliente clienteEsaz = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteEsaz().toPlainString());
+    LavoriGasXCliente clienteBenef = lavoriGasDaoSalesgate.estraiLavoriGasXCliente(lavoriGasExtension.getFkClienteBenef().toPlainString());
 
     lavoriGasExtension.setClienteUsc(clienteUsc);
     lavoriGasExtension.setClienteFinale(clienteFinale);
@@ -102,18 +91,12 @@ public class LavoriGasServiceImpl implements LavoriGasService {
     lavoriGasExtension.setClienteEsaz(clienteEsaz);
     lavoriGasExtension.setClienteBenef(clienteBenef);
 
-    LavoriGasXIndirizzo indirizzoForn = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension
-        .getFkIndirizzoForn().toPlainString());
-    LavoriGasXIndirizzo indirizzoEsaz = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension
-        .getFkIndirizzoEsaz().toPlainString());
-    LavoriGasXIndirizzo indirizzoBenef = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension
-        .getFkIndirizzoBenef().toPlainString());
-    LavoriGasXIndirizzo indirizzoImmob = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension
-        .getFkIndirizzoImmob().toPlainString());
-    LavoriGasXIndirizzo indirizzoLegale = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension
-        .getFkIndirizzoLegale().toPlainString());
-    LavoriGasXIndirizzo indirizzoRef = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension
-        .getFkIndirizzoRef().toPlainString());
+    LavoriGasXIndirizzo indirizzoForn = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension.getFkIndirizzoForn().toPlainString());
+    LavoriGasXIndirizzo indirizzoEsaz = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension.getFkIndirizzoEsaz().toPlainString());
+    LavoriGasXIndirizzo indirizzoBenef = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension.getFkIndirizzoBenef().toPlainString());
+    LavoriGasXIndirizzo indirizzoImmob = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension.getFkIndirizzoImmob().toPlainString());
+    LavoriGasXIndirizzo indirizzoLegale = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension.getFkIndirizzoLegale().toPlainString());
+    LavoriGasXIndirizzo indirizzoRef = lavoriGasDaoSalesgate.estraiLavoriGasXIndirizzo(lavoriGasExtension.getFkIndirizzoRef().toPlainString());
 
     lavoriGasExtension.setIndirizzoForn(indirizzoForn);
     lavoriGasExtension.setIndirizzoEsaz(indirizzoEsaz);

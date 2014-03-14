@@ -11,18 +11,16 @@ import eu.a2a.salesgate.security.dao.impl.handler.UserJdbcHandler;
 @Repository
 public class UserSecurityDAOImpl implements UserSecurityDAO {
 
-	@Autowired
-	private JdbcTemplate jdbcTemplateSalesgate;
+  @Autowired
+  private JdbcTemplate jdbcTemplateSalesgate;
 
-	@Autowired
-	private UserJdbcHandler userJdbcHandler;
+  @Autowired
+  private UserJdbcHandler userJdbcHandler;
 
-	@Override
-	public User findUserByUsername(String username) {
-		User user = jdbcTemplateSalesgate.query(
-				"select * from users where username = ?",
-				userJdbcHandler.getResultSetExtractor(), username);
-		return user;
-	}
+  @Override
+  public User findUserByUsername(String username) {
+    User user = jdbcTemplateSalesgate.query("select * from users where username = ?", userJdbcHandler.getResultSetExtractor(), username);
+    return user;
+  }
 
 }

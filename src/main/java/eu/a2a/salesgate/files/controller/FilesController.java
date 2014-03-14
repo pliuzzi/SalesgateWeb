@@ -57,8 +57,7 @@ public class FilesController {
   }
 
   @RequestMapping(value = "/app/files/{id}/download", method = RequestMethod.GET)
-  public void downloadFile(@PathVariable("id") String id, Model model, WebRequest request, Principal principal,
-      HttpSession session, HttpServletResponse response) {
+  public void downloadFile(@PathVariable("id") String id, Model model, WebRequest request, Principal principal, HttpSession session, HttpServletResponse response) {
 
     try {
       Files file = filesServiceSalesgate.estraiFiles(id);

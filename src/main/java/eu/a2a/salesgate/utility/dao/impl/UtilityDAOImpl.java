@@ -64,45 +64,37 @@ public class UtilityDAOImpl implements UtilityDAO {
 
   @Override
   public List<FlussiSalvabili> getAllFlussiSalvabili(LavoriGas pratica) {
-    String sql = "select distinct cod_flusso_acc, AF.DESCRIPTION" + " from CONFIG_STATI_FLUSSI csf, anag_flussi af "
-        + " where CSF.COD_FLUSSO_ACC = AF.COD_FLUSSO " + " and CSF.COMMODITY = AF.UTILITY "
-        + " and CSF.FLAG_STATO_FINALE = 'Y' " + " and cod_servizio in ('DEFAULT', ?) " + " and cod_flusso_att = ? "
-        + " and stato_pratica_att = ? " + " and NVL(commodity, 'DEFAULT') in ('DEFAULT', ?) "
+    String sql = "select distinct cod_flusso_acc, AF.DESCRIPTION" + " from CONFIG_STATI_FLUSSI csf, anag_flussi af " + " where CSF.COD_FLUSSO_ACC = AF.COD_FLUSSO " + " and CSF.COMMODITY = AF.UTILITY " + " and CSF.FLAG_STATO_FINALE = 'Y' "
+        + " and cod_servizio in ('DEFAULT', ?) " + " and cod_flusso_att = ? " + " and stato_pratica_att = ? " + " and NVL(commodity, 'DEFAULT') in ('DEFAULT', ?) "
         + " and cod_flusso_acc not in ('XXX', '0200', '0600', '0999', '0210', '8150', '8101', '8102')";
-    return jdbcTemplateSalesgate.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), pratica.getCodServizio(),
-        pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
+    return jdbcTemplateSalesgate.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
   }
 
   @Override
   public List<CampiObbligatori> getAllCampiObbligatori(LavoriGas pratica) {
-    String sql = "SELECT distinct CAMPO, ALERT FROM ANAG_VERIFICA_ESITO ave " + " where 1=1 "
-        + " and piva_dl in ('00000000000', '" + pratica.getDistributore().getPiva() + "') " + " and fk_anag_ric_id = '"
-        + pratica.getCodServizio() + "' " + " and fk_anag_ric_utl = '" + pratica.getUtility() + "' "
-        + " and cod_flusso = '" + pratica.getCodFlusso() + "' " + " and obbligatorio = 'Y'";
+    String sql = "SELECT distinct CAMPO, ALERT FROM ANAG_VERIFICA_ESITO ave " + " where 1=1 " + " and piva_dl in ('00000000000', '" + pratica.getDistributore().getPiva() + "') " + " and fk_anag_ric_id = '" + pratica.getCodServizio() + "' "
+        + " and fk_anag_ric_utl = '" + pratica.getUtility() + "' " + " and cod_flusso = '" + pratica.getCodFlusso() + "' " + " and obbligatorio = 'Y'";
     List<CampiObbligatori> list = jdbcTemplateSalesgate.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
     return list;
   }
 
   @Override
   public AvanzamentoFlussi estraiAvanzamentoFlussi(LavoriGas pratica) {
-    String sql = "SELECT FK_PRATICA, FK_LAVORI, COD_SERVIZIO, COMMODITY, COD_FLUSSO, STATO, FLAG_STATO, NUM_REINVIO, CREATED, LAST_UPDATED "
-        + " FROM AVANZAMENTO_FLUSSI " + " where fk_pratica = '" + pratica.getId() + "'";
+    String sql = "SELECT FK_PRATICA, FK_LAVORI, COD_SERVIZIO, COMMODITY, COD_FLUSSO, STATO, FLAG_STATO, NUM_REINVIO, CREATED, LAST_UPDATED " + " FROM AVANZAMENTO_FLUSSI " + " where fk_pratica = '" + pratica.getId() + "'";
 
     return jdbcTemplateSalesgate.query(sql, new AvanzamentoFlussiJdbcHandler().getResultSetExtractor());
   }
 
   @Override
   public int aggiornaAvanzamentoFlussi(LavoriGas pratica) {
-    String sql = "update avanzamento_flussi set cod_flusso = '" + pratica.getAvanzamentoFlussi().getCodFlusso()
-        + "', stato = '" + pratica.getAvanzamentoFlussi().getStato() + "', flag_stato = '"
+    String sql = "update avanzamento_flussi set cod_flusso = '" + pratica.getAvanzamentoFlussi().getCodFlusso() + "', stato = '" + pratica.getAvanzamentoFlussi().getStato() + "', flag_stato = '"
         + pratica.getAvanzamentoFlussi().getFlagStato() + "' " + " where fk_pratica = '" + pratica.getId() + "'";
     return jdbcTemplateSalesgate.update(sql);
   }
 
   @Override
   public List<Params> getParams(String category) {
-    List<Params> list = jdbcTemplateSalesgate.query("SELECT ID, NAME, VALUE, CATEGORY FROM PARAMS where category = ?",
-        new ParamsJdbcHandler().getRowMapper(), category);
+    List<Params> list = jdbcTemplateSalesgate.query("SELECT ID, NAME, VALUE, CATEGORY FROM PARAMS where category = ?", new ParamsJdbcHandler().getRowMapper(), category);
 
     return list;
   }
@@ -136,16 +128,14 @@ public class UtilityDAOImpl implements UtilityDAO {
 
   @Override
   public List<AnagRichieste> getAnagRichieste(String utility) {
-    String sql = "select id, description, code, utility, flag_risottomissione, flag_sg, flag_matrice, flag_semaforo, flag_compatibilita "
-        + " from anag_richieste " + " where utility = '" + utility + "'" + " and flag_sg = 'Y'";
+    String sql = "select id, description, code, utility, flag_risottomissione, flag_sg, flag_matrice, flag_semaforo, flag_compatibilita " + " from anag_richieste " + " where utility = '" + utility + "'" + " and flag_sg = 'Y'";
     return jdbcTemplateSalesgate.query(sql, new AnagRichiesteJdbcHandler().getRowMapper());
   }
 
   @Override
   public List<AnagFlussi> getAnagFlussi(String utility, String direzione) {
-    String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione "
-        + " from anag_flussi " + " where direzione = decode('" + direzione + "', 'IN', 'INBOUND', 'OUTBOUND') "
-        + " and utility = '" + utility + "'";
+    String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione " + " from anag_flussi " + " where direzione = decode('" + direzione + "', 'IN', 'INBOUND', 'OUTBOUND') " + " and utility = '" + utility
+        + "'";
     return jdbcTemplateSalesgate.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
   }
 

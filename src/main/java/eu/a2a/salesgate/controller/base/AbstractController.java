@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 public abstract class AbstractController {
 
-	protected Logger logger = Logger.getLogger(this.getClass());
+  protected Logger logger = Logger.getLogger(this.getClass());
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				dateFormat, true));
-	}
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    dateFormat.setLenient(false);
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+  }
 
 }

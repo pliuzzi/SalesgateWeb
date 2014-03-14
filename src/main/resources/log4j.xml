@@ -16,6 +16,9 @@
 	<logger name="org.springframework.core.env.PropertySourcesPropertyResolver">
 	 <level value="warn"/>
 	</logger>
+	<logger name="org.springframework.security">
+		<level value="warn"/>
+	</logger>
 	<logger name="org.springframework.core">
 		<level value="warn" />
 	</logger>

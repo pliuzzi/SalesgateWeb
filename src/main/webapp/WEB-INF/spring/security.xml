@@ -133,7 +133,6 @@
 		</beans:property>
 	</beans:bean>
 
-
 	<ldap-server url="ldap://10.90.102.151:389/DC=group,DC=local"
 		manager-dn="CN=Liuzzi Paolo Francesco,OU=Users,OU=External-Users,DC=group,DC=local"
 		manager-password="Atos12345" />

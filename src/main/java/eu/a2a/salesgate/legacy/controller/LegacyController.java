@@ -27,7 +27,8 @@ public class LegacyController {
   @Autowired
   private String urlLegacySGBA;
 
-  public static final String[] urlLegacyd = { "/initSalesgateBusinessArea", "/initSalesgateGestionePratiche", "/initCaricamentoEsitiMassivi", "/initSalesgateDatiFiscali", "/initSalesgateUserConsole", "/initSDMBusinessArea", "/initSDMFileUploader" };
+  public static final String[] urlLegacyd = { "/initSalesgateBusinessArea", "/initSalesgateGestionePratiche", "/initCaricamentoEsitiMassivi", "/initSalesgateDatiFiscali", "/initSalesgateUserConsole", "/initSDMBusinessArea",
+      "/initSDMFileUploader" };
 
   @RequestMapping(value = "/app/legacy/{url}", method = RequestMethod.GET)
   public String toLegacy(@PathVariable(value = "url") String url, Model model, WebRequest request, Principal principal, HttpSession session) {

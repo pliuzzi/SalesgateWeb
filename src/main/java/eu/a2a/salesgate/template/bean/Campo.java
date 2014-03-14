@@ -5,7 +5,8 @@ import eu.a2a.salesgate.bean.CodDescBean;
 public class Campo extends CodDescBean {
 
   private static final long serialVersionUID = -1387841101059210374L;
-  private static final String CAMPO_VUOTO = "COTICHE";
+  public static final String CAMPO_VUOTO = "COTICHE";
+  public static final String CAMPO_VUOTO_SQL = "null";
   private String nomeLogico;
   private String nomeFisico;
   private String categoria;
@@ -40,11 +41,12 @@ public class Campo extends CodDescBean {
   }
 
   public void setNomeFisico(String nomeFisico) {
-    if (nomeFisico.equals(CAMPO_VUOTO)) {
-      this.nomeFisico = "null";
-    } else {
-      this.nomeFisico = nomeFisico;
-    }
+    this.nomeFisico = nomeFisico;
+  }
+
+  public boolean isCampoVuoto() {
+
+    return nomeFisico.equalsIgnoreCase(CAMPO_VUOTO);
   }
 
 }

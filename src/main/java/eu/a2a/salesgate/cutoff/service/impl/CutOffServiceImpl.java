@@ -58,8 +58,7 @@ public class CutOffServiceImpl implements CutOffService {
           List<TreeNode> files = new ArrayList<TreeNode>(itemSecondLevels.getSize());
           for (Group<CutOffItem> itemFiles : groupFiles.subgroups()) {
             for (CutOffItem item : itemFiles.findAll()) {
-              TreeNode file = new TreeNode(item.getFiles().getId(), item.getFiles().getCodiceFlusso() + " - "
-                  + item.getFiles().getCreated() + " - " + item.getFiles().getContaRighe() + " Record");
+              TreeNode file = new TreeNode(item.getFiles().getId(), item.getFiles().getCodiceFlusso() + " - " + item.getFiles().getCreated() + " - " + item.getFiles().getContaRighe() + " Record");
               file.setStato(item.getFiles().getStatoFile());
               files.add(file);
             }
@@ -93,9 +92,7 @@ public class CutOffServiceImpl implements CutOffService {
       List<String> requestContent = cutOffDaoSalesgate.estraiRequestContent(id, ti.getUtility());
 
       /* esegui cutoff */
-      ByteArrayOutputStream file = CutOffHelper.createCutOff(f.getTipoFile(), ti.getAnagTemplate().getFirstRow(), ti
-          .getAnagTemplate().getSeparatore(), requestContent, new ByteArrayInputStream(ti.getAnagTemplate()
-          .getFileContent()));
+      ByteArrayOutputStream file = CutOffHelper.createCutOff(f.getTipoFile(), ti.getAnagTemplate().getFirstRow(), ti.getAnagTemplate().getSeparatore(), requestContent, new ByteArrayInputStream(ti.getAnagTemplate().getFileContent()));
 
       cutOffDaoSalesgate.updateFile(id, file.toByteArray());
 

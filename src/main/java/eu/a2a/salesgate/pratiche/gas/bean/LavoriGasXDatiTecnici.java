@@ -9,67 +9,66 @@ import java.math.BigDecimal;
  */
 public class LavoriGasXDatiTecnici implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private BigDecimal id;
-	private LavoriGas lavoriGas;
-	private String portataNuova;
-	private String pressioneNuova;
-	private BigDecimal numPdr;
+  private static final long serialVersionUID = 1L;
+  private BigDecimal id;
+  private LavoriGas lavoriGas;
+  private String portataNuova;
+  private String pressioneNuova;
+  private BigDecimal numPdr;
 
-	public LavoriGasXDatiTecnici() {
-	}
+  public LavoriGasXDatiTecnici() {
+  }
 
-	public LavoriGasXDatiTecnici(BigDecimal id) {
-		this.id = id;
-	}
+  public LavoriGasXDatiTecnici(BigDecimal id) {
+    this.id = id;
+  }
 
-	public LavoriGasXDatiTecnici(BigDecimal id, LavoriGas lavoriGas,
-			String portataNuova, String pressioneNuova, BigDecimal numPdr) {
-		this.id = id;
-		this.lavoriGas = lavoriGas;
-		this.portataNuova = portataNuova;
-		this.pressioneNuova = pressioneNuova;
-		this.numPdr = numPdr;
-	}
+  public LavoriGasXDatiTecnici(BigDecimal id, LavoriGas lavoriGas, String portataNuova, String pressioneNuova, BigDecimal numPdr) {
+    this.id = id;
+    this.lavoriGas = lavoriGas;
+    this.portataNuova = portataNuova;
+    this.pressioneNuova = pressioneNuova;
+    this.numPdr = numPdr;
+  }
 
-	public BigDecimal getId() {
-		return this.id;
-	}
+  public BigDecimal getId() {
+    return this.id;
+  }
 
-	public void setId(BigDecimal id) {
-		this.id = id;
-	}
+  public void setId(BigDecimal id) {
+    this.id = id;
+  }
 
-	public LavoriGas getLavoriGas() {
-		return this.lavoriGas;
-	}
+  public LavoriGas getLavoriGas() {
+    return this.lavoriGas;
+  }
 
-	public void setLavoriGas(LavoriGas lavoriGas) {
-		this.lavoriGas = lavoriGas;
-	}
+  public void setLavoriGas(LavoriGas lavoriGas) {
+    this.lavoriGas = lavoriGas;
+  }
 
-	public String getPortataNuova() {
-		return this.portataNuova;
-	}
+  public String getPortataNuova() {
+    return this.portataNuova;
+  }
 
-	public void setPortataNuova(String portataNuova) {
-		this.portataNuova = portataNuova;
-	}
+  public void setPortataNuova(String portataNuova) {
+    this.portataNuova = portataNuova;
+  }
 
-	public String getPressioneNuova() {
-		return this.pressioneNuova;
-	}
+  public String getPressioneNuova() {
+    return this.pressioneNuova;
+  }
 
-	public void setPressioneNuova(String pressioneNuova) {
-		this.pressioneNuova = pressioneNuova;
-	}
+  public void setPressioneNuova(String pressioneNuova) {
+    this.pressioneNuova = pressioneNuova;
+  }
 
-	public BigDecimal getNumPdr() {
-		return this.numPdr;
-	}
+  public BigDecimal getNumPdr() {
+    return this.numPdr;
+  }
 
-	public void setNumPdr(BigDecimal numPdr) {
-		this.numPdr = numPdr;
-	}
+  public void setNumPdr(BigDecimal numPdr) {
+    this.numPdr = numPdr;
+  }
 
 }

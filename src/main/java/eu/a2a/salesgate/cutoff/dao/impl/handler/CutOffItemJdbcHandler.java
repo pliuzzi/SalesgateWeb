@@ -19,8 +19,7 @@ public class CutOffItemJdbcHandler extends JdbcHandler<CutOffItem> {
   protected CutOffItem createObjectFromResultSet(ResultSet rs) throws SQLException {
 
     CutOffItem coi = new CutOffItem();
-    coi.setDistributore(DistributoreFactory.newDistributore(rs.getString("id_distributore"),
-        rs.getString("name_distributore"), null));
+    coi.setDistributore(DistributoreFactory.newDistributore(rs.getString("id_distributore"), rs.getString("name_distributore"), null));
     coi.setServizio(new AnagRichieste(rs.getString("cod_servizio"), null));
     coi.setUtility(rs.getString("utility"));
     Files file = new Files();
