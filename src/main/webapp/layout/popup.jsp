@@ -15,7 +15,6 @@
 </head>
 <body>
   <tiles:insertAttribute name="content" />
-  </div>
 
 
 </body>

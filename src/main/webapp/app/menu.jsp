@@ -22,11 +22,11 @@
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestione Pratiche<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="<c:url value="/app/pratiche/gas/cerca/init" />">Cerca Pratica GAS</a></li>
-                <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+                <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
                   <li><a href="<c:url value="/app/pratiche/ele/cerca/init" />" class="disabled">Cerca Pratica ELE</a></li>
                 </sec:authorize>
                 <li class="divider"></li>
-                <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+                <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
                   <li><a href="<c:url value="/app/cutoff/elenco" />">Cut Off Vendita (NEW)</a></li>
                   <li><a href="<c:url value="/app/etl/elenco" />">Esiti Massivi (NEW)</a></li>
                   <li class="divider"></li>
@@ -59,7 +59,7 @@
                   <li><a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Gestione Template (NEW)</a></li>
                 </sec:authorize>
               </ul></li>
-            <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+            <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Netgate<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li class="divider"></li>

@@ -15,7 +15,7 @@
         <!-- <div class="panel-body"> -->
           <ul class="list-group">
             <li class="list-group-item">Cerca Pratica GAS <a href="<c:url value="/app/pratiche/gas/cerca/init" />">Vai</a></li>
-            <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+            <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
               <li class="list-group-item">Cerca Pratica ELE <a href="<c:url value="/app/pratiche/ele/cerca/init" />" class="disabled">Vai</a></li>
             </sec:authorize>
             <li class="list-group-item">Cut Off Vendita <a href="<c:url value="/app/legacy/initSalesgateBusinessArea" />">Vai</a></li>
@@ -24,7 +24,7 @@
           </ul>
         <!-- </div> -->
       </div>
-      <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+      <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
         <div class="panel panel-index">
           <div class="panel-heading">
             <span class="glyphicon glyphicon-list"></span> Netgate
@@ -64,7 +64,7 @@
         </div>
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
-          <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+          <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
             
           </sec:authorize>
           <li class="list-group-item">Tabella Eccezioni <a href="<c:url value="/app/legacy/initSalesgateDatiFiscali" />">Vai</a></li>
@@ -78,7 +78,7 @@
         </div>
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
-          <sec:authorize access="hasRole('ROLE_VPN-ESTERNI-PIC')">
+          <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
             <li class="list-group-item">Gestione Template (NEW)<a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Vai</a></li>
           </sec:authorize>
           <li class="list-group-item">Gestione Template <a href="<c:url value="/app/legacy/initSDMBusinessArea" />">Vai</a></li>
