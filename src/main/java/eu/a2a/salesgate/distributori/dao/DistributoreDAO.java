@@ -7,22 +7,24 @@ import eu.a2a.salesgate.distributori.bean.ServizioPEC;
 
 public interface DistributoreDAO {
 
-	List<Distributore> getAllDistributori(Distributore distributore);
+  List<Distributore> getAllDistributori(Distributore distributore);
 
-	Distributore getDistributore(String codiceAutority);
+  Distributore getDistributore(String codiceAutority);
 
-	int updateDistributore(Distributore distributore);
+  int updateDistributore(Distributore distributore);
 
-	int updateCanali(Distributore distributore);
+  int updateCanali(Distributore distributore);
 
-	int updatePEC(ServizioPEC pec);
+  int updatePEC(ServizioPEC pec);
 
-	ServizioPEC getPEC(String id_pec);
+  ServizioPEC getPEC(String id_pec);
 
-	int verifyIdDistributore(String id);
+  ServizioPEC getPEC(String codiceAutority, String codServizio);
 
-	int verifyPivaDistributore(String piva);
+  int verifyIdDistributore(String id);
 
-	int insertNewDistributore(Distributore distributore);
+  int verifyPivaDistributore(String piva);
+
+  int insertNewDistributore(Distributore distributore);
 
 }

@@ -47,11 +47,12 @@ public class LavoriGasServiceImpl implements LavoriGasService {
     LavoriGasExtension lavoriGasExtension = estraiLavoriGasExtension(codicePraticaSG);
     Distributore distributore = distributoreDaoSalesgate.getDistributore(pratica.getFkDistributore());
     AnagAmmissibilita anagAmmissibilita;
-    if (!StringUtils.isEmpty(pratica.getFkAmmissibilita()))
+    if (!StringUtils.isEmpty(pratica.getFkAmmissibilita())) {
       anagAmmissibilita = utilityDaoSalesgate.getAnagAmmissibilita(pratica.getFkAmmissibilita());
-    else
+    } else {
       anagAmmissibilita = new AnagAmmissibilita();
-    AvanzamentoFlussi avanzamentoFlussi = utilityDaoSalesgate.estraiAvanzamentoFlussi(pratica);
+    }
+    AvanzamentoFlussi avanzamentoFlussi = utilityDaoSalesgate.estraiAvanzamentoFlussi(pratica.getId());
 
     pratica.setLavoriGasExtension(lavoriGasExtension);
     pratica.setDistributore(distributore);
@@ -125,17 +126,18 @@ public class LavoriGasServiceImpl implements LavoriGasService {
     if (StringUtils.isEmpty(pratica.getLavoriGasExtension().getEsito())) {
       // pratica.setStato("EVASA OK DL");
     } else {
-      if (pratica.getLavoriGasExtension().getEsito().equals("0"))
+      if (pratica.getLavoriGasExtension().getEsito().equals("0")) {
         pratica.setStato("EVASA KO DL");
-      else
+      } else {
         pratica.setStato("EVASA OK DL");
+      }
     }
     lavoriGasDaoSalesgate.aggiornaLavoriGas(pratica);
     if (inviaMittente) {
       pratica.getAvanzamentoFlussi().setCodFlusso(pratica.getFlussoAcc());
       pratica.getAvanzamentoFlussi().setStato("RICEVUTO_DL");
       pratica.getAvanzamentoFlussi().setFlagStato("I");
-      utilityDaoSalesgate.aggiornaAvanzamentoFlussi(pratica);
+      utilityDaoSalesgate.aggiornaAvanzamentoFlussi(pratica.getAvanzamentoFlussi().getCodFlusso(), pratica.getAvanzamentoFlussi().getStato(), pratica.getAvanzamentoFlussi().getFlagStato(), pratica.getId());
     }
 
     return true;

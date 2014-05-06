@@ -5,10 +5,9 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-<%@ taglib uri="http://www.springframework.org/spring-social/facebook/tags" prefix="facebook"%>
 <%@ page session="false"%>
 
-<div class="container">
+<div>
   <div class="panel panel-danger">
     <div class="panel-heading">
       <h4>Si &egrave; verificato un errore</h4>

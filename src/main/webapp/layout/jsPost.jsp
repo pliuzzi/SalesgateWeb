@@ -1,4 +1,5 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/utils.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/Scroller.js"></script>
@@ -22,6 +23,10 @@
 <script src="${pageContext.request.contextPath}/js/ext/datepicker/locales/bootstrap-datepicker.it.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/migrate/jquery.migrate.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/popupwindow/jquery.popupWindow.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/spinedit/bootstrap-spinedit.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/bootbox/bootbox.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/spinbutton/spin.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/spinbutton/ladda.min.js"></script>
 <script>
 	$(function() {
 		$('.form_date').datepicker({
@@ -40,6 +45,17 @@
 		});
 		$('input').tooltip();
 		$('textarea').tooltip();
-		  
+        console.debug("pre $.ajaxSetup");
+		$.ajaxSetup({
+	      beforeSend:function(xmlHttpRequest){
+	        console.debug("beforeSend:showLoadingBar");
+	        showLoadingBar();
+	      },
+	      complete:function(){
+	        console.debug("complete:hideLoadingBar");
+	        hideLoadingBar();
+	      }
+	     });
+		console.debug("post $.ajaxSetup");
 	});
 </script>

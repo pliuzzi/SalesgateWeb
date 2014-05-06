@@ -15,7 +15,6 @@ import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
-import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagAmmissibilitaJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.AnagFlussiJdbcHandler;
@@ -29,30 +28,15 @@ import eu.a2a.salesgate.utility.dao.impl.handler.ParamsJdbcHandler;
 @Repository("utilityDaoSalesgate")
 public class UtilityDAOImpl implements UtilityDAO {
 
-  private final static String SELECT_ALL_ANAG_AMMISSIBILITA = "selectAllAnagAmmissibilita";
-  private final static String SELECT_ANAG_AMMISSIBILITA = "selectAnagAmmissibilita";
-
-  private final static String SELECT_ALL_FLUSSI_SALVABILI = "selectAllFlussiSalvabili";
-  private final static String SELECT_ALL_FLUSSI = "selectAllAnagFlussi";
-  private final static String SELECT_ALL_RICHIESTE = "selectAllAnagRichieste";
-
-  private final static String SELECT_ALL_CAMPI_OBBLIGATORI = "selectCampiObbligatori";
-
-  private final static String SELECT_AVANZAMENTO_FLUSSI = "selectAvanzamentoFlussi";
-  private final static String UPDATE_AVANZAMENTO_FLUSSI = "updateAvanzamentoFlussi";
-
-  private final static String SELECT_PARAMS = "selectParams";
-  private final static String SELECT_FILE_TYPES = "selectFileTypes";
-  private final static String SELECT_FILE_TYPE = "selectFileType";
-
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
   public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id) {
     String sql = "select * from anag_ammissibilita ";
-    if (id != null)
+    if (id != null) {
       sql += " where id = " + id;
+    }
     return jdbcTemplateSalesgate.query(sql, new AnagAmmissibilitaJdbcHandler().getRowMapper());
   }
 
@@ -63,32 +47,31 @@ public class UtilityDAOImpl implements UtilityDAO {
   }
 
   @Override
-  public List<FlussiSalvabili> getAllFlussiSalvabili(LavoriGas pratica) {
+  public List<FlussiSalvabili> getAllFlussiSalvabili(String codiceServizio, String codiceFlusso, String stato, String utility) {
     String sql = "select distinct cod_flusso_acc, AF.DESCRIPTION" + " from CONFIG_STATI_FLUSSI csf, anag_flussi af " + " where CSF.COD_FLUSSO_ACC = AF.COD_FLUSSO " + " and CSF.COMMODITY = AF.UTILITY " + " and CSF.FLAG_STATO_FINALE = 'Y' "
         + " and cod_servizio in ('DEFAULT', ?) " + " and cod_flusso_att = ? " + " and stato_pratica_att = ? " + " and NVL(commodity, 'DEFAULT') in ('DEFAULT', ?) "
         + " and cod_flusso_acc not in ('XXX', '0200', '0600', '0999', '0210', '8150', '8101', '8102')";
-    return jdbcTemplateSalesgate.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
+    return jdbcTemplateSalesgate.query(sql, new FlussiSalvabiliJdbcHandler().getRowMapper(), codiceServizio, codiceFlusso, stato, utility);
   }
 
   @Override
-  public List<CampiObbligatori> getAllCampiObbligatori(LavoriGas pratica) {
-    String sql = "SELECT distinct CAMPO, ALERT FROM ANAG_VERIFICA_ESITO ave " + " where 1=1 " + " and piva_dl in ('00000000000', '" + pratica.getDistributore().getPiva() + "') " + " and fk_anag_ric_id = '" + pratica.getCodServizio() + "' "
-        + " and fk_anag_ric_utl = '" + pratica.getUtility() + "' " + " and cod_flusso = '" + pratica.getCodFlusso() + "' " + " and obbligatorio = 'Y'";
+  public List<CampiObbligatori> getAllCampiObbligatori(String pivaDistributore, String codiceServizio, String utility, String codiceFlusso) {
+    String sql = "SELECT distinct CAMPO, ALERT FROM ANAG_VERIFICA_ESITO ave " + " where 1=1 " + " and piva_dl in ('00000000000', '" + pivaDistributore + "') " + " and fk_anag_ric_id = '" + codiceServizio + "' " + " and fk_anag_ric_utl = '"
+        + utility + "' " + " and cod_flusso = '" + codiceFlusso + "' " + " and obbligatorio = 'Y'";
     List<CampiObbligatori> list = jdbcTemplateSalesgate.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
     return list;
   }
 
   @Override
-  public AvanzamentoFlussi estraiAvanzamentoFlussi(LavoriGas pratica) {
-    String sql = "SELECT FK_PRATICA, FK_LAVORI, COD_SERVIZIO, COMMODITY, COD_FLUSSO, STATO, FLAG_STATO, NUM_REINVIO, CREATED, LAST_UPDATED " + " FROM AVANZAMENTO_FLUSSI " + " where fk_pratica = '" + pratica.getId() + "'";
+  public AvanzamentoFlussi estraiAvanzamentoFlussi(String id) {
+    String sql = "SELECT FK_PRATICA, FK_LAVORI, COD_SERVIZIO, COMMODITY, COD_FLUSSO, STATO, FLAG_STATO, NUM_REINVIO, CREATED, LAST_UPDATED " + " FROM AVANZAMENTO_FLUSSI " + " where fk_pratica = '" + id + "'";
 
     return jdbcTemplateSalesgate.query(sql, new AvanzamentoFlussiJdbcHandler().getResultSetExtractor());
   }
 
   @Override
-  public int aggiornaAvanzamentoFlussi(LavoriGas pratica) {
-    String sql = "update avanzamento_flussi set cod_flusso = '" + pratica.getAvanzamentoFlussi().getCodFlusso() + "', stato = '" + pratica.getAvanzamentoFlussi().getStato() + "', flag_stato = '"
-        + pratica.getAvanzamentoFlussi().getFlagStato() + "' " + " where fk_pratica = '" + pratica.getId() + "'";
+  public int aggiornaAvanzamentoFlussi(String codiceFlusso, String getStato, String getFlagStato, String id) {
+    String sql = "update avanzamento_flussi set cod_flusso = '" + codiceFlusso + "', stato = '" + getStato + "', flag_stato = '" + getFlagStato + "' " + " where fk_pratica = '" + id + "'";
     return jdbcTemplateSalesgate.update(sql);
   }
 

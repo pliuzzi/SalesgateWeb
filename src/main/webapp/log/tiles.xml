@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <definition name="app/log/salesgate" extends="appFluid">
+    <put-attribute name="title" value="Visualizza Logs"></put-attribute>
+    <put-attribute name="content" value="/log/salesgate/main.jsp" />
+  </definition>
+  <definition name="app/log/salesgate/show" extends="appFluid">
+    <put-attribute name="title" value="Visualizza Logs"></put-attribute>
+    <put-attribute name="content" value="/log/salesgate/elenco.jsp" />
+  </definition>
+  <definition name="app/log/salesgate/show/xml" extends="app">
+    <put-attribute name="title" value="Nuovo Template"></put-attribute>
+    <put-attribute name="content" value="/log/salesgate/visualizza.jsp"></put-attribute>
+  </definition>
+
+</tiles-definitions>

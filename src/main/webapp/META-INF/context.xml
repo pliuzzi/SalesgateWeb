@@ -1,0 +1,41 @@
+<Context path="/SalesgateWeb_PREPROD" reloadable="true">
+  <!-- PREPROD 
+  <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource"
+              username="sgusr" password="sgusr"
+              url="jdbc:oracle:thin:@10.90.100.122:1521:SLGTCOLL"
+              driverClassName="oracle.jdbc.OracleDriver"
+              initialSize="5" maxWait="5000"
+              maxActive="120" maxIdle="5"
+              validationQuery="select * from dual"
+              poolPreparedStatements="true"/>
+              
+  <Resource name="jdbc/sdmDS" auth="Container" type="javax.sql.DataSource"
+              username="sdmba" password="sdmba"
+              url="jdbc:oracle:thin:@10.90.100.122:1521:SLGTCOLL"
+              driverClassName="oracle.jdbc.OracleDriver"
+              initialSize="5" maxWait="5000"
+              maxActive="120" maxIdle="5"
+              validationQuery="select * from dual"
+              poolPreparedStatements="true"/>
+  -->
+  
+  <!-- PROD -->
+  <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource"
+              username="sgusr" password="sal3sgat3!"
+              url="jdbc:oracle:thin:@10.90.103.126:1521:SLGTPRD"
+              driverClassName="oracle.jdbc.OracleDriver"
+              initialSize="5" maxWait="5000"
+              maxActive="120" maxIdle="5"
+              validationQuery="select * from dual"
+              poolPreparedStatements="true"/>
+              
+  <Resource name="jdbc/sdmDS" auth="Container" type="javax.sql.DataSource"
+              username="sdmba" password="Verdun13"
+              url="jdbc:oracle:thin:@10.90.105.14:1521:CHEOPEGAS"
+              driverClassName="oracle.jdbc.OracleDriver"
+              initialSize="5" maxWait="5000"
+              maxActive="120" maxIdle="5"
+              validationQuery="select * from dual"
+              poolPreparedStatements="true"/>
+ 
+</Context>

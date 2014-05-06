@@ -1,58 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<tx:annotation-driven />
+  <tx:annotation-driven />
 
-	<bean id="transactionManagerSalesgate"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSourceSalesgate" />
-	</bean>
+  <bean id="transactionManagerSalesgate" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSourceSalesgate" />
+  </bean>
 
-	<bean id="jdbcTemplateSalesgate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSourceSalesgate" />
-	</bean>
+  <bean id="jdbcTemplateSalesgate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <property name="dataSource" ref="dataSourceSalesgate" />
+  </bean>
 
-	<bean id="transactionManagerSdm"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSourceSdm" />
-	</bean>
+  <bean id="transactionManagerSdm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSourceSdm" />
+  </bean>
 
-	<bean id="jdbcTemplateSdm" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSourceSdm" />
-	</bean>
+  <bean id="jdbcTemplateSdm" class="org.springframework.jdbc.core.JdbcTemplate">
+    <property name="dataSource" ref="dataSourceSdm" />
+  </bean>
 
-	<beans profile="preprod, svil">
-		<bean id="dataSourceSalesgate" class="oracle.jdbc.pool.OracleDataSource">
-			<property name="URL" value="${prop.svil.db.salesgate.url}" />
-			<property name="user" value="${prop.svil.db.salesgate.user}" />
-			<property name="password" value="${prop.svil.db.salesgate.password}" />
-		</bean>
-	</beans>
-	<beans profile="prod">
-		<bean id="dataSourceSalesgate" class="oracle.jdbc.pool.OracleDataSource">
-			<property name="URL" value="${prop.prod.db.salesgate.url}" />
-			<property name="user" value="${prop.prod.db.salesgate.user}" />
-			<property name="password" value="${prop.prod.db.salesgate.password}" />
-		</bean>
-	</beans>
+  <jee:jndi-lookup id="dataSourceSalesgate" jndi-name="jdbc/salesgateDS" expected-type="javax.sql.DataSource" />
+  
+  <jee:jndi-lookup id="dataSourceSdm" jndi-name="jdbc/sdmDS" expected-type="javax.sql.DataSource" />
 
-	<beans profile="preprod, svil">
-		<bean id="dataSourceSdm" class="oracle.jdbc.pool.OracleDataSource">
-			<property name="URL" value="${prop.svil.db.sdm.url}" />
-			<property name="user" value="${prop.svil.db.sdm.user}" />
-			<property name="password" value="${prop.svil.db.sdm.password}" />
-		</bean>
-	</beans>
-	<beans profile="prod">
-		<bean id="dataSourceSdm" class="oracle.jdbc.pool.OracleDataSource">
-			<property name="URL" value="${prop.prod.db.sdm.url}" />
-			<property name="user" value="${prop.prod.db.sdm.user}" />
-			<property name="password" value="${prop.prod.db.sdm.password}" />
-		</bean>
-	</beans>
+  
 </beans>

@@ -64,14 +64,15 @@ public class PraticheGasController extends AbstractController {
    * 
    * @Override public void initBinder(WebDataBinder dataBinder) {
    * 
-   * super.initBinder(dataBinder); SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); CustomDateEditor
-   * cde = new CustomDateEditor(sdf, true); dataBinder.registerCustomEditor(Date.class, cde);
+   * super.initBinder(dataBinder); SimpleDateFormat sdf = new
+   * SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); CustomDateEditor cde = new
+   * CustomDateEditor(sdf, true); dataBinder.registerCustomEditor(Date.class,
+   * cde);
    * 
    * }
    */
   @RequestMapping(value = "/app/pratiche/gas/cerca/{init}", method = RequestMethod.GET)
-  public String initCercaPraticaGas(@PathVariable("init") String init, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String initCercaPraticaGas(@PathVariable("init") String init, Model model, WebRequest request, Principal principal, HttpSession session) {
     FiltroPraticheGas filtro = new FiltroPraticheGas();
     model.addAttribute("filtro", filtro);
     model.addAttribute("init", init.equals("init"));
@@ -82,6 +83,7 @@ public class PraticheGasController extends AbstractController {
     return "app/pratiche/gas/cerca";
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(value = "/app/pratiche/gas/cerca", method = RequestMethod.GET)
   public String backToCercaPraticaGas(Model model, WebRequest request, Principal principal, HttpSession session) {
     FiltroPraticheGas filtro = new FiltroPraticheGas();
@@ -99,8 +101,7 @@ public class PraticheGasController extends AbstractController {
   }
 
   @RequestMapping(value = { "/app/pratiche/gas/cerca" }, method = RequestMethod.POST)
-  public String cercaPraticaGAS(@ModelAttribute("filtro") FiltroPraticheGas filtro, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String cercaPraticaGAS(@ModelAttribute("filtro") FiltroPraticheGas filtro, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     if ("-".equals(filtro.getCodiceDistributore())) {
       filtro.setCodiceDistributore("");
@@ -114,9 +115,7 @@ public class PraticheGasController extends AbstractController {
   }
 
   @RequestMapping(value = { "/app/pratiche/gas/{id}/visualizza", "/app/pratiche/GAS/{id}/visualizza" }, method = RequestMethod.GET)
-  public String getPraticaGasById(@PathVariable("id") String id,
-      @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String getPraticaGasById(@PathVariable("id") String id, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     // ModelAndView model = new ModelAndView("formVisualizzaPraticaGas");
 
@@ -129,7 +128,7 @@ public class PraticheGasController extends AbstractController {
       flussiSalvabili = new ArrayList<FlussiSalvabili>();
       flussiSalvabili.add(fs);
     } else {
-      flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica);
+      flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
     }
 
     model.addAttribute("lavoriGas", pratica);
@@ -145,13 +144,12 @@ public class PraticheGasController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/pratiche/gas/modifica", method = RequestMethod.POST)
-  public String modificaPraticaGas(@ModelAttribute("lavoriGas") LavoriGas pratica, BindingResult result, Model model,
-      WebRequest request, Principal principal, HttpSession session) {
+  public String modificaPraticaGas(@ModelAttribute("lavoriGas") LavoriGas pratica, BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
     logger.debug(model);
-    List<CampiObbligatori> campiObbligatori = utilityService.estraiCampiObbligatori(pratica);
+    List<CampiObbligatori> campiObbligatori = utilityService.estraiCampiObbligatori(pratica.getDistributore().getPiva(), pratica.getCodServizio(), pratica.getUtility(), pratica.getCodFlusso());
     lavoriGasValidator.validate(pratica, result, campiObbligatori);
     if (result.hasErrors()) {
-      List<FlussiSalvabili> flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica);
+      List<FlussiSalvabili> flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
       model.addAttribute("lavoriGas", pratica);
       model.addAttribute("flussiSalvabili", flussiSalvabili);
       model.addAttribute("error", true);

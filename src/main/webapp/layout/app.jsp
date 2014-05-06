@@ -15,18 +15,25 @@
 </head>
 <body class="logo">
   <div id="wrap">
-    <tiles:insertAttribute name="menu" ignore="true"/>
-    <div class="container">
+    <tiles:insertAttribute name="menu" ignore="true" />
+    <div class="container-fluid">
       <tiles:insertAttribute name="content" />
     </div>
   </div>
 
-
+  <tiles:insertAttribute name="loadingBar" />
 </body>
 <tiles:insertAttribute name="jsPost" />
 <script>
-	$(document).ready(function() {
-		$(".social-login-box").height($(".login-box").height() - 160);
-	});
+  $(document).ready(function() {
+
+    $('.js-loading-bar').modal({
+      backdrop : 'static',
+      show : false
+    });
+    
+  });
+
+  
 </script>
 </html>

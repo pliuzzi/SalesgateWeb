@@ -13,6 +13,7 @@ public class CutOffItem extends CodDescBean {
   private String utility;
   private Distributore distributore;
   private AnagRichieste servizio;
+  private CodDescBean canale;
   private Files files;
 
   private List<PraticaCutOff> pratiche;
@@ -55,6 +56,14 @@ public class CutOffItem extends CodDescBean {
 
   public void setPratiche(List<PraticaCutOff> pratiche) {
     this.pratiche = pratiche;
+  }
+
+  public CodDescBean getCanale() {
+    return canale;
+  }
+
+  public void setCanale(CodDescBean canale) {
+    this.canale = canale;
   }
 
 }

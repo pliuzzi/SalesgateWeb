@@ -13,7 +13,6 @@ import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
-import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
 import eu.a2a.salesgate.utility.service.UtilityService;
 
@@ -25,16 +24,16 @@ public class UtilityServiceImpl implements UtilityService {
   private UtilityDAO utilityDaoSalesgate;
 
   @Override
-  public List<FlussiSalvabili> estraiFlussiSalvabili(LavoriGas pratica) {
+  public List<FlussiSalvabili> estraiFlussiSalvabili(String codiceServizio, String codiceFlusso, String stato, String utility) {
 
-    List<FlussiSalvabili> list = utilityDaoSalesgate.getAllFlussiSalvabili(pratica);
+    List<FlussiSalvabili> list = utilityDaoSalesgate.getAllFlussiSalvabili(codiceServizio, codiceFlusso, stato, utility);
 
     return list;
   }
 
   @Override
-  public List<CampiObbligatori> estraiCampiObbligatori(LavoriGas pratica) {
-    List<CampiObbligatori> list = utilityDaoSalesgate.getAllCampiObbligatori(pratica);
+  public List<CampiObbligatori> estraiCampiObbligatori(String pivaDistributore, String codiceServizio, String utility, String codiceFlusso) {
+    List<CampiObbligatori> list = utilityDaoSalesgate.getAllCampiObbligatori(pivaDistributore, codiceServizio, utility, codiceFlusso);
     return list;
   }
 

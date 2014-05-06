@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.commons.io.IOUtils;
 
 import eu.a2a.salesgate.bean.AnagRichieste;
+import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 import eu.a2a.salesgate.dao.handler.base.JdbcHandler;
 import eu.a2a.salesgate.distributori.bean.factory.DistributoreFactory;
@@ -51,6 +52,7 @@ public class CutOffItemJdbcHandler extends JdbcHandler<CutOffItem> {
     file.setClosedDate(rs.getDate("CLOSED_DATE"));
     file.setClosedBy(rs.getString("CLOSED_BY"));
     file.setCreated(rs.getDate("CREATED"));
+    coi.setCanale(new CodDescBean(rs.getString("cod_canale"), rs.getString("desc_canale")));
 
     coi.setFiles(file);
 

@@ -9,13 +9,12 @@ import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
-import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 
 public interface UtilityService {
 
-  public List<FlussiSalvabili> estraiFlussiSalvabili(LavoriGas pratica);
+  public List<FlussiSalvabili> estraiFlussiSalvabili(String codiceServizio, String codiceFlusso, String stato, String utility);
 
-  public List<CampiObbligatori> estraiCampiObbligatori(LavoriGas pratica);
+  public List<CampiObbligatori> estraiCampiObbligatori(String pivaDistributore, String codiceServizio, String utility, String codiceFlusso);
 
   public List<Params> estraiParams(String category);
 

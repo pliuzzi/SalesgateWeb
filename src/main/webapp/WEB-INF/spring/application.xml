@@ -34,9 +34,9 @@
 	</bean>
 
 	<bean id="urlLegacySGBA" class="java.lang.String">
-		<!-- <constructor-arg value="http://10.90.103.96:8080/SGBAWeb_PREPROD"/> -->
-		<constructor-arg
-			value="http://10.90.103.96:8080/SalesgateBusinessAreaWeb_PREPROD" />
+		<constructor-arg value="http://10.90.103.96:8080/SalesgateBusinessAreaWeb"/>
+		<!-- <constructor-arg
+			value="http://10.90.103.96:8080/SalesgateBusinessAreaWeb_PREPROD" /> -->
 		<!-- <constructor-arg value="http://localhost:8782/SalesgateBusinessAreaWeb"/> -->
 	</bean>
 	<bean id="defaultDetector" class="org.apache.tika.detect.CompositeDetector">

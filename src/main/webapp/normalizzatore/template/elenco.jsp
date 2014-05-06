@@ -271,7 +271,7 @@ $(function () {
 
   $('#tblTemplateInstanceOutbound').dataTable({
       sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-      sAjaxSource: "${pageContext.request.contextPath}/app/json/normalizzatore/template/${distributore.id}/OUTBOUND",
+      sAjaxSource: "${pageContext.request.contextPath}/app/json/normalizzatore/template/${distributore.id}/OUT",
       bSort: false,
       aoColumns: [
                {mData: "codiceServizio.code", sClass: "middle", mRender: function ( data, type, full ) {
@@ -299,7 +299,7 @@ $(function () {
     });
   $('#tblTemplateInstanceInbound').dataTable({
       sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-      sAjaxSource: "${pageContext.request.contextPath}/app/json/normalizzatore/template/${distributore.id}/INBOUND",
+      sAjaxSource: "${pageContext.request.contextPath}/app/json/normalizzatore/template/${distributore.id}/IN",
       bSort: false,
       aoColumns: [
                {mData: "codiceServizio.code", sClass: "middle", mRender: function ( data, type, full ) {

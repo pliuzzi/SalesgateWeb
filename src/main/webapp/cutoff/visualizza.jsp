@@ -28,7 +28,7 @@
                 <div class="form-group">
                   <label for="numeroRecord" class="col-lg-4 control-label">Servizio - flusso</label>
                   <div class="col-lg-8">
-                    <p class="form-control-static">${cutoff.servizio.code}- ${cutoff.files.codiceFlusso }</p>
+                    <p class="form-control-static">${cutoff.servizio.code} - ${cutoff.files.codiceFlusso }</p>
                   </div>
                 </div>
                 <div class="form-group">
@@ -55,9 +55,9 @@
             <div class="col-lg-4">
               <fieldset>
                 <legend>Operazioni Disponibili</legend>
-                <button type="button" id="btnDoCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Elabora File</button>
-                <a target="_self" href="${pageContext.request.contextPath}/app/files/${cutoff.files.id}/download" id="btnDownloadCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Download File</a>
-                <button type="button" id="btnCloseCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}">Chiudi File</button>
+                <button type="button" id="btnDoCutOff" class="btn btn-block btn-primary" data-style="contract" data-size="l" data-id="${cutoff.files.id}" data-canale="${cutoff.canale.description}"><span class="ladda-label">Elabora File</span></button>
+                <a target="_self" href="${pageContext.request.contextPath}/app/files/${cutoff.files.id}/download" id="btnDownloadCutOff" class="btn btn-block btn-primary" data-id="${cutoff.files.id}" data-canale="${cutoff.canale.description}">Download File</a>
+                <button type="button" id="btnCloseCutOff" class="btn btn-block btn-primary" data-style="contract" data-size="l" data-id="${cutoff.files.id}" data-canale="${cutoff.canale.description}"><span class="ladda-label">Chiudi File</span></button>
               </fieldset>
             </div>
           </div>

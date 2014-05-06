@@ -21,14 +21,18 @@ public class CutOffDAOImpl implements CutOffDAO {
   JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
-  public List<CutOffItem> estraiAllCutOff(String stato) {
+  public List<CutOffItem> estraiAllCutOff(String stato, String canale) {
 
     String sql = "select distinct ad.id as id_distributore, ad.name as name_distributore, f.id, f.cod_servizio, "
-        + " f.cod_flusso, f.utility, f.nome_file, f.stato_file, conta_righe, created, closed_by, closed_date"
-        + " from files f, anag_dl ad " + " where ad.id = f.fk_distributore ";
+        + " f.cod_flusso, f.utility, f.nome_file, f.stato_file, conta_righe, created, closed_by, closed_date, arc.flag_canale cod_canale, p.name desc_canale " + " from files f, anag_dl ad, anag_richieste_canale arc, params p "
+        + " where ad.id = f.fk_distributore " + " and fk_distributore = arc.fk_anag_dl" + " and f.cod_servizio = arc.cod_servizio" + " and f.utility = arc.utility" + " and p.value = arc.flag_canale " + " and p.category = 'CHANNELS' ";
     String sqlStato = " and f.stato_file = '" + stato + "'";
+    String sqlCanale = " and upper(p.name) = '" + canale.toUpperCase() + "'";
     if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) {
       sql += sqlStato;
+    }
+    if ((canale != null) && (!canale.equalsIgnoreCase("TUTTI"))) {
+      sql += sqlCanale;
     }
     List<CutOffItem> list = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getRowMapper());
     return list;
@@ -37,12 +41,10 @@ public class CutOffDAOImpl implements CutOffDAO {
   @Override
   public CutOffItem estraiCutOff(String id) {
 
-    String sql = "select ad.id as id_distributore, ad.name as name_distributore, f.id, f.file_type, f.fk_template_ins, "
-        + " f.cod_servizio, f.cod_flusso, f.utility, f.nome_file, f.stato_file, f.file_data, conta_righe, "
-        + " created, closed_by, closed_date "
-        + " from files f, anag_dl ad "
-        + " where fk_distributore = ad.id "
-        + " and f.id = ?";
+    String sql = "select ad.id as id_distributore, ad.name as name_distributore, f.id, f.file_type, f.fk_template_ins, " + " f.cod_servizio, f.cod_flusso, f.utility, f.nome_file, f.stato_file, f.file_data, conta_righe, "
+        + " created, closed_by, closed_date, arc.flag_canale cod_canale, p.name desc_canale  " + " from files f, anag_dl ad, anag_richieste_canale arc, params p " + " where fk_distributore = ad.id " + " and f.id = ?"
+        + " and fk_distributore = arc.fk_anag_dl" + " and f.cod_servizio = arc.cod_servizio" + " and f.utility = arc.utility" + " and p.value = arc.flag_canale " + " and p.category = 'CHANNELS' ";
+    ;
 
     CutOffItem coi = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getResultSetExtractor(), id);
 
@@ -72,8 +74,7 @@ public class CutOffDAOImpl implements CutOffDAO {
 
     String sql = "update files set file_data = ? where id = ?";
 
-    int nTot = jdbcTemplateSalesgate.update(sql, new Object[] { new SqlLobValue(fileData), id }, new int[] {
-        Types.BLOB, Types.VARCHAR });
+    int nTot = jdbcTemplateSalesgate.update(sql, new Object[] { new SqlLobValue(fileData), id }, new int[] { Types.BLOB, Types.VARCHAR });
 
     return nTot;
   }

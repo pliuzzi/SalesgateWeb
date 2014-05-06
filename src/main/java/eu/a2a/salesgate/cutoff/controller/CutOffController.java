@@ -32,6 +32,7 @@ import org.springframework.web.context.request.WebRequest;
 import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 import eu.a2a.salesgate.cutoff.service.CutOffService;
+import eu.a2a.salesgate.pec.service.PecService;
 import eu.a2a.salesgate.utility.MapUtility;
 
 @Controller
@@ -39,6 +40,9 @@ public class CutOffController {
 
   @Autowired
   private CutOffService cutOffServiceSalesgate;
+
+  @Autowired
+  private PecService pecServiceSalesgate;
 
   private Detector getDefaultDetectors() {
 
@@ -67,12 +71,11 @@ public class CutOffController {
     return "app/cutoff/elenco";
   }
 
-  @RequestMapping(value = { "/app/cutoff/tree/{stato}" }, method = { RequestMethod.GET, RequestMethod.POST })
-  public String getTreeCutoff(@PathVariable("stato") String stato, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  @RequestMapping(value = { "/app/cutoff/tree/{stato}/{canale}" }, method = { RequestMethod.GET, RequestMethod.POST })
+  public String getTreeCutoff(@PathVariable("stato") String stato, @PathVariable("canale") String canale, Model model, WebRequest request, Principal principal, HttpSession session) {
 
-    List<RootNode> list1 = cutOffServiceSalesgate.estraiElencoCutoff(stato, "distributore.name", "servizio.code");
-    List<RootNode> list2 = cutOffServiceSalesgate.estraiElencoCutoff(stato, "servizio.code", "distributore.name");
+    List<RootNode> list1 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, "distributore.name", "servizio.code");
+    List<RootNode> list2 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, "servizio.code", "distributore.name");
     model.addAttribute("cutOffNodeDistributore", list1);
     model.addAttribute("cutOffNodeServizio", list2);
 
@@ -80,8 +83,7 @@ public class CutOffController {
   }
 
   @RequestMapping(value = { "/app/cutoff/{id}/visualizza" }, method = RequestMethod.GET)
-  public String viewCutoff(@PathVariable("id") String id, Model model, WebRequest request, Principal principal,
-      HttpSession session) {
+  public String viewCutoff(@PathVariable("id") String id, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     CutOffItem item = cutOffServiceSalesgate.estraiCutoff(id);
     model.addAttribute("cutoff", item);
@@ -91,37 +93,43 @@ public class CutOffController {
 
   @RequestMapping(value = { "/app/cutoff/{id}/esegui" }, method = RequestMethod.GET)
   public @ResponseBody
-  Object eseguiCutOff(@PathVariable("id") String id, Model model, WebRequest request, Principal principal,
-      HttpSession session, HttpServletResponse response) throws IOException {
+  Object eseguiCutOff(@PathVariable("id") String id, Model model, WebRequest request, Principal principal, HttpSession session, HttpServletResponse response) throws IOException {
 
     CutOffItem item = cutOffServiceSalesgate.estraiCutoff(id);
 
     String nome = item.getFiles().getNomeFile();
     byte[] fileContent = cutOffServiceSalesgate.eseguiCutOff(id).toByteArray();
-    response.setHeader("Content-Disposition", "attachment;filename=\"" + nome + "\"");
-    OutputStream out = response.getOutputStream();
-    Detector detector = getDefaultDetectors();
+    if (item.getCanale().getDescription().equals("PEC")) {
+      pecServiceSalesgate.sendPec(item, fileContent);
+      cutOffServiceSalesgate.chiudiCutOff(id, principal.getName());
 
-    Metadata metadata = new Metadata();
-    metadata.add(Metadata.RESOURCE_NAME_KEY, nome);
-    response.setContentType(detector.detect(null, metadata).getType());
-    response.setContentLength(fileContent.length);
-    Cookie fileDownloadCookie = new Cookie("fileDownload", "true");
-    fileDownloadCookie.setPath("/");
-    response.addCookie(fileDownloadCookie);
+      Map<String, String> res = MapUtility.mapOf("result", "OK_PEC");
+      return res;
+    } else {
+      response.setHeader("Content-Disposition", "attachment;filename=\"" + nome + "\"");
+      OutputStream out = response.getOutputStream();
+      Detector detector = getDefaultDetectors();
 
-    // response.setContentType(doc.getContentType());
-    FileCopyUtils.copy(fileContent, out);
-    out.flush();
-    out.close();
+      Metadata metadata = new Metadata();
+      metadata.add(Metadata.RESOURCE_NAME_KEY, nome);
+      response.setContentType(detector.detect(null, metadata).getType());
+      response.setContentLength(fileContent.length);
+      Cookie fileDownloadCookie = new Cookie("fileDownload", "true");
+      fileDownloadCookie.setPath("/");
+      response.addCookie(fileDownloadCookie);
 
-    return "eseguiCutOff";
+      // response.setContentType(doc.getContentType());
+      FileCopyUtils.copy(fileContent, out);
+      out.flush();
+      out.close();
+      return "eseguiCutOff";
+    }
+
   }
 
   @RequestMapping(value = { "/app/cutoff/{id}/chiudi" }, method = RequestMethod.GET)
   public @ResponseBody
-  Object chiudiCutOff(@PathVariable("id") String id, Model model, WebRequest request, Principal principal,
-      HttpSession session) throws IOException {
+  Object chiudiCutOff(@PathVariable("id") String id, Model model, WebRequest request, Principal principal, HttpSession session) throws IOException {
 
     // CutOffNode node = cutOffService.estraiCutoff(id);
     cutOffServiceSalesgate.chiudiCutOff(id, principal.getName());

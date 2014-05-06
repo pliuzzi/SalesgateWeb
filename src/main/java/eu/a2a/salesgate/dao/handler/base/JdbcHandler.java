@@ -25,7 +25,7 @@ public abstract class JdbcHandler<T> {
         if (rs.next()) {
           return createObjectFromResultSet(rs);
         } else {
-          throw new SQLException("ResultSet Finito!");
+          return null;
         }
       }
     };

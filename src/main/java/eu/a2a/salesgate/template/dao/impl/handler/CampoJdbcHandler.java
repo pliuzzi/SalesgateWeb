@@ -15,7 +15,9 @@ public class CampoJdbcHandler extends JdbcHandler<Campo> {
 
     campo.setId(rs.getString("id"));
     campo.setNomeLogico(rs.getString("nome_logico"));
-    campo.setNomeFisico(rs.getString("nome_fisico"));
+    if (contains("nome_fisico")) {
+      campo.setNomeFisico(rs.getString("nome_fisico"));
+    }
     campo.setCategoria(rs.getString("categoria"));
 
     if (contains("posizione")) {

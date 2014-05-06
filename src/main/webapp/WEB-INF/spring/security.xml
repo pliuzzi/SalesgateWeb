@@ -61,6 +61,7 @@
     <beans:property name="hideUserNotFoundExceptions" value="true"/>
   </beans:bean>
   <user-service id="userDetailService">
+    <user name="administrator" password="Sal3sgat3!" authorities="ADMINISTRATOR" />
     <user name="sviluppo" password="sviluppo" authorities="PIC_SVILUPPO" />
     <user name="test" password="test" authorities="PIC_TEST" />
   </user-service>

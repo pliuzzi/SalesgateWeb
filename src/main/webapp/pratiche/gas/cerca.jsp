@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<div class="container">
+<div>
 
   <ol class="breadcrumb">
     <li><a href="${pageContext.request.contextPath}/app/home">Home</a></li>

@@ -6,11 +6,16 @@
     <put-attribute name="css" value="/layout/css.jsp"/>
     <put-attribute name="jsPre" value="/layout/jsPre.jsp"/>
     <put-attribute name="jsPost" value="/layout/jsPost.jsp"/>
+    
   </definition>
 
   <definition name="index" extends="site">
     <put-attribute name="title" value="Benvenuto" />
     <put-attribute name="content" value="/layout/index.jsp" />
+  </definition>
+  
+  <definition name="browserNotSupported" template="/layout/browserNotSupported.jsp">
+    <put-attribute name="title" value="Salesgate Web (Browser non supportato)"></put-attribute>
   </definition>
 
 </tiles-definitions>

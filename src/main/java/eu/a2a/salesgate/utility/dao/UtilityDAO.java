@@ -10,7 +10,6 @@ import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
-import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 
 public interface UtilityDAO {
 
@@ -18,13 +17,13 @@ public interface UtilityDAO {
 
   AnagAmmissibilita getAnagAmmissibilita(String id);
 
-  List<FlussiSalvabili> getAllFlussiSalvabili(LavoriGas pratica);
+  List<FlussiSalvabili> getAllFlussiSalvabili(String codiceServizio, String codiceFlusso, String stato, String utility);
 
-  List<CampiObbligatori> getAllCampiObbligatori(LavoriGas pratica);
+  List<CampiObbligatori> getAllCampiObbligatori(String pivaDistributore, String codiceServizio, String utility, String codiceFlusso);
 
-  AvanzamentoFlussi estraiAvanzamentoFlussi(LavoriGas pratica);
+  AvanzamentoFlussi estraiAvanzamentoFlussi(String id);
 
-  int aggiornaAvanzamentoFlussi(LavoriGas pratica);
+  int aggiornaAvanzamentoFlussi(String codiceFlusso, String getStato, String getFlagStato, String id);
 
   List<Params> getParams(String category);
 

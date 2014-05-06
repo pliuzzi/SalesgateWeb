@@ -27,7 +27,6 @@ import eu.a2a.salesgate.template.bean.TemplateInstance;
 import eu.a2a.salesgate.template.service.TemplateService;
 
 @Service("cutOffServiceSalesgate")
-@Transactional("transactionManagerSalesgate")
 public class CutOffServiceImpl implements CutOffService {
 
   @Autowired
@@ -37,9 +36,9 @@ public class CutOffServiceImpl implements CutOffService {
   private TemplateService templateServiceSalesgate;
 
   @Override
-  public List<RootNode> estraiElencoCutoff(String stato, String... groupBy) {
+  public List<RootNode> estraiElencoCutoff(String stato, String canale, String... groupBy) {
 
-    List<CutOffItem> list = cutOffDaoSalesgate.estraiAllCutOff(stato);
+    List<CutOffItem> list = cutOffDaoSalesgate.estraiAllCutOff(stato, canale);
 
     List<RootNode> nodes = null;
     Group<CutOffItem> groupUtility = group(list, by(on(CutOffItem.class).getUtility()));
@@ -58,7 +57,8 @@ public class CutOffServiceImpl implements CutOffService {
           List<TreeNode> files = new ArrayList<TreeNode>(itemSecondLevels.getSize());
           for (Group<CutOffItem> itemFiles : groupFiles.subgroups()) {
             for (CutOffItem item : itemFiles.findAll()) {
-              TreeNode file = new TreeNode(item.getFiles().getId(), item.getFiles().getCodiceFlusso() + " - " + item.getFiles().getCreated() + " - " + item.getFiles().getContaRighe() + " Record");
+              TreeNode file = new TreeNode(item.getFiles().getId(), item.getFiles().getCodiceFlusso() + " - " + item.getFiles().getCreated() + " - " + item.getFiles().getContaRighe() + " Record"
+                  + (item.getCanale().getDescription().equals("PEC") ? " - PEC" : " - Download"));
               file.setStato(item.getFiles().getStatoFile());
               files.add(file);
             }
@@ -77,6 +77,7 @@ public class CutOffServiceImpl implements CutOffService {
   }
 
   @Override
+  @Transactional("transactionManagerSalesgate")
   public ByteArrayOutputStream eseguiCutOff(String id) {
 
     try {
@@ -106,6 +107,7 @@ public class CutOffServiceImpl implements CutOffService {
   }
 
   @Override
+  @Transactional("transactionManagerSalesgate")
   public CutOffItem estraiCutoff(String id) {
     return cutOffDaoSalesgate.estraiCutOff(id);
   }

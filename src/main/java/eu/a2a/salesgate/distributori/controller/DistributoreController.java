@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +42,6 @@ public class DistributoreController extends AbstractController {
   @Autowired
   private Validator distributoreValidator;
 
-  private final Logger logger = Logger.getLogger(this.getClass());
-
   @ModelAttribute(value = "listChannel")
   public List<Params> getAllChannels() {
     if (listChannel == null) {
@@ -73,18 +70,20 @@ public class DistributoreController extends AbstractController {
     model.addAttribute("filtro", filtro);
     model.addAttribute("init", init.equals("init"));
     logger.debug(model);
-    if (init.equals("init"))
+    if (init.equals("init")) {
       session.removeAttribute("ricerca_distributore_salvata");
-    else
+    } else {
       model.addAttribute("listDistributori", session.getAttribute("ricerca_distributore_salvata"));
+    }
     return "app/distributore/cerca";
   }
 
   @RequestMapping(value = { "/app/distributore/cerca" }, method = RequestMethod.POST)
   public String cercaDistributore(@ModelAttribute("filtro") Distributore filtro, Model model, WebRequest request, Principal principal, HttpSession session) {
 
-    if ("-".equals(filtro.getUtility()))
+    if ("-".equals(filtro.getUtility())) {
       filtro.setUtility("");
+    }
 
     List<Distributore> distributori = distributoriServiceSalesgate.getDistributori(filtro);
     model.addAttribute("filtro", filtro);
