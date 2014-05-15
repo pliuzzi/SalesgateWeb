@@ -19,7 +19,7 @@
       </h4>
     </div>
     <div class="panel-body">
-      <form:form modelAttribute="tracking" commandName="tracking" action="${pageContext.request.contextPath}/app/pratiche/ele/modifica" class="form-horizontal" method="post">
+      <form:form modelAttribute="tracking" commandName="tracking" action="${pageContext.request.contextPath}/app/pratiche/ammissibilita/modifica" class="form-horizontal" method="post">
         <form:hidden path="canaleSg" />
         <form:hidden path="codFlusso" />
         <form:hidden path="utility" />
@@ -128,13 +128,9 @@
             <div class="col-lg-2" align="right">
               <div class="btn-group">
                 <a href="${pageContext.request.contextPath}/app/pratiche/ele/cerca" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
-                <div class="btn-group" align="left">
-                  <button type=button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-save"></span> Salva <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-
-                  </ul>
+                <button type="submit" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-save"></span> Salva
+                </button>
                 </div>
               </div>
               <c:if test="${error}">

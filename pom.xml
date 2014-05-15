@@ -28,7 +28,7 @@
     <dependency>
       <groupId>eu.a2a</groupId>
       <artifactId>sg-gas-inbound-client</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.3</version>
     </dependency>
 
     <dependency>
@@ -248,6 +248,7 @@
     <dependency>
       <groupId>org.apache.xmlbeans</groupId>
       <artifactId>xmlbeans</artifactId>
+      <version>2.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.lambdaj</groupId>
@@ -313,13 +314,4 @@
     <name>A2A Energia S.p.A.</name>
     <url>http://www.a2aenergia.eu</url>
   </organization>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.apache.xmlbeans</groupId>
-        <artifactId>xmlbeans</artifactId>
-        <version>2.6.0</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 </project>

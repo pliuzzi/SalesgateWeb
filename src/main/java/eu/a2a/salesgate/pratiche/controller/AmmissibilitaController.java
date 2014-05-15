@@ -32,6 +32,7 @@ import eu.a2a.salesgate.inbound.core.gas.client.InviaEsitoGASFaultMsg;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.Tracking;
 import eu.a2a.salesgate.pratiche.service.AmmissibilitaService;
+import eu.a2a.salesgate.utility.dao.UtilityDAO;
 import eu.a2a.salesgate.utility.service.UtilityService;
 
 @Controller
@@ -42,6 +43,9 @@ public class AmmissibilitaController extends AbstractController {
 
   @Autowired
   UtilityService utilityServiceSalesgate;
+
+  @Autowired
+  private UtilityDAO utilityDaoSalesgate; // Orrendo da togliere
 
   @RequestMapping(value = { "/app/pratiche/ammissibilita/{id}/visualizza" }, method = RequestMethod.GET)
   public String getPraticaById(@PathVariable("id") String id, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
@@ -83,20 +87,27 @@ public class AmmissibilitaController extends AbstractController {
 
       GecoInboundCoreGASRequestDocument soapRequestDoc = GecoInboundCoreGASRequestDocument.Factory.newInstance();
 
+      AnagAmmissibilita am = utilityServiceSalesgate.getAllAnagAmmissibilita(tracking.getAnagAmmissibilita().getId(), null).get(0);
+
       GecoInboundCoreGASRequest soapRequest = soapRequestDoc.addNewGecoInboundCoreGASRequest();
+      soapRequest.setCODSERVIZIO(tracking.getCodServizio());
+      soapRequest.setCODFLUSSO("0100");
       soapRequest.setCODPRATSG(tracking.getId());
       soapRequest.setCODPRATDISTR(tracking.getCodicePraticaDl());
-      soapRequest.setVERIFICAAMM(tracking.getAnagAmmissibilita().getEsito() + "");
-      soapRequest.setMOTIVAZIONE(tracking.getAnagAmmissibilita().getDescription());
-      soapRequest.setCODCAUSALE(tracking.getAnagAmmissibilita().getCodice());
+      soapRequest.setVERIFICAAMM(am.getEsito() + "");
+      soapRequest.setMOTIVAZIONE(am.getDescription());
+      soapRequest.setCODCAUSALE(am.getCodice());
 
       GecoInboundCoreGASResponseDocument soapResponse = service.inviaEsitoGAS(soapRequestDoc);
+
+      utilityDaoSalesgate.aggiornaAvanzamentoFlussi("0100", "RICEVUTO_DL", "I", tracking.getId());
 
       logger.debug(soapResponse);
 
     } catch (RemoteException | InviaEsitoGASFaultMsg e) {
-      // TODO Auto-generated catch block
+
       e.printStackTrace();
+
     }
 
     return "redirect:/app/pratiche/ammissibilita/" + tracking.getId() + "/visualizza?save=OK";
