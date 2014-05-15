@@ -11,6 +11,7 @@ import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
+import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
@@ -71,6 +72,12 @@ public class UtilityServiceImpl implements UtilityService {
   public Integer estraiIdGenerico() {
 
     return utilityDaoSalesgate.getSeqGenericNextVal();
+  }
+
+  @Override
+  public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id, String utility) {
+
+    return utilityDaoSalesgate.getAllAnagAmmissibilita(id, utility);
   }
 
 }

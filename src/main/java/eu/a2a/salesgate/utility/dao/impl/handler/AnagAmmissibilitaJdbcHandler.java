@@ -16,6 +16,20 @@ public class AnagAmmissibilitaJdbcHandler extends JdbcHandler<AnagAmmissibilita>
     aa.setUtility(rs.getString("UTILITY"));
     aa.setCodice(rs.getString("CODICE"));
     aa.setEsito(rs.getInt("ESITO"));
+    switch (aa.getEsito()) {
+    case 0:
+      aa.setGruppo("INAMMISSIBILE");
+      break;
+    case 1:
+      aa.setGruppo("AMMISSIBILE");
+      break;
+    case 3:
+      aa.setGruppo("PRESA IN CARICO VENDITA");
+      break;
+    case 6:
+      aa.setGruppo("PRESA IN CARICO DISTRIBUZIONE");
+      break;
+    }
     return aa;
   }
 

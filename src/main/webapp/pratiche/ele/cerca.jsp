@@ -73,7 +73,8 @@
               <th class="middle">Codice Pratica Distributore</th>
               <th class="middle">Codice Distributore</th>
               <th class="middle">Stato</th>
-              <th class="middle"></th>
+              <th class="middle">Apri</th>
+              <th class="middle">Ammissibilit&agrave;</th>
             </tr>
           </thead>
           <tbody>
@@ -85,7 +86,14 @@
                 <td class="middle">${pratica.codicePraticaDl}</td>
                 <td class="middle">${pratica.fkDistributore}</td>
                 <td class="middle">${pratica.stato}</td>
-                <td class="middle"><a title="Visualizza Template" href="${pageContext.request.contextPath}/app/pratiche/ele/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                <td class="middle">
+                  <a title="Visualizza Template" href="${pageContext.request.contextPath}/app/pratiche/ele/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>
+                </td>
+                <td class="middle">  
+                  <c:if test="${pratica.stato == 'INVIATO DL'}">
+                    <a title="Inserisci Ammissibilit&agrave;" href="${pageContext.request.contextPath}/app/pratiche/ammissibilita/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>
+                  </c:if>
+                </td>
               </tr>
             </c:forEach>
           </tbody>
@@ -97,7 +105,8 @@
               <th class="middle">Codice Pratica Distributore</th>
               <th class="middle">Codice Distributore</th>
               <th class="middle">Stato</th>
-              <th class="middle"></th>
+              <th class="middle">Apri</th>
+              <th class="middle">Ammissibilit&agrave;</th>
             </tr>
           </tfoot>
         </table>

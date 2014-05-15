@@ -13,7 +13,7 @@ import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 
 public interface UtilityDAO {
 
-  List<AnagAmmissibilita> getAllAnagAmmissibilita(String id);
+  List<AnagAmmissibilita> getAllAnagAmmissibilita(String id, String utility);
 
   AnagAmmissibilita getAnagAmmissibilita(String id);
 

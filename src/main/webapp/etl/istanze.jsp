@@ -14,9 +14,31 @@
     <div class="panel-body">
       <div class="">
         <div class="row">
+          <div class="col-lg-2">
+            <span class="btn btn-default navbar-btn fileinput-button"> <i class="glyphicon glyphicon-upload"></i> <span>Carica File</span> <!-- The file input field used as target for the file upload widget -->
+              <input id="fileupload" type="file" name="files[]" multiple />
+            </span>
+          </div>
+          <div class="col-lg-4 col-lg-offset-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h6 class="panel-title">Aggiorna</h6>
+              </div>
+              <div class="panel-body">
+                <div style="padding: 10px; text-align:center;">
+                  <span class="btn btn-default navbar-btn" id="btnStop"> <i class="glyphicon glyphicon-pause"></i> <span>Stop</span></span>
+                  <span class="btn btn-default navbar-btn" id="btnStart"> <i class="glyphicon glyphicon-play"></i> <span>Start</span></span>
+                </div>
+                <div style="text-align:center;" id="progressTimer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-12">
             <fieldset>
-              <legend>Pratiche</legend>
+              <legend>Caricamenti</legend>
+              <div id="tblResultContainer">
               <table id="tblResult" class="table table-condensed table-hover unselectable" unselectable="on">
                 <thead>
                   <tr>
@@ -54,6 +76,7 @@
                   </tr>
                 </tfoot>
               </table>
+              </div>
             </fieldset>
           </div>
         </div>
@@ -84,24 +107,21 @@
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
-    function showConfirm() {
-	$('#saveConfirm').modal('show');
-    }
+  function showConfirm() {
+    $('#saveConfirm').modal('show');
+  }
 
-    $(function() {
+  $(function() {
 
-	
-	$('#btnSaveConfirm').click(function(e) {
-	    $('#distributore').submit();
-	});
-	$('#btnSaveConfirmAndSend').click(function(e) {
-	    $('#inviaSap').val('true');
-	    $('#lavoriGas').submit();
-	});
-	$('#tblResult')
-		.dataTable(
-			{
-			    sDom : "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
-			});
+    $('#btnSaveConfirm').click(function(e) {
+      $('#distributore').submit();
     });
+    $('#btnSaveConfirmAndSend').click(function(e) {
+      $('#inviaSap').val('true');
+      $('#lavoriGas').submit();
+    });
+    $('#tblResult').dataTable({
+      sDom : "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
+    });
+  });
 </script>

@@ -11,12 +11,14 @@ public class LavoriGasJdbcHandler extends JdbcHandler<LavoriGas> {
   @Override
   protected LavoriGas createObjectFromResultSet(ResultSet rs) throws SQLException {
     LavoriGas lavoriGas = new LavoriGas();
+    lavoriGas.setUtility("GAS");
     lavoriGas.setId(rs.getString("ID"));
     lavoriGas.setCodServizio(rs.getString("COD_SERVIZIO"));
     lavoriGas.setCodFlusso(rs.getString("COD_FLUSSO"));
     lavoriGas.setSistemaSorgente(rs.getString("SISTEMA_SORGENTE"));
     lavoriGas.setIdSistemaSorgente(rs.getString("ID_SISTEMA_SORGENTE"));
     lavoriGas.setPdr(rs.getString("PDR"));
+    lavoriGas.setPodPdr(rs.getString("PDR"));
     lavoriGas.setPresa(rs.getString("PRESA"));
     lavoriGas.setDataRicezione(rs.getDate("DATA_RICEZIONE"));
     lavoriGas.setDataInserimento(rs.getDate("DATA_INSERIMENTO"));

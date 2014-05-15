@@ -11,3 +11,4 @@
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/ext/vertical-tabs/vertical-tabs.css" />
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/ext/spinedit/bootstrap-spinedit.css" />
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/ext/spinbutton/ladda-themeless.min.css" />
+<link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/ext/selectize/selectize.css" />

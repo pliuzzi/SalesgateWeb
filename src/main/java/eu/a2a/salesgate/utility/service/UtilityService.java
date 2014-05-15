@@ -7,6 +7,7 @@ import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.bean.base.SiNo;
+import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 
@@ -27,5 +28,7 @@ public interface UtilityService {
   public List<AnagRichieste> estraiRichieste(String utility);
 
   public Integer estraiIdGenerico();
+
+  public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id, String utility);
 
 }

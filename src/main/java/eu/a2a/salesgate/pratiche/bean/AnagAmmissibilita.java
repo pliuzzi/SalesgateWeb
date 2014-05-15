@@ -11,6 +11,7 @@ public class AnagAmmissibilita extends CodDescBean {
   private String utility;
   private String codice;
   private int esito;
+  private String gruppo;
 
   public String getUtility() {
     return utility;
@@ -34,6 +35,14 @@ public class AnagAmmissibilita extends CodDescBean {
 
   public void setEsito(int esito) {
     this.esito = esito;
+  }
+
+  public String getGruppo() {
+    return gruppo;
+  }
+
+  public void setGruppo(String gruppo) {
+    this.gruppo = gruppo;
   }
 
 }

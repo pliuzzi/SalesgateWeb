@@ -251,4 +251,19 @@ p.indexSortable{
 }
 th, td { white-space: nowrap; }
 
+.navbarPgb{
+  max-width: 300px;
+  width:100%;
+  margin-bottom: 0px;
+}
+
+.progress-bar.five-sec-ease-in-out {
+    -webkit-transition: width 5s ease-in-out;
+    -moz-transition: width 5s ease-in-out;
+    -ms-transition: width 5s ease-in-out;
+    -o-transition: width 5s ease-in-out;
+    transition: width 5s ease-in-out;
+}
+
+
 

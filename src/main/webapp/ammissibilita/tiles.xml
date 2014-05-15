@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <definition name="app/ammissibilita/cerca" extends="app">
+    <put-attribute name="title" value="Cerca Pratica" />
+    <put-attribute name="content" value="/pratiche/ammissibilita/cerca.jsp" />
+  </definition>
+
+  <definition name="app/ammissibilita/visualizza" extends="app">
+    <put-attribute name="title" value="Visualizza Pratica" />
+    <put-attribute name="content" value="/ammissibilita/visualizza.jsp" />
+  </definition>
+
+</tiles-definitions>

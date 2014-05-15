@@ -59,19 +59,7 @@ public class PraticheGasController extends AbstractController {
     return list;
   }
 
-  /*
-   * @InitBinder
-   * 
-   * @Override public void initBinder(WebDataBinder dataBinder) {
-   * 
-   * super.initBinder(dataBinder); SimpleDateFormat sdf = new
-   * SimpleDateFormat("dd/MM/yyyy hh:mm:ss"); CustomDateEditor cde = new
-   * CustomDateEditor(sdf, true); dataBinder.registerCustomEditor(Date.class,
-   * cde);
-   * 
-   * }
-   */
-  @RequestMapping(value = "/app/pratiche/gas/cerca/{init}", method = RequestMethod.GET)
+  @RequestMapping(value = { "/app/pratiche/gas/cerca/{init}", "/app/pratiche/GAS/cerca/{init}" }, method = RequestMethod.GET)
   public String initCercaPraticaGas(@PathVariable("init") String init, Model model, WebRequest request, Principal principal, HttpSession session) {
     FiltroPraticheGas filtro = new FiltroPraticheGas();
     model.addAttribute("filtro", filtro);
@@ -84,7 +72,7 @@ public class PraticheGasController extends AbstractController {
   }
 
   @SuppressWarnings("unchecked")
-  @RequestMapping(value = "/app/pratiche/gas/cerca", method = RequestMethod.GET)
+  @RequestMapping(value = { "/app/pratiche/gas/cerca", "/app/pratiche/GAS/cerca" }, method = RequestMethod.GET)
   public String backToCercaPraticaGas(Model model, WebRequest request, Principal principal, HttpSession session) {
     FiltroPraticheGas filtro = new FiltroPraticheGas();
     model.addAttribute("filtro", filtro);

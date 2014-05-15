@@ -21,18 +21,6 @@ import eu.a2a.salesgate.distributori.dao.impl.handler.ServizioPECJdbcHandler;
 @Repository("distributoreDaoSalesgate")
 public class DistributoreDAOImpl implements DistributoreDAO {
 
-  private final static String SELECT_ALL_DISTRIBUTORI = "selectAllDistributori";
-  private final static String SELECT_DISTRIBUTORE = "selectDistributore";
-  private final static String UPDATE_DISTRIBUTORE = "updateDistributore";
-  private final static String UPDATE_CANALI = "updateCanali";
-  private final static String UPDATE_PEC = "updatePEC";
-  private final static String SELECT_PEC = "selectPEC";
-  private final static String SELECT_VERIFY_ID_DISTRIBUTORE = "selectVerifyIdDistributore";
-  private final static String SELECT_VERIFY_PIVA_DISTRIBUTORE = "selectVerifyPivaDistributore";
-  private final static String INSERT_DISTRIBUTORE = "insertDistributore";
-  private final static String INSERT_CANALI = "insertCanali";
-  private final static String INSERT_PEC = "insertPEC";
-
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;
 
@@ -53,6 +41,7 @@ public class DistributoreDAOImpl implements DistributoreDAO {
     if (!StringUtils.isEmpty(distributore.getUtility())) {
       sql += " AND utility = '" + distributore.getUtility() + "'";
     }
+    sql += " order by name asc, id asc";
 
     List<Distributore> list = jdbcTemplateSalesgate.query(sql, new DistributoreJdbcHandler().getRowMapper());
 

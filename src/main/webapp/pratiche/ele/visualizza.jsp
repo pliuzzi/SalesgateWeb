@@ -8,7 +8,7 @@
 
   <ol class="breadcrumb">
     <li><a href="${pageContext.request.contextPath}/app/home">Home</a></li>
-    <li><a href="${pageContext.request.contextPath}/app/pratiche/gas/cerca">Cerca Pratica Ele</a></li>
+    <li><a href="${pageContext.request.contextPath}/app/pratiche/ele/cerca">Cerca Pratica Ele</a></li>
     <li class="active">Visualizza Pratica</li>
   </ol>
 
@@ -143,7 +143,7 @@
             </div>
             <div class="col-lg-4" align="right">
               <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/app/pratiche/gas/cerca" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
+                <a href="${pageContext.request.contextPath}/app/pratiche/ele/cerca" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
                 <div class="btn-group" align="left">
                   <button type=button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-save"></span> Salva <span class="caret"></span>

@@ -11,12 +11,14 @@ public class LavoriEleJdbcHandler extends JdbcHandler<LavoriEle> {
   @Override
   protected LavoriEle createObjectFromResultSet(ResultSet rs) throws SQLException {
     LavoriEle lavoriEle = new LavoriEle();
+    lavoriEle.setUtility("ELE");
     lavoriEle.setId(rs.getString("ID"));
     lavoriEle.setCodServizio(rs.getString("COD_SERVIZIO"));
     lavoriEle.setCodFlusso(rs.getString("COD_FLUSSO"));
     lavoriEle.setSistemaSorgente(rs.getString("SISTEMA_SORGENTE"));
     lavoriEle.setIdSistemaSorgente(rs.getString("ID_SISTEMA_SORGENTE"));
     lavoriEle.setPod(rs.getString("POD"));
+    lavoriEle.setPodPdr(rs.getString("POD"));
     lavoriEle.setPresa(rs.getString("PRESA"));
     lavoriEle.setDataRicezione(rs.getDate("DATA_RICEZIONE"));
     lavoriEle.setDataInserimento(rs.getDate("DATA_INSERIMENTO"));

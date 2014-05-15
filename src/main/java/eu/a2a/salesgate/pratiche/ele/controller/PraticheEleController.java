@@ -71,7 +71,7 @@ public class PraticheEleController extends AbstractController {
    * 
    * }
    */
-  @RequestMapping(value = "/app/pratiche/ele/cerca/{init}", method = RequestMethod.GET)
+  @RequestMapping(value = { "/app/pratiche/ele/cerca/{init}", "/app/pratiche/ELE/cerca/{init}" }, method = RequestMethod.GET)
   public String initCercaPraticaEle(@PathVariable("init") String init, Model model, WebRequest request, Principal principal, HttpSession session) {
     FiltroPraticheEle filtro = new FiltroPraticheEle();
     model.addAttribute("filtro", filtro);
@@ -99,7 +99,7 @@ public class PraticheEleController extends AbstractController {
     return "app/pratiche/ele/cerca";
   }
 
-  @RequestMapping(value = { "/app/pratiche/ele/cerca" }, method = RequestMethod.POST)
+  @RequestMapping(value = { "/app/pratiche/ele/cerca", "/app/pratiche/ELE/cerca" }, method = RequestMethod.POST)
   public String cercaPraticaEle(@ModelAttribute("filtro") FiltroPraticheEle filtro, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     if ("-".equals(filtro.getCodiceDistributore())) {

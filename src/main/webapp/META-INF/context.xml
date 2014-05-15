@@ -1,5 +1,5 @@
 <Context path="/SalesgateWeb_PREPROD" reloadable="true">
-  <!-- PREPROD 
+  <!-- PREPROD -->
   <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource"
               username="sgusr" password="sgusr"
               url="jdbc:oracle:thin:@10.90.100.122:1521:SLGTCOLL"
@@ -17,9 +17,9 @@
               maxActive="120" maxIdle="5"
               validationQuery="select * from dual"
               poolPreparedStatements="true"/>
-  -->
   
-  <!-- PROD -->
+  
+  <!-- PROD 
   <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource"
               username="sgusr" password="sal3sgat3!"
               url="jdbc:oracle:thin:@10.90.103.126:1521:SLGTPRD"
@@ -37,5 +37,5 @@
               maxActive="120" maxIdle="5"
               validationQuery="select * from dual"
               poolPreparedStatements="true"/>
- 
+ -->
 </Context>

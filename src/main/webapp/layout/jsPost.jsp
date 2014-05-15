@@ -27,6 +27,8 @@
 <script src="${pageContext.request.contextPath}/js/ext/bootbox/bootbox.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/spinbutton/spin.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/spinbutton/ladda.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/jquery/progressTimer/jquery.progressTimer.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/selectize/selectize.js"></script>
 <script>
 	$(function() {
 		$('.form_date').datepicker({

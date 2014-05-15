@@ -32,10 +32,13 @@ public class UtilityDAOImpl implements UtilityDAO {
   JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
-  public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id) {
-    String sql = "select * from anag_ammissibilita ";
+  public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id, String utility) {
+    String sql = "select * from anag_ammissibilita where 1 = 1";
     if (id != null) {
-      sql += " where id = " + id;
+      sql += " and id = " + id;
+    }
+    if (utility != null) {
+      sql += " and utility = '" + utility + "'";
     }
     return jdbcTemplateSalesgate.query(sql, new AnagAmmissibilitaJdbcHandler().getRowMapper());
   }
@@ -43,7 +46,7 @@ public class UtilityDAOImpl implements UtilityDAO {
   @Override
   public AnagAmmissibilita getAnagAmmissibilita(String id) {
 
-    return getAllAnagAmmissibilita(id).size() > 0 ? getAllAnagAmmissibilita(id).get(0) : null;
+    return getAllAnagAmmissibilita(id, null).size() > 0 ? getAllAnagAmmissibilita(id, null).get(0) : null;
   }
 
   @Override
