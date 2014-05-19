@@ -77,10 +77,10 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
         GecoInboundCoreGASRequestDocument soapRequestDoc = GecoInboundCoreGASRequestDocument.Factory.newInstance();
 
         AnagAmmissibilita am = utilityDaoSalesgate.getAllAnagAmmissibilita(tracking.getAnagAmmissibilita().getId(), null).get(0);
-
+        String flussoDaInviare = tracking.getCodFlusso().equals("0052") ? "0101" : "0100";
         GecoInboundCoreGASRequest soapRequest = soapRequestDoc.addNewGecoInboundCoreGASRequest();
         soapRequest.setCODSERVIZIO(tracking.getCodServizio());
-        soapRequest.setCODFLUSSO("0100");
+        soapRequest.setCODFLUSSO(flussoDaInviare);
         soapRequest.setCODPRATSG(tracking.getId());
         soapRequest.setCODPRATUTENTE(tracking.getIdSistemaSorgente());
         soapRequest.setCODPRATDISTR(tracking.getCodicePraticaDl());
@@ -90,7 +90,7 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
 
         GecoInboundCoreGASResponseDocument soapResponse = gecoInboundCoreGasClient.inviaEsitoGAS(soapRequestDoc);
 
-        utilityDaoSalesgate.aggiornaAvanzamentoFlussi("0100", "RICEVUTO_DL", "I", tracking.getId());
+        utilityDaoSalesgate.aggiornaAvanzamentoFlussi(flussoDaInviare, "RICEVUTO_DL", "I", tracking.getId());
 
         logger.debug(soapResponse);
         if (soapResponse.getGecoInboundCoreGASResponse().getESITO().equals(GenericResponse.OK)) {
@@ -104,10 +104,10 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
         GecoInboundCoreELERequestDocument soapRequestDoc = GecoInboundCoreELERequestDocument.Factory.newInstance();
 
         AnagAmmissibilita am = utilityDaoSalesgate.getAllAnagAmmissibilita(tracking.getAnagAmmissibilita().getId(), null).get(0);
-
+        String flussoDaInviare = "E100";
         GecoInboundCoreELERequest soapRequest = soapRequestDoc.addNewGecoInboundCoreELERequest();
         soapRequest.setCODSERVIZIO(tracking.getCodServizio());
-        soapRequest.setCODFLUSSO("E100");
+        soapRequest.setCODFLUSSO(flussoDaInviare);
         soapRequest.setCODPRATSG(tracking.getId());
         soapRequest.setCODPRATUTENTE(tracking.getIdSistemaSorgente());
         soapRequest.setCODPRATDISTR(tracking.getCodicePraticaDl());
@@ -117,7 +117,7 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
 
         GecoInboundCoreELEResponseDocument soapResponse = gecoInboundCoreEleClient.inviaEsitoELE(soapRequestDoc);
 
-        utilityDaoSalesgate.aggiornaAvanzamentoFlussi("E100", "RICEVUTO_DL", "I", tracking.getId());
+        utilityDaoSalesgate.aggiornaAvanzamentoFlussi(flussoDaInviare, "RICEVUTO_DL", "I", tracking.getId());
 
         logger.debug(soapResponse);
         if (soapResponse.getGecoInboundCoreELEResponse().getESITO().equals(GenericResponse.OK)) {
