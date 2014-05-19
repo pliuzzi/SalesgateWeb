@@ -84,6 +84,7 @@ public class PraticheEleController extends AbstractController {
     return "app/pratiche/ele/cerca";
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(value = "/app/pratiche/ele/cerca", method = RequestMethod.GET)
   public String backToCercaPraticaEle(Model model, WebRequest request, Principal principal, HttpSession session) {
     FiltroPraticheEle filtro = new FiltroPraticheEle();

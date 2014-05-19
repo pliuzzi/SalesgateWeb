@@ -86,25 +86,25 @@ public class NormalizzatoreController extends AbstractController {
    */
 
   @RequestMapping(value = "/app/normalizzatore/cercadistributore/{init}", method = RequestMethod.GET)
-  public String initCercaDistributore(@PathVariable(value = "init") String init, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String initCercaDistributore(@PathVariable(value = "init") String init, Model model, WebRequest request, Principal principal, HttpSession session) {
     Distributore filtro = new Distributore();
     model.addAttribute("filtro", filtro);
     model.addAttribute("init", init.equals("init"));
     logger.debug(model);
-    if (init.equals("init"))
+    if (init.equals("init")) {
       session.removeAttribute("ricerca_normalizzatore_salvata");
-    else
+    } else {
       model.addAttribute("listDistributori", session.getAttribute("ricerca_normalizzatore_salvata"));
+    }
     return "app/normalizzatore/cerca";
   }
 
   @RequestMapping(value = { "/app/normalizzatore/cercadistributore" }, method = RequestMethod.POST)
-  public String cercaDistributore(@ModelAttribute("filtro") Distributore filtro, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String cercaDistributore(@ModelAttribute("filtro") Distributore filtro, Model model, WebRequest request, Principal principal, HttpSession session) {
 
-    if ("-".equals(filtro.getUtility()))
+    if ("-".equals(filtro.getUtility())) {
       filtro.setUtility("");
+    }
 
     List<Distributore> distributori = distributoreService.getDistributori(filtro);
     model.addAttribute("filtro", filtro);
@@ -122,8 +122,7 @@ public class NormalizzatoreController extends AbstractController {
    * Template
    */
   @RequestMapping(value = "/app/normalizzatore/template/{idDistr}/elenco", method = RequestMethod.GET)
-  public String visualizzaElencoTemplate(@PathVariable("idDistr") String idDistr, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String visualizzaElencoTemplate(@PathVariable("idDistr") String idDistr, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     Distributore distributore = distributoreService.getDistributore(idDistr);
     model.addAttribute("distributore", distributore);
@@ -132,7 +131,8 @@ public class NormalizzatoreController extends AbstractController {
     model.addAttribute("listDistributori", distributoreService.getDistributori(filtro));
 
     /*
-     * List<TemplateInstance> listTemplateInstance = templateService.getTemplates(id_distr, direzione);
+     * List<TemplateInstance> listTemplateInstance =
+     * templateService.getTemplates(id_distr, direzione);
      * model.addAttribute("listTemplateInstance", listTemplateInstance);
      */
 
@@ -141,13 +141,13 @@ public class NormalizzatoreController extends AbstractController {
 
   @RequestMapping(value = "/app/json/normalizzatore/template/{idDistr}/{direzione}", method = RequestMethod.GET)
   public @ResponseBody
-  Object visualizzaElencoTemplateJson(@PathVariable("idDistr") String idDistr,
-      @PathVariable("direzione") String direzione, Model model, WebRequest request, Principal principal,
-      HttpSession session) {
+  Object visualizzaElencoTemplateJson(@PathVariable("idDistr") String idDistr, @PathVariable("direzione") String direzione, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     /*
-     * Distributore distributore = distributoreService.getDistributore(id_distr); model.addAttribute("distributore",
-     * distributore); model.addAttribute("direzione", direzione);
+     * Distributore distributore =
+     * distributoreService.getDistributore(id_distr);
+     * model.addAttribute("distributore", distributore);
+     * model.addAttribute("direzione", direzione);
      */
     HashMap<String, Object> map = new HashMap<>();
     List<TemplateInstance> listTemplateInstance = templateServiceSdm.getTemplates(idDistr, direzione);
@@ -161,9 +161,7 @@ public class NormalizzatoreController extends AbstractController {
 
   @RequestMapping(value = "/app/json/normalizzatore/template/upload", method = RequestMethod.POST)
   public @ResponseBody
-  Object uploadTemplateFile(@RequestParam("files[]") MultipartFile file, @RequestParam("id") String id,
-      @RequestParam("separatore") String separatore, Model model, WebRequest request, Principal principal,
-      HttpSession session) {
+  Object uploadTemplateFile(@RequestParam("files[]") MultipartFile file, @RequestParam("id") String id, @RequestParam("separatore") String separatore, Model model, WebRequest request, Principal principal, HttpSession session) {
     HashMap<String, Object> res = new HashMap<>();
     try {
 
@@ -182,7 +180,7 @@ public class NormalizzatoreController extends AbstractController {
       if (fileType != null) {
         if (StringUtils.isEmpty(separatore) && (fileType.getId().equals("2"))) {
           res.put("codErrore", "SEP_CSV");
-          res.put("descErrore", "Il separatore Ë obbligatorio per il tipo file \"Testo Delimitato CSV \"");
+          res.put("descErrore", "Il separatore √® obbligatorio per il tipo file \"Testo Delimitato CSV \"");
         } else {
           // if(!file.getOriginalFilename().contains("debug")){
           templateServiceSdm.updateFileTemplate(id, file.getBytes(), file.getOriginalFilename(), fileType.getId());
@@ -194,7 +192,7 @@ public class NormalizzatoreController extends AbstractController {
         }
       } else {
         res.put("codErrore", "INV_FIL");
-        res.put("descErrore", "Il tipo file non Ë supportato");
+        res.put("descErrore", "Il tipo file non √® supportato");
       }
 
     } catch (IOException e) {
@@ -206,8 +204,7 @@ public class NormalizzatoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/normalizzatore/template/{id}/download", method = RequestMethod.GET)
-  public void dowloadTemplateFile(@PathVariable("id") String id, Model model, WebRequest request, Principal principal,
-      HttpSession session, HttpServletResponse response) {
+  public void dowloadTemplateFile(@PathVariable("id") String id, Model model, WebRequest request, Principal principal, HttpSession session, HttpServletResponse response) {
 
     try {
       TemplateInstance file = templateServiceSdm.getFileTemplate(id);
@@ -237,9 +234,7 @@ public class NormalizzatoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/normalizzatore/template/{idTemplate}/visualizza", method = RequestMethod.GET)
-  public String visualizzaTemplate(@PathVariable("idTemplate") String idTemplate,
-      @RequestParam(value = "save", required = false) String save, Model model, WebRequest request,
-      Principal principal, HttpSession session) {
+  public String visualizzaTemplate(@PathVariable("idTemplate") String idTemplate, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     TemplateInstance ti = templateServiceSdm.getTemplate(idTemplate);
     List<Campo> campiDisponibili = null;
@@ -256,7 +251,8 @@ public class NormalizzatoreController extends AbstractController {
     model.addAttribute("templateInstance", ti);
     model.addAttribute("campiDisponibili", campiDisponibili);
     model.addAttribute("listFileType", fileType);
-    // model.addAttribute("distributore", distributoreService.getDistributore(ti.getDistributore().getId()));
+    // model.addAttribute("distributore",
+    // distributoreService.getDistributore(ti.getDistributore().getId()));
 
     List<String> categorie = new ArrayList<>();
     Iterator<Campo> i = campiDisponibili.iterator();
@@ -279,12 +275,10 @@ public class NormalizzatoreController extends AbstractController {
   }
 
   @RequestMapping(value = { "/app/normalizzatore/template/modifica" }, method = RequestMethod.POST)
-  public String modificaTemplate(@ModelAttribute("templateInstance") TemplateInstance templateInstance,
-      BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String modificaTemplate(@ModelAttribute("templateInstance") TemplateInstance templateInstance, BindingResult result, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     Distributore distributore = distributoreService.getDistributore(templateInstance.getDistributore().getId());
-    templateInstance.setEventCode(distributore.getId() + templateInstance.getCodiceServizio().getCode()
-        + templateInstance.getCodFlusso().getId() + distributore.getUtility());
+    templateInstance.setEventCode(distributore.getId() + templateInstance.getCodiceServizio().getCode() + templateInstance.getCodFlusso().getId() + distributore.getUtility());
     templateInstanceValidatorSdm.validate(templateInstance, result);
 
     if (result.hasErrors()) {
@@ -305,8 +299,7 @@ public class NormalizzatoreController extends AbstractController {
       logger.debug(model);
       if (StringUtils.isEmpty(templateInstance.getId())) {
         List<AnagRichieste> anagRichieste = utilityServiceSdm.estraiRichieste(distributore.getUtility());
-        List<AnagFlussi> anagFlussi = utilityServiceSdm.estraiFlussi(distributore.getUtility(), templateInstance
-            .getAnagTemplate().getInOut());
+        List<AnagFlussi> anagFlussi = utilityServiceSdm.estraiFlussi(distributore.getUtility(), templateInstance.getAnagTemplate().getInOut());
         model.addAttribute("listAnagRichieste", anagRichieste);
         model.addAttribute("listAnagFlussi", anagFlussi);
         return "app/normalizzatore/template/nuovo";
@@ -323,8 +316,7 @@ public class NormalizzatoreController extends AbstractController {
   }
 
   @RequestMapping(value = "/app/normalizzatore/template/{idDistr}/{direzione}/nuovo", method = RequestMethod.GET)
-  public String nuovoTemplate(@PathVariable("direzione") String direzione, @PathVariable("idDistr") String idDistr,
-      Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String nuovoTemplate(@PathVariable("direzione") String direzione, @PathVariable("idDistr") String idDistr, Model model, WebRequest request, Principal principal, HttpSession session) {
 
     FileType csv = new FileType();
     AnagTemplate anagTemplate = new AnagTemplate();
@@ -357,10 +349,8 @@ public class NormalizzatoreController extends AbstractController {
 
   @RequestMapping(value = "/app/normalizzatore/template/clona", method = RequestMethod.GET)
   public @ResponseBody
-  Object uploadTemplateFile(@RequestParam("idTemplate") String idTemplate,
-      @RequestParam("codiceServizio") String codiceServizio, @RequestParam("codiceFlusso") String codiceFlusso,
-      @RequestParam("utility") String utility, @RequestParam("idDistributore") String idDistributore, Model model,
-      WebRequest request, Principal principal, HttpSession session) {
+  Object uploadTemplateFile(@RequestParam("idTemplate") String idTemplate, @RequestParam("codiceServizio") String codiceServizio, @RequestParam("codiceFlusso") String codiceFlusso, @RequestParam("utility") String utility,
+      @RequestParam("idDistributore") String idDistributore, Model model, WebRequest request, Principal principal, HttpSession session) {
     HashMap<String, Object> res = new HashMap<>();
 
     TemplateInstance templateInstance = templateServiceSdm.getTemplate(idTemplate);
@@ -373,15 +363,14 @@ public class NormalizzatoreController extends AbstractController {
     templateInstance.setId(null);
     Distributore distributore = distributoreService.getDistributore(idDistributore);
     templateInstance.setDistributore(distributore);
-    templateInstance.setEventCode(distributore.getId() + templateInstance.getCodiceServizio().getCode()
-        + templateInstance.getCodFlusso().getId() + distributore.getUtility());
+    templateInstance.setEventCode(distributore.getId() + templateInstance.getCodiceServizio().getCode() + templateInstance.getCodFlusso().getId() + distributore.getUtility());
     DataBinder db = new DataBinder(templateInstance);
     BindingResult result = db.getBindingResult();
     cloneTemplateInstanceValidatorSdm.validate(templateInstance, result);
 
     if (result.hasErrors()) {
       res.put("codErrore", "TEMP_DUP");
-      res.put("descErrore", "Template gi‡ esistente");
+      res.put("descErrore", "Template gi√† esistente");
     } else {
       int idTemplateNew = templateServiceSdm.insertTemplate(templateInstance);
       List<String> mappingNew = new ArrayList<>();
