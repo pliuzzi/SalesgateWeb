@@ -71,6 +71,8 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
 
     try {
 
+      GenericResponse response;
+
       if (tracking.getUtility().equals("GAS")) {
         GecoInboundCoreGASRequestDocument soapRequestDoc = GecoInboundCoreGASRequestDocument.Factory.newInstance();
 
@@ -91,6 +93,13 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
         utilityDaoSalesgate.aggiornaAvanzamentoFlussi("0100", "RICEVUTO_DL", "I", tracking.getId());
 
         logger.debug(soapResponse);
+        if (soapResponse.getGecoInboundCoreGASResponse().getESITO().equals(GenericResponse.OK)) {
+          response = GenericResponse.createGenericResponse(GenericResponse.OK, "Pratica salvata correttamente");
+        } else if (soapResponse.getGecoInboundCoreGASResponse().getESITO().equals(GenericResponse.KO)) {
+          response = GenericResponse.createGenericResponse(GenericResponse.KO, soapResponse.getGecoInboundCoreGASResponse().getMOTIVAZIONE());
+        } else {
+          response = GenericResponse.createGenericResponse(GenericResponse.ERROR, "Risposta non corretta da Salesgate --> " + soapResponse.getGecoInboundCoreGASResponse().getMOTIVAZIONE() + " contattare il supporto");
+        }
       } else {
         GecoInboundCoreELERequestDocument soapRequestDoc = GecoInboundCoreELERequestDocument.Factory.newInstance();
 
@@ -111,9 +120,15 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
         utilityDaoSalesgate.aggiornaAvanzamentoFlussi("E100", "RICEVUTO_DL", "I", tracking.getId());
 
         logger.debug(soapResponse);
+        if (soapResponse.getGecoInboundCoreELEResponse().getESITO().equals(GenericResponse.OK)) {
+          response = GenericResponse.createGenericResponse(GenericResponse.OK, "Pratica salvata correttamente");
+        } else if (soapResponse.getGecoInboundCoreELEResponse().getESITO().equals(GenericResponse.KO)) {
+          response = GenericResponse.createGenericResponse(GenericResponse.KO, soapResponse.getGecoInboundCoreELEResponse().getMOTIVAZIONE());
+        } else {
+          response = GenericResponse.createGenericResponse(GenericResponse.ERROR, "Risposta non corretta da Salesgate --> " + soapResponse.getGecoInboundCoreELEResponse().getMOTIVAZIONE() + " contattare il supporto");
+        }
       }
-
-      return GenericResponse.createGenericResponse(GenericResponse.OK, "Pratica salvata correttamente");
+      return response;
     } catch (RemoteException | InviaEsitoELEFaultMsg | InviaEsitoGASFaultMsg e) {
 
       return GenericResponse.createGenericResponse(GenericResponse.ERROR, e.getMessage(), e);

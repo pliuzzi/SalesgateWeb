@@ -24,6 +24,7 @@
         <form:hidden path="codFlusso" />
         <form:hidden path="distributore.piva" />
         <c:set var="isSent" value="${fn:substring(tracking.codFlusso, 1, 3) == '10' }"/> <!-- E100, E101, 0100, 0101 -->
+        <c:set var="isAppuntamento" value="${tracking.codFlusso == '0160' or tracking.codFlusso == '0165' or tracking.codFlusso == '0185' or tracking.codFlusso == '0190' or tracking.codFlusso == '0200' or tracking.codFlusso == '0210' or tracking.codFlusso == '0170' or tracking.codFlusso == '0175' or tracking.codFlusso == 'DispAgenda'}"/> <!-- E100, E101, 0100, 0101 -->
         <div class="">
           <c:if test="${error}">
             <div class="row">
@@ -132,7 +133,7 @@
               <fieldset>
                 <legend>Ammissibilit&agrave;</legend>
                 <spring:bind path="anagAmmissibilita.id">
-                  <div class="form-group ${status.error ? 'has-error' : (isSent ? 'has-warning' : '')}">
+                  <div class="form-group ${status.error ? 'has-error' : ((isSent or isAppuntamento) ? 'has-warning' : '')}">
                     <form:label path="${status.expression }" class="col-lg-3 control-label">Causale</form:label>
                     <div class="col-lg-9">
                       <form:select id="selectAmmissibilita" class="form-control input-sm" path="${status.expression }">
@@ -151,6 +152,10 @@
                         <!-- faccio cosi per i flusso 0100 e 0101 -->
                         <p class="help-block">Attenzione! Reinviare l&apos;ammissibilit&agrave; solo se si &egrave; stati autorizzati dal supporto tecnico per evitare incongruenze fra i sistemi.</p>
                       </c:if>
+                      <c:if test="${isAppuntamento and not status.error}">
+                        <!-- faccio cosi per i flusso 0100 e 0101 -->
+                        <p class="help-block">Attenzione! Il processo di appuntamento &egrave; in corso (flusso ${tracking.codFlusso}). Reinviare l&apos;ammissibilit&agrave; solo se si &egrave; stati autorizzati dal supporto tecnico per evitare incongruenze fra i sistemi.</p>
+                      </c:if>
                     </div>
                   </div>
                 </spring:bind>
@@ -160,7 +165,7 @@
             <div class="col-lg-2" align="right">
               <div class="btn-group">
                 <a href="${pageContext.request.contextPath}/app/pratiche/ele/cerca" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
-                <button type="submit" class="btn btn-primary">
+                <button id="btnSalva" type="button" class="btn btn-primary">
                   <span class="glyphicon glyphicon-save"></span> Salva
                 </button>
               </div>
@@ -188,8 +193,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-        <button type="button" class="btn btn-success" id="btnSaveConfirm">Salva</button>
-        <button type="button" class="btn btn-primary" id="btnSaveConfirmAndSend">Salva e invia</button>
+        <button type="button" class="btn btn-primary" id="btnSaveConfirm">Salva</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -199,6 +203,12 @@
 <!-- /.modal -->
 <script type="text/javascript">
   $(function() {
+    $('#btnSalva').on('click', function(e){
+      $('#saveConfirm').modal('show');
+    });
+    $('#btnSaveConfirm').on('click', function(e){
+      $('#tracking').submit();
+    });
     $("#selectAmmissibilita").selectize();
     //$("#selectAmmissibilita").selectize({
     //  optgroupFiled: 'gruppo',
