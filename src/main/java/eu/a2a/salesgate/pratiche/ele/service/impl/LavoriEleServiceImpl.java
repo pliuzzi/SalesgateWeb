@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.dao.DistributoreDAO;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
@@ -99,14 +100,14 @@ public class LavoriEleServiceImpl implements LavoriEleService {
   }
 
   @Override
-  public boolean savePratica(LavoriEle pratica) {
+  public GenericResponse savePratica(LavoriEle pratica) {
 
     return savePratica(pratica, false);
 
   }
 
   @Override
-  public boolean savePratica(LavoriEle pratica, boolean inviaMittente) {
+  public GenericResponse savePratica(LavoriEle pratica, boolean inviaMittente) {
 
     pratica.getLavoriEleExtension().setDettaglioVerificaEsito("");
     pratica.setCodFlusso(pratica.getFlussoAcc());
@@ -128,7 +129,9 @@ public class LavoriEleServiceImpl implements LavoriEleService {
       utilityDaoSalesgate.aggiornaAvanzamentoFlussi(pratica.getAvanzamentoFlussi().getCodFlusso(), pratica.getAvanzamentoFlussi().getStato(), pratica.getAvanzamentoFlussi().getFlagStato(), pratica.getId());
     }
 
-    return true;
+    GenericResponse response = GenericResponse.createGenericResponse(GenericResponse.OK, "Pratica salvata" + (inviaMittente ? " e inviata al sistema mittente " : " ") + "correttamente");
+
+    return response;
   }
 
 }

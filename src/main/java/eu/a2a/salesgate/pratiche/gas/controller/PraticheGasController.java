@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.service.DistributoreService;
@@ -103,7 +104,8 @@ public class PraticheGasController extends AbstractController {
   }
 
   @RequestMapping(value = { "/app/pratiche/gas/{id}/visualizza", "/app/pratiche/GAS/{id}/visualizza" }, method = RequestMethod.GET)
-  public String getPraticaGasById(@PathVariable("id") String id, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String getPraticaGasById(@PathVariable("id") String id, @RequestParam(value = "code", required = false) String code, @RequestParam(value = "message", required = false) String message, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
     // ModelAndView model = new ModelAndView("formVisualizzaPraticaGas");
 
@@ -122,8 +124,9 @@ public class PraticheGasController extends AbstractController {
     model.addAttribute("lavoriGas", pratica);
     model.addAttribute("flussiSalvabili", flussiSalvabili);
     model.addAttribute("dettaglioVerificaEsito", pratica.getLavoriGasExtension().getDettaglioVerificaEsito());
-    if ((save != null) && ("OK".equals(save))) {
-      model.addAttribute("messaggio", "Pratica salvata correttamente");
+    if (code != null) {
+      model.addAttribute("code", code);
+      model.addAttribute("message", message);
     }
 
     logger.debug(model);
@@ -145,9 +148,9 @@ public class PraticheGasController extends AbstractController {
       return "app/pratiche/gas/visualizza";
     }
 
-    lavoriGasService.savePratica(pratica, pratica.getInviaSap());
+    GenericResponse response = lavoriGasService.savePratica(pratica, pratica.getInviaSap());
 
-    return "redirect:/app/pratiche/gas/" + pratica.getId() + "/visualizza?save=OK";
+    return "redirect:/app/pratiche/gas/" + pratica.getId() + "/visualizza?code=" + response.getCode() + "&message=" + response.getMessage();
 
   }
 

@@ -36,7 +36,45 @@
         <form:hidden path="avanzamentoFlussi.flagStato" />
         <form:hidden path="avanzamentoFlussi.numReinvio" />
         <form:hidden path="inviaSap" />
-        <div class="well">
+        <div class="">
+          <c:if test="${error}">
+            <div class="row">
+              <div class="col-lg-12 ">
+                <div class="panel panel-danger" align="left" style="margin-top: 10px;">
+                  <div class="panel-heading">
+                    <strong>Attenzione!</strong> Si sono verificati i seguenti errori
+                  </div>
+                  <div class="panel-body">
+                    <form:errors path="*" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </c:if>
+          <c:if test="${not empty fn:trim(dettaglioVerificaEsito)}">
+            <div class="row">
+              <div class="col-lg-12 ">
+                <div class="panel panel-danger" align="left" style="margin-top: 10px;">
+                  <div class="panel-heading">
+                    <strong>Attenzione!</strong> La pratica &egrave; in errore
+                  </div>
+                  <div class="panel-body">
+                    <p class="form-control-static">${dettaglioVerificaEsito}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </c:if>
+          <c:if test="${not empty fn:trim(code)}">
+            <div class="row">
+              <div class="col-lg-12 ">
+                <div class="alert ${code == 'OK' ? 'alert-success' : (code == 'KO' ? 'alert-warning' : 'alert-danger') } alert-dismissable" align="left" style="margin-top: 10px;">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <span>${message}</span>
+                </div>
+              </div>
+            </div>
+          </c:if>
           <div class="row">
             <div class="col-md-4">
               <fieldset>
@@ -155,32 +193,6 @@
                   </ul>
                 </div>
               </div>
-              <c:if test="${error}">
-                <div class="panel panel-danger" align="left" style="margin-top: 10px;">
-                  <div class="panel-heading">
-                    <strong>Attenzione!</strong> Si sono verificati i seguenti errori
-                  </div>
-                  <div class="panel-body">
-                    <form:errors path="*" />
-                  </div>
-                </div>
-              </c:if>
-              <c:if test="${not empty fn:trim(dettaglioVerificaEsito)}">
-                <div class="panel panel-danger" align="left" style="margin-top: 10px;">
-                  <div class="panel-heading">
-                    <strong>Attenzione!</strong> La pratica &egrave; in errore
-                  </div>
-                  <div class="panel-body">
-                    <p class="form-control-static">${dettaglioVerificaEsito}</p>
-                  </div>
-                </div>
-              </c:if>
-              <c:if test="${not empty fn:trim(messaggio)}">
-                <div class="alert alert-success alert-dismissable" align="left" style="margin-top: 10px;">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <span>${messaggio}</span>
-                </div>
-              </c:if>
             </div>
           </div>
         </div>

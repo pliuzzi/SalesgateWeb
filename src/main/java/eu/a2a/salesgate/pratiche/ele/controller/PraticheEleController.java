@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.service.DistributoreService;
@@ -114,8 +115,8 @@ public class PraticheEleController extends AbstractController {
   }
 
   @RequestMapping(value = { "/app/pratiche/ele/{id}/visualizza", "/app/pratiche/ELE/{id}/visualizza" }, method = RequestMethod.GET)
-  public String getPraticaEleById(@PathVariable("id") String id, @RequestParam(value = "save", required = false) String save, Model model, WebRequest request, Principal principal, HttpSession session) {
-
+  public String getPraticaGasById(@PathVariable("id") String id, @RequestParam(value = "code", required = false) String code, @RequestParam(value = "message", required = false) String message, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
     // ModelAndView model = new ModelAndView("formVisualizzaPraticaGas");
 
     LavoriEle pratica = lavoriEleService.cercaPraticaPerCodiceSG(id);
@@ -133,8 +134,9 @@ public class PraticheEleController extends AbstractController {
     model.addAttribute("lavoriEle", pratica);
     model.addAttribute("flussiSalvabili", flussiSalvabili);
     model.addAttribute("dettaglioVerificaEsito", pratica.getLavoriEleExtension().getDettaglioVerificaEsito());
-    if ((save != null) && ("OK".equals(save))) {
-      model.addAttribute("messaggio", "Pratica salvata correttamente");
+    if (code != null) {
+      model.addAttribute("code", code);
+      model.addAttribute("message", message);
     }
 
     logger.debug(model);
@@ -156,9 +158,9 @@ public class PraticheEleController extends AbstractController {
       return "app/pratiche/ele/visualizza";
     }
 
-    lavoriEleService.savePratica(pratica, pratica.getInviaSap());
+    GenericResponse response = lavoriEleService.savePratica(pratica, pratica.getInviaSap());
 
-    return "redirect:/app/pratiche/ele/" + pratica.getId() + "/visualizza?save=OK";
+    return "redirect:/app/pratiche/ele/" + pratica.getId() + "/visualizza?code=" + response.getCode() + "&message=" + response.getMessage();
 
   }
 
