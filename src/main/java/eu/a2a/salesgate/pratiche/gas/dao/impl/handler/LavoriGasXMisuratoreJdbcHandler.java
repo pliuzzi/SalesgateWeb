@@ -11,7 +11,7 @@ public class LavoriGasXMisuratoreJdbcHandler extends JdbcHandler<LavoriGasXMisur
   @Override
   protected LavoriGasXMisuratore createObjectFromResultSet(ResultSet rs) throws SQLException {
     LavoriGasXMisuratore lavoriGasXMisuratore = new LavoriGasXMisuratore();
-    lavoriGasXMisuratore.setId(rs.getBigDecimal("ID"));
+    lavoriGasXMisuratore.setId(rs.getString("ID"));
     lavoriGasXMisuratore.setMatricola(rs.getString("MATRICOLA"));
     lavoriGasXMisuratore.setValoreLettura(rs.getString("VALORE_LETTURA"));
     lavoriGasXMisuratore.setDataLettura(rs.getDate("DATA_LETTURA"));

@@ -12,10 +12,11 @@ import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 import eu.a2a.salesgate.cutoff.dao.CutOffDAO;
 import eu.a2a.salesgate.cutoff.dao.impl.handler.CutOffItemJdbcHandler;
 import eu.a2a.salesgate.cutoff.dao.impl.handler.PraticaCutOffJdbcHandler;
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.StringJdbcHandler;
 
 @Repository("cutOffDaoSalesgate")
-public class CutOffDAOImpl implements CutOffDAO {
+public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;

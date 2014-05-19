@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.controller.base.AbstractController;
+
 @Controller
-public class LegacyController {
+public class LegacyController extends AbstractController {
 
   public static final String FD_USER_TOKEN = "{user}";
   public static final String FD_URL_TOKEN = "{url}";

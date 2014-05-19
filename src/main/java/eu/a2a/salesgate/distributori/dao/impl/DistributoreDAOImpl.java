@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.type.impl.BooleanType;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.bean.ServizioCanale;
@@ -19,7 +20,7 @@ import eu.a2a.salesgate.distributori.dao.impl.handler.ServizioCanaleJdbcHandler;
 import eu.a2a.salesgate.distributori.dao.impl.handler.ServizioPECJdbcHandler;
 
 @Repository("distributoreDaoSalesgate")
-public class DistributoreDAOImpl implements DistributoreDAO {
+public class DistributoreDAOImpl extends AbstractDAO implements DistributoreDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;

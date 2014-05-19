@@ -11,10 +11,11 @@ import org.springframework.validation.ValidationUtils;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 import eu.a2a.salesgate.validator.CustomValidator;
+import eu.a2a.salesgate.validator.base.AbstractValidator;
 
 @Component
 // ("LavoriGasValidator")
-public class LavoriGasValidator implements CustomValidator {
+public class LavoriGasValidator extends AbstractValidator implements CustomValidator {
 
   @Override
   public boolean supports(Class<?> praticaClass) {
@@ -38,7 +39,7 @@ public class LavoriGasValidator implements CustomValidator {
 
       CampiObbligatori campo = iterator.next();
 
-      ValidationUtils.rejectIfEmpty(errors, campo.getCampo(), "default", "Il campo " + campo.getAlert() + " è obbligatorio");
+      ValidationUtils.rejectIfEmpty(errors, campo.getCampo(), "default", "Il campo " + campo.getAlert() + " ï¿½ obbligatorio");
 
     }
 

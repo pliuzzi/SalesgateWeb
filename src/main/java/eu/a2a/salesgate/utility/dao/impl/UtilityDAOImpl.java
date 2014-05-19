@@ -10,6 +10,7 @@ import eu.a2a.salesgate.bean.AnagFlussi;
 import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
@@ -26,7 +27,7 @@ import eu.a2a.salesgate.utility.dao.impl.handler.FlussiSalvabiliJdbcHandler;
 import eu.a2a.salesgate.utility.dao.impl.handler.ParamsJdbcHandler;
 
 @Repository("utilityDaoSalesgate")
-public class UtilityDAOImpl implements UtilityDAO {
+public class UtilityDAOImpl extends AbstractDAO implements UtilityDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;

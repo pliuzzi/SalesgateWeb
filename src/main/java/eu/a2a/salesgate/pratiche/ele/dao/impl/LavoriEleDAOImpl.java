@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.pratiche.ele.bean.FiltroPraticheEle;
 import eu.a2a.salesgate.pratiche.ele.bean.LavoriEle;
 import eu.a2a.salesgate.pratiche.ele.bean.LavoriEleExtension;
@@ -22,7 +23,7 @@ import eu.a2a.salesgate.pratiche.ele.dao.impl.handler.LavoriEleXIndirizzoJdbcHan
 import eu.a2a.salesgate.pratiche.ele.dao.impl.handler.LavoriEleXMisuratoreJdbcHandler;
 
 @Repository("lavoriEleDaoSalesgate")
-public class LavoriEleDAOImpl implements LavoriEleDAO {
+public class LavoriEleDAOImpl extends AbstractDAO implements LavoriEleDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;
@@ -134,7 +135,7 @@ public class LavoriEleDAOImpl implements LavoriEleDAO {
   }
 
   private int aggiornaLavoriEleXIndirizzo(LavoriEleXIndirizzo i) {
-    if (i.getId().intValue() == 0) {
+    if (i.getId().equals("0")) {
       return 0; // se ? quello di default significa che non deve essere
     }
     // modificato

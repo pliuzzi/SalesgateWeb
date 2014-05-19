@@ -2,13 +2,13 @@ package eu.a2a.salesgate.pratiche.gas.bean;
 
 // Generated 27-set-2013 11.36.08 by Hibernate Tools 4.0.0
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class LavoriGasXIndirizzo implements java.io.Serializable {
+import eu.a2a.salesgate.bean.CodDescBean;
+
+public class LavoriGasXIndirizzo extends CodDescBean {
 
   private static final long serialVersionUID = 1L;
-  private BigDecimal id;
   private String toponimo;
   private String via;
   private String civico;
@@ -23,14 +23,6 @@ public class LavoriGasXIndirizzo implements java.io.Serializable {
   private String presso;
   private Date created;
   private Date lastUpdated;
-
-  public BigDecimal getId() {
-    return this.id;
-  }
-
-  public void setId(BigDecimal id) {
-    this.id = id;
-  }
 
   public String getToponimo() {
     return this.toponimo;

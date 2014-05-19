@@ -1,8 +1,9 @@
 package eu.a2a.salesgate.distributori.bean.factory;
 
+import eu.a2a.salesgate.base.Loggable;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 
-public class DistributoreFactory {
+public class DistributoreFactory extends Loggable {
 
   public static Distributore newEmtpyDistributore() {
     return new Distributore();

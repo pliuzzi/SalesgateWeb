@@ -20,11 +20,12 @@ import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXIndirizzo;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXMisuratore;
 import eu.a2a.salesgate.pratiche.gas.dao.LavoriGasDAO;
 import eu.a2a.salesgate.pratiche.gas.service.LavoriGasService;
+import eu.a2a.salesgate.service.base.AbstractService;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
 
 @Service
 @Transactional("transactionManagerSalesgate")
-public class LavoriGasServiceImpl implements LavoriGasService {
+public class LavoriGasServiceImpl extends AbstractService implements LavoriGasService {
 
   @Autowired
   private LavoriGasDAO lavoriGasDaoSalesgate;

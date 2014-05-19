@@ -26,8 +26,8 @@ import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.Tracking;
-import eu.a2a.salesgate.pratiche.gas.validator.AmmissibilitaValidator;
 import eu.a2a.salesgate.pratiche.service.AmmissibilitaService;
+import eu.a2a.salesgate.pratiche.validator.AmmissibilitaValidator;
 import eu.a2a.salesgate.utility.service.UtilityService;
 
 @Controller

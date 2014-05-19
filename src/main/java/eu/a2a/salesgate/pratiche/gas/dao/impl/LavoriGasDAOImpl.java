@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.pratiche.gas.bean.FiltroPraticheGas;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasExtension;
@@ -22,23 +23,7 @@ import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasXIndirizzoJdbcHan
 import eu.a2a.salesgate.pratiche.gas.dao.impl.handler.LavoriGasXMisuratoreJdbcHandler;
 
 @Repository("lavoriGasDaoSalesgate")
-public class LavoriGasDAOImpl implements LavoriGasDAO {
-
-  private final static String SELECT_LAVORI_GAS_PER_FILTRO = "selectLavoriGasFiltro";
-  private final static String SELECT_LAVORI_GAS_PER_ID = "selectLavoriGasID";
-  private final static String SELECT_LAVORI_GAS_EXTENSION_ID = "selectLavoriGasExtensionID";
-  private final static String SELECT_LAVORI_GAS_X_MISURATORE_ID = "selectLavoriGasXMisuratoreID";
-  private final static String SELECT_LAVORI_GAS_X_CLIENTE_ID = "selectLavoriGasXClienteID";
-  private final static String SELECT_LAVORI_GAS_X_INDIRIZZO_ID = "selectLavoriGasXIndirizzoID";
-
-  private final static String UPDATE_LAVORI_GAS_EXTENSION = "updateLavoriGasExtensionID";
-  private final static String UPDATE_LAVORI_GAS_X_MISURATORE_ID = "updateLavoriGasXMisuratoreID";
-  private final static String UPDATE_LAVORI_GAS_X_CLIENTE_ID = "updateLavoriGasXClienteID";
-  private final static String UPDATE_LAVORI_GAS_X_INDIRIZZO_ID = "updateLavoriGasXIndirizzoID";
-  private final static String UPDATE_LAVORI_GAS = "updateLavoriGas";
-
-  private final static String SELECT_SEQ_GENERIC = "selectSeqGenericNextVal";
-  private final static String INSERT_OR_UPDATE_LAVORI_GAS_X_CLIENTE = "insertOrUpdateClienteGas";
+public class LavoriGasDAOImpl extends AbstractDAO implements LavoriGasDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;
@@ -47,19 +32,24 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
   public List<LavoriGas> cercaPerFiltro(FiltroPraticheGas filtro) {
 
     String sql = "select * from lavori_gas where 1=1";
-    if (!StringUtils.isEmpty(filtro.getCodicePraticaSG()))
+    if (!StringUtils.isEmpty(filtro.getCodicePraticaSG())) {
       sql += " and id = '" + filtro.getCodicePraticaSG() + "'";
-    if (!StringUtils.isEmpty(filtro.getCodicePraticaUtente()))
+    }
+    if (!StringUtils.isEmpty(filtro.getCodicePraticaUtente())) {
       sql += " and id_sistema_sorgente = '" + filtro.getCodicePraticaUtente() + "'";
-    if (!StringUtils.isEmpty(filtro.getCodicePraticaDistributore()))
+    }
+    if (!StringUtils.isEmpty(filtro.getCodicePraticaDistributore())) {
       sql += " and codice_pratica_dl = '" + filtro.getCodicePraticaDistributore() + "'";
-    if (!StringUtils.isEmpty(filtro.getCodiceDistributore()))
+    }
+    if (!StringUtils.isEmpty(filtro.getCodiceDistributore())) {
       sql += " and fk_distributore = '" + filtro.getCodiceDistributore() + "'";
+    }
 
-    if (filtro.isErroreVerificaEsito())
+    if (filtro.isErroreVerificaEsito()) {
       sql += " and verifica_esito = '1'";
-    else
+    } else {
       sql += " and verifica_esito = '0'";
+    }
 
     jdbcTemplateSalesgate.setMaxRows(1000);
     List<LavoriGas> list = jdbcTemplateSalesgate.query(sql, new LavoriGasJdbcHandler().getRowMapper());
@@ -76,32 +66,28 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
   @Override
   public LavoriGasExtension estraiLavoriGasExtension(String codicePraticaSG) {
     String sql = "select * from lavori_gas_extension where fk_lavori_gas = '" + codicePraticaSG + "'";
-    LavoriGasExtension lavoriGasExtension = jdbcTemplateSalesgate.query(sql,
-        new LavoriGasExtensionJdbcHandler().getResultSetExtractor());
+    LavoriGasExtension lavoriGasExtension = jdbcTemplateSalesgate.query(sql, new LavoriGasExtensionJdbcHandler().getResultSetExtractor());
     return lavoriGasExtension;
   }
 
   @Override
   public LavoriGasXMisuratore estraiLavoriGasXMisuratore(String id) {
     String sql = "select * from lavori_gas_x_misuratore where id = " + id;
-    LavoriGasXMisuratore lavoriGasXMisuratore = jdbcTemplateSalesgate.query(sql,
-        new LavoriGasXMisuratoreJdbcHandler().getResultSetExtractor());
+    LavoriGasXMisuratore lavoriGasXMisuratore = jdbcTemplateSalesgate.query(sql, new LavoriGasXMisuratoreJdbcHandler().getResultSetExtractor());
     return lavoriGasXMisuratore;
   }
 
   @Override
   public LavoriGasXIndirizzo estraiLavoriGasXIndirizzo(String id) {
     String sql = "select * from lavori_gas_x_indirizzo where id = " + id;
-    LavoriGasXIndirizzo lavoriGasXIndirizzo = jdbcTemplateSalesgate.query(sql,
-        new LavoriGasXIndirizzoJdbcHandler().getResultSetExtractor());
+    LavoriGasXIndirizzo lavoriGasXIndirizzo = jdbcTemplateSalesgate.query(sql, new LavoriGasXIndirizzoJdbcHandler().getResultSetExtractor());
     return lavoriGasXIndirizzo;
   }
 
   @Override
   public LavoriGasXCliente estraiLavoriGasXCliente(String id) {
     String sql = "select * from lavori_gas_x_cliente where id = " + id;
-    LavoriGasXCliente lavoriGasXCliente = jdbcTemplateSalesgate.query(sql,
-        new LavoriGasXClienteJdbcHandler().getResultSetExtractor());
+    LavoriGasXCliente lavoriGasXCliente = jdbcTemplateSalesgate.query(sql, new LavoriGasXClienteJdbcHandler().getResultSetExtractor());
     return lavoriGasXCliente;
   }
 
@@ -127,17 +113,14 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
     int nRowsMisuratoreCliente = aggiornaLavoriGasXMisuratore(pratica.getLavoriGasExtension().getMisuratoreCliente());
     int nRowsMisuratoreRim = aggiornaLavoriGasXMisuratore(pratica.getLavoriGasExtension().getMisuratoreRim());
     int nRowsConvertitore = aggiornaLavoriGasXMisuratore(pratica.getLavoriGasExtension().getConvertitore());
-    int nRowsConvertitoreCliente = aggiornaLavoriGasXMisuratore(pratica.getLavoriGasExtension()
-        .getConvertitoreCliente());
+    int nRowsConvertitoreCliente = aggiornaLavoriGasXMisuratore(pratica.getLavoriGasExtension().getConvertitoreCliente());
     int nRowsConvertitoreRim = aggiornaLavoriGasXMisuratore(pratica.getLavoriGasExtension().getConvertitoreRim());
 
     int nRowsLavoriGasExtension = aggiornaLavoriGasExtension(pratica.getLavoriGasExtension());
 
     pratica.setVerificaEsito(new BigDecimal(0));
-    String sql = "UPDATE LAVORI_GAS "
-        + " SET CODICE_PRATICA_DL = NVL(CODICE_PRATICA_DL, ?), STATO = ?, VERIFICA_ESITO = ?" + " WHERE ID = ?";
-    jdbcTemplateSalesgate.update(sql, pratica.getCodicePraticaDl(), pratica.getStato(), pratica.getVerificaEsito(),
-        pratica.getId());
+    String sql = "UPDATE LAVORI_GAS " + " SET CODICE_PRATICA_DL = NVL(CODICE_PRATICA_DL, ?), STATO = ?, VERIFICA_ESITO = ?" + " WHERE ID = ?";
+    jdbcTemplateSalesgate.update(sql, pratica.getCodicePraticaDl(), pratica.getStato(), pratica.getVerificaEsito(), pratica.getId());
 
   }
 
@@ -167,88 +150,59 @@ public class LavoriGasDAOImpl implements LavoriGasDAO {
         + " DATA_RICEZIONE = ?, LISTA_ALLEGATI = ?, DATA_FORN = ?, RESOCONTO = ?, NOTE_APP_VEND = ?, NOTE_APP_DISTR = ?, STATO_ELABORAZIONE = ?,"
         + " FLAG_NECESSARIO = ?, FLAG_VENDITORE = ?, GEST_APP = ?, TIPO_LAVORO = ?, FLAG_PRIMARIO = ?, DATA_CONFERMA_AMMISSIBILITA = ?, DATA_EVASIONE_DL = ?,"
         + " DATA_CONCLUSIONE_RICHIESTA = ?, DETTAGLIO_VERIFICA_ESITO = ?, STRUTTURA_DATI_TECNICI = ?, REVOCA_DISATTIVAZIONE = ?, SOSP_POT_PERICOLO = ?,"
-        + " TIPOLOGIA_APPARTENENZA = ?, DATA_RICEZIONE_BONUS = ?, COD_ERRORE_AGENDA = ?, MOTIVAZIONE_AGENDA = ?,  STATO_AMMISIBILITA = ?, COD_PRAT_VN1 = ?"
-        + " WHERE FK_LAVORI_GAS = ?";
-    int nRows = jdbcTemplateSalesgate.update(sql, lge.getCodiceFlusso(), lge.getIdRichiestaCrm(),
-        lge.getCodiceContratto(), lge.getSegmentoCliente(), lge.getDataRicRichiesta(), lge.getNPdrAttivi(),
-        lge.getPdrTipo(), lge.getPdrCodProfPrel(), lge.getCodiceRemi(), lge.getPressioneMisura(), lge.getMaxPrelOra(),
-        lge.getMaxPotUtilizzazione(), lge.getCategoriaUso(), lge.getDescCategoriaUso(), lge.getClassePrelievo(),
-        lge.getDescClassePrelievo(), lge.getPrelAnnuoPrev(), lge.getPotMaxRichiesta(), lge.getPotTotInst(),
-        lge.getRilevanza(), lge.getValoreLettura(), lge.getDataLettura(), lge.getTipoLettura(),
-        lge.getValoreLetturaCl(), lge.getDataLetturaCl(), lge.getTipoLetturaCl(), lge.getReclamo(),
-        lge.getRifReclamo(), lge.getDatiTecnRic(), lge.getRifQuesiti(), lge.getConfermaCliente(),
-        lge.getNumeroRinvio(), lge.getDataVoltura(), lge.getVolumiAnnui(), lge.getCompetenzaLettura(),
-        lge.getDescCompetenzaLettura(), lge.getPeriodLettura(), lge.getDescPeriodLettura(), lge.getQualificaClf(),
-        lge.getDescQualificaClf(), lge.getResponsabileImpianto(), lge.getTelefonoRespImpianto(),
-        lge.getNominativoUtf(), lge.getMotivazione(), lge.getDataEsecLavori(), lge.getInstMis(), lge.getInstConv(),
-        lge.getIndInvioDocum(), lge.getDataRicezDocum(), lge.getDocumMancante(), lge.getRifComunicDocum(),
-        lge.getNoteAmm(), lge.getEsitoDocum(), lge.getDataAccertDocum(), lge.getDataSosp(), lge.getRifComunSosp(),
-        lge.getDataAnnullam(), lge.getCausaleAnnullam(), lge.getStimaTempiVerif(), lge.getNomeRespVerif(),
-        lge.getCognomeRespVerif(), lge.getTel1Verif(), lge.getTel2Verif(), lge.getVerifLabVerif(),
-        lge.getDataSostVerif(), lge.getCausaleLabVerif(), lge.getRifResocontoVerif(), lge.getValoreLettVerif(),
-        lge.getDataLettVerif(), lge.getTipoLettverif(), lge.getCodPrevDl(), lge.getDataInvioPrev(),
-        lge.getDataRicPrev(), lge.getDataScadPrev(), lge.getCostoPrev(), lge.getCostoLabPrev(),
-        lge.getDataAppuntamento(), lge.getFasciaAppuntamento(), lge.getPivaSocietaRichiedente(),
-        lge.getNumeroRichiestaVenditore(), lge.getNumeroServizioVenditore(), lge.getPdfVenditore(), lge.getNoteEsito(),
-        lge.getEsito(), lge.getNumeroRinvioDl(), lge.getFlgModifica(), lge.getTipologiaVoltura(),
-        lge.getTipologiaPdr(), lge.getAliquotaIva(), lge.getImposteAgevolate(), lge.getGestoreCalore(), lge.getNote(),
-        lge.getDatiFatturazione(), lge.getErogServEner(), lge.getNuovoTentativo(), lge.getAppuntamento(),
-        lge.getTipoServizio(), lge.getRichVarDati(), lge.getCodRinSosMor(), lge.getCodPrevMor(), lge.getNessIntGiud(),
-        lge.getTipologiaUtenza(), lge.getMortisCausa(), lge.getCodTipPre(), lge.getDescLavoro(), lge.getPotTotUtil(),
-        lge.getMeseComp(), lge.getAutoLettFatt(), lge.getNumChiave(), lge.getDaEseguireNonPrimaDel(),
-        lge.getCodiceApp(), lge.getPotMaxCliente(), lge.getTipoAnomaliaCodificata(), lge.getEsitoConferma(),
-        lge.getEsitoValAutolettura(), lge.getCausaleNonValAutolettura(), lge.getDataSopralluogo(), lge.getIndDistr(),
-        lge.getClasseGruppoMis(), lge.getEsitoAccertamento(), lge.getEsitoBase(), lge.getEsitoProcesso(),
-        lge.getDataAttivazione(), lge.getDataIntervento(), lge.getDataPrevSost(), lge.getDataTentativo(),
-        lge.getDataVerifica(), lge.getClasseNuovoMis(), lge.getCodProfiloPrel(), lge.getCodPratRif(), lge.getAccMis(),
-        lge.getAnnoFabbMis(), lge.getAnnoFabbGdm(), lge.getAnnoFabNuovoMis(), lge.getAttiAutorizzativi(), lge.getIva(),
-        lge.getAddebitoOneri(), lge.getCoeffCorr(), lge.getOnOff(), lge.getRifComL(), lge.getRifPreventivo(),
-        lge.getRifRispQuesiti(), lge.getCauseLab(), lge.getDataUltimaVer(), lge.getCostoLoco(), lge.getDataMaxConf(),
-        lge.getAlimentBp(), lge.getDataApp(), lge.getAutoletturaFinestra(), lge.getDataRicezione(),
-        lge.getListaAllegati(), lge.getDataForn(), lge.getResoconto(), lge.getNoteAppVend(), lge.getNoteAppDistr(),
-        lge.getStatoElaborazione(), lge.getFlagNecessario(), lge.getFlagVenditore(), lge.getGestApp(),
-        lge.getTipoLavoro(), lge.getFlagPrimario(), lge.getDataConfermaAmmissibilita(), lge.getDataEvasioneDl(),
-        lge.getDataConclusioneRichiesta(), lge.getDettaglioVerificaEsito(), lge.getStrutturaDatiTecnici(),
-        lge.getRevocaDisattivazione(), lge.getSospPotPericolo(), lge.getTipologiaAppartenenza(),
-        lge.getDataRicezioneBonus(), lge.getCodErroreAgenda(), lge.getMotivazioneAgenda(), lge.getStatoAmmisibilita(),
-        lge.getCodPratVn1(), lge.getFkLavoriGas());
+        + " TIPOLOGIA_APPARTENENZA = ?, DATA_RICEZIONE_BONUS = ?, COD_ERRORE_AGENDA = ?, MOTIVAZIONE_AGENDA = ?,  STATO_AMMISIBILITA = ?, COD_PRAT_VN1 = ?" + " WHERE FK_LAVORI_GAS = ?";
+    int nRows = jdbcTemplateSalesgate.update(sql, lge.getCodiceFlusso(), lge.getIdRichiestaCrm(), lge.getCodiceContratto(), lge.getSegmentoCliente(), lge.getDataRicRichiesta(), lge.getNPdrAttivi(), lge.getPdrTipo(),
+        lge.getPdrCodProfPrel(), lge.getCodiceRemi(), lge.getPressioneMisura(), lge.getMaxPrelOra(), lge.getMaxPotUtilizzazione(), lge.getCategoriaUso(), lge.getDescCategoriaUso(), lge.getClassePrelievo(), lge.getDescClassePrelievo(),
+        lge.getPrelAnnuoPrev(), lge.getPotMaxRichiesta(), lge.getPotTotInst(), lge.getRilevanza(), lge.getValoreLettura(), lge.getDataLettura(), lge.getTipoLettura(), lge.getValoreLetturaCl(), lge.getDataLetturaCl(),
+        lge.getTipoLetturaCl(), lge.getReclamo(), lge.getRifReclamo(), lge.getDatiTecnRic(), lge.getRifQuesiti(), lge.getConfermaCliente(), lge.getNumeroRinvio(), lge.getDataVoltura(), lge.getVolumiAnnui(), lge.getCompetenzaLettura(),
+        lge.getDescCompetenzaLettura(), lge.getPeriodLettura(), lge.getDescPeriodLettura(), lge.getQualificaClf(), lge.getDescQualificaClf(), lge.getResponsabileImpianto(), lge.getTelefonoRespImpianto(), lge.getNominativoUtf(),
+        lge.getMotivazione(), lge.getDataEsecLavori(), lge.getInstMis(), lge.getInstConv(), lge.getIndInvioDocum(), lge.getDataRicezDocum(), lge.getDocumMancante(), lge.getRifComunicDocum(), lge.getNoteAmm(), lge.getEsitoDocum(),
+        lge.getDataAccertDocum(), lge.getDataSosp(), lge.getRifComunSosp(), lge.getDataAnnullam(), lge.getCausaleAnnullam(), lge.getStimaTempiVerif(), lge.getNomeRespVerif(), lge.getCognomeRespVerif(), lge.getTel1Verif(),
+        lge.getTel2Verif(), lge.getVerifLabVerif(), lge.getDataSostVerif(), lge.getCausaleLabVerif(), lge.getRifResocontoVerif(), lge.getValoreLettVerif(), lge.getDataLettVerif(), lge.getTipoLettverif(), lge.getCodPrevDl(),
+        lge.getDataInvioPrev(), lge.getDataRicPrev(), lge.getDataScadPrev(), lge.getCostoPrev(), lge.getCostoLabPrev(), lge.getDataAppuntamento(), lge.getFasciaAppuntamento(), lge.getPivaSocietaRichiedente(),
+        lge.getNumeroRichiestaVenditore(), lge.getNumeroServizioVenditore(), lge.getPdfVenditore(), lge.getNoteEsito(), lge.getEsito(), lge.getNumeroRinvioDl(), lge.getFlgModifica(), lge.getTipologiaVoltura(), lge.getTipologiaPdr(),
+        lge.getAliquotaIva(), lge.getImposteAgevolate(), lge.getGestoreCalore(), lge.getNote(), lge.getDatiFatturazione(), lge.getErogServEner(), lge.getNuovoTentativo(), lge.getAppuntamento(), lge.getTipoServizio(), lge.getRichVarDati(),
+        lge.getCodRinSosMor(), lge.getCodPrevMor(), lge.getNessIntGiud(), lge.getTipologiaUtenza(), lge.getMortisCausa(), lge.getCodTipPre(), lge.getDescLavoro(), lge.getPotTotUtil(), lge.getMeseComp(), lge.getAutoLettFatt(),
+        lge.getNumChiave(), lge.getDaEseguireNonPrimaDel(), lge.getCodiceApp(), lge.getPotMaxCliente(), lge.getTipoAnomaliaCodificata(), lge.getEsitoConferma(), lge.getEsitoValAutolettura(), lge.getCausaleNonValAutolettura(),
+        lge.getDataSopralluogo(), lge.getIndDistr(), lge.getClasseGruppoMis(), lge.getEsitoAccertamento(), lge.getEsitoBase(), lge.getEsitoProcesso(), lge.getDataAttivazione(), lge.getDataIntervento(), lge.getDataPrevSost(),
+        lge.getDataTentativo(), lge.getDataVerifica(), lge.getClasseNuovoMis(), lge.getCodProfiloPrel(), lge.getCodPratRif(), lge.getAccMis(), lge.getAnnoFabbMis(), lge.getAnnoFabbGdm(), lge.getAnnoFabNuovoMis(),
+        lge.getAttiAutorizzativi(), lge.getIva(), lge.getAddebitoOneri(), lge.getCoeffCorr(), lge.getOnOff(), lge.getRifComL(), lge.getRifPreventivo(), lge.getRifRispQuesiti(), lge.getCauseLab(), lge.getDataUltimaVer(), lge.getCostoLoco(),
+        lge.getDataMaxConf(), lge.getAlimentBp(), lge.getDataApp(), lge.getAutoletturaFinestra(), lge.getDataRicezione(), lge.getListaAllegati(), lge.getDataForn(), lge.getResoconto(), lge.getNoteAppVend(), lge.getNoteAppDistr(),
+        lge.getStatoElaborazione(), lge.getFlagNecessario(), lge.getFlagVenditore(), lge.getGestApp(), lge.getTipoLavoro(), lge.getFlagPrimario(), lge.getDataConfermaAmmissibilita(), lge.getDataEvasioneDl(),
+        lge.getDataConclusioneRichiesta(), lge.getDettaglioVerificaEsito(), lge.getStrutturaDatiTecnici(), lge.getRevocaDisattivazione(), lge.getSospPotPericolo(), lge.getTipologiaAppartenenza(), lge.getDataRicezioneBonus(),
+        lge.getCodErroreAgenda(), lge.getMotivazioneAgenda(), lge.getStatoAmmisibilita(), lge.getCodPratVn1(), lge.getFkLavoriGas());
     return nRows;
   }
 
   private int aggiornaLavoriGasXCliente(LavoriGasXCliente c) {
     // if (lavoriGasXCliente.getId().intValue() == 0)
-    // return 0; // se è quello di default significa che non deve essere
+    // return 0; // se ï¿½ quello di default significa che non deve essere
     // modificato
-    String sql = "UPDATE LAVORI_GAS_X_CLIENTE SET NOME = ?, COGNOME  = ?, RAGIONE_SOCIALE = ?, PIVA = ?, COD_FIS = ?, TELEFONO = ?, "
-        + " CELLULARE = ?, EMAIL = ?, FAX  = ? WHERE  ID = ?";
-    int nRows = jdbcTemplateSalesgate.update(sql, c.getNome(), c.getCognome(), c.getRagioneSociale(), c.getPiva(),
-        c.getCodFis(), c.getTelefono(), c.getCellulare(), c.getEmail(), c.getFax(), c.getId());
+    String sql = "UPDATE LAVORI_GAS_X_CLIENTE SET NOME = ?, COGNOME  = ?, RAGIONE_SOCIALE = ?, PIVA = ?, COD_FIS = ?, TELEFONO = ?, " + " CELLULARE = ?, EMAIL = ?, FAX  = ? WHERE  ID = ?";
+    int nRows = jdbcTemplateSalesgate.update(sql, c.getNome(), c.getCognome(), c.getRagioneSociale(), c.getPiva(), c.getCodFis(), c.getTelefono(), c.getCellulare(), c.getEmail(), c.getFax(), c.getId());
     return nRows;
 
   }
 
   private int aggiornaLavoriGasXIndirizzo(LavoriGasXIndirizzo i) {
-    if (i.getId().intValue() == 0)
-      return 0; // se è quello di default significa che non deve essere
+    if (i.getId().equals("0")) {
+      return 0; // se ï¿½ quello di default significa che non deve essere
+    }
     // modificato
-    String sql = "UPDATE LAVORI_GAS_X_INDIRIZZO SET TOPONIMO = ?, VIA = ?, CIVICO= ?, SCALA = ?, PIANO = ?, INTERNO  = ?, "
-        + "CAP = ?, ISTAT = ?, COMUNE = ?, PROVINCIA = ?, NAZIONE = ?, PRESSO = ? WHERE ID = ?";
-    int nRows = jdbcTemplateSalesgate.update(sql, i.getToponimo(), i.getVia(), i.getCivico(), i.getScala(),
-        i.getPiano(), i.getInterno(), i.getCap(), i.getIstat(), i.getComune(), i.getProvincia(), i.getNazione(),
-        i.getPresso(), i.getId());
+    String sql = "UPDATE LAVORI_GAS_X_INDIRIZZO SET TOPONIMO = ?, VIA = ?, CIVICO= ?, SCALA = ?, PIANO = ?, INTERNO  = ?, " + "CAP = ?, ISTAT = ?, COMUNE = ?, PROVINCIA = ?, NAZIONE = ?, PRESSO = ? WHERE ID = ?";
+    int nRows = jdbcTemplateSalesgate.update(sql, i.getToponimo(), i.getVia(), i.getCivico(), i.getScala(), i.getPiano(), i.getInterno(), i.getCap(), i.getIstat(), i.getComune(), i.getProvincia(), i.getNazione(), i.getPresso(), i.getId());
     return nRows;
   }
 
   private int aggiornaLavoriGasXMisuratore(LavoriGasXMisuratore m) {
-    if (m.getId().intValue() == 0)
-      return 0; // se è quello di default significa che non deve essere
+    if (m.getId().equals("0")) {
+      return 0; // se ï¿½ quello di default significa che non deve essere
+    }
     // modificato
     String sql = "UPDATE LAVORI_GAS_X_MISURATORE SET MATRICOLA = ?, VALORE_LETTURA = ?, DATA_LETTURA = ?, TIPO_LETTURA = ?, "
-        + " SEGN = ?, SOSTITUZIONE = ?, RIMOZIONE = ?, N_CIFRE = ?, STATO = ?, DATA_AUTOLETTURA = ?, VALORE_AUTOLETTURA = ?, "
-        + " DATA_DISATTIVAZIONE = ? WHERE ID = ?";
-    int nRows = jdbcTemplateSalesgate.update(sql, m.getMatricola(), m.getValoreLettura(), m.getDataAutolettura(),
-        m.getTipoLettura(), m.getSegn(), m.getSostituzione(), m.getRimozione(), m.getNCifre(), m.getStato(),
-        m.getDataAutolettura(), m.getValoreAutolettura(), m.getDataDisattivazione(), m.getId());
+        + " SEGN = ?, SOSTITUZIONE = ?, RIMOZIONE = ?, N_CIFRE = ?, STATO = ?, DATA_AUTOLETTURA = ?, VALORE_AUTOLETTURA = ?, " + " DATA_DISATTIVAZIONE = ? WHERE ID = ?";
+    int nRows = jdbcTemplateSalesgate.update(sql, m.getMatricola(), m.getValoreLettura(), m.getDataAutolettura(), m.getTipoLettura(), m.getSegn(), m.getSostituzione(), m.getRimozione(), m.getNCifre(), m.getStato(), m.getDataAutolettura(),
+        m.getValoreAutolettura(), m.getDataDisattivazione(), m.getId());
     return nRows;
   }
 

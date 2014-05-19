@@ -23,11 +23,12 @@ import eu.a2a.salesgate.cutoff.dao.CutOffDAO;
 import eu.a2a.salesgate.cutoff.helper.CutOffHelper;
 import eu.a2a.salesgate.cutoff.service.CutOffService;
 import eu.a2a.salesgate.files.bean.Files;
+import eu.a2a.salesgate.service.base.AbstractService;
 import eu.a2a.salesgate.template.bean.TemplateInstance;
 import eu.a2a.salesgate.template.service.TemplateService;
 
 @Service("cutOffServiceSalesgate")
-public class CutOffServiceImpl implements CutOffService {
+public class CutOffServiceImpl extends AbstractService implements CutOffService {
 
   @Autowired
   private CutOffDAO cutOffDaoSalesgate;

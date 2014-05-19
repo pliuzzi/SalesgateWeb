@@ -10,10 +10,11 @@ import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.bean.ServizioPEC;
 import eu.a2a.salesgate.distributori.dao.DistributoreDAO;
 import eu.a2a.salesgate.distributori.service.DistributoreService;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service("distributoriServiceSalesgate")
 @Transactional("transactionManagerSalesgate")
-public class DistributoreServiceImpl implements DistributoreService {
+public class DistributoreServiceImpl extends AbstractService implements DistributoreService {
 
   @Autowired
   private DistributoreDAO distributoreDaoSalesgate;

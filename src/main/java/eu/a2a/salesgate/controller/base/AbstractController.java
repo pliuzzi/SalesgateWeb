@@ -7,9 +7,9 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import eu.a2a.salesgate.base.LoggableObject;
+import eu.a2a.salesgate.base.Loggable;
 
-public abstract class AbstractController extends LoggableObject {
+public abstract class AbstractController extends Loggable {
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {

@@ -6,9 +6,10 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import eu.a2a.salesgate.distributori.bean.Distributore;
+import eu.a2a.salesgate.validator.base.AbstractValidator;
 
 @Component
-public class DistributoreValidator implements Validator {
+public class DistributoreValidator extends AbstractValidator implements Validator {
 
   @Override
   public boolean supports(Class<?> distributoreClass) {
@@ -20,9 +21,9 @@ public class DistributoreValidator implements Validator {
 
     Distributore distributore = (Distributore) target;
 
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "default", "Il campo Ragione Sociale è obbligatorio");
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "piva", "default", "Il campo Partita IVA è obbligatorio");
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "utility", "default", "Il campo Utility è obbligatorio");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "default", "Il campo Ragione Sociale ï¿½ obbligatorio");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "piva", "default", "Il campo Partita IVA ï¿½ obbligatorio");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "utility", "default", "Il campo Utility ï¿½ obbligatorio");
 
   }
 

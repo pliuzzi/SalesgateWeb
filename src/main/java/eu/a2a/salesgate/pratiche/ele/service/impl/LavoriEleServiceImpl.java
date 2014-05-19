@@ -20,11 +20,12 @@ import eu.a2a.salesgate.pratiche.ele.bean.LavoriEleXIndirizzo;
 import eu.a2a.salesgate.pratiche.ele.bean.LavoriEleXMisuratore;
 import eu.a2a.salesgate.pratiche.ele.dao.LavoriEleDAO;
 import eu.a2a.salesgate.pratiche.ele.service.LavoriEleService;
+import eu.a2a.salesgate.service.base.AbstractService;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
 
 @Service
 @Transactional("transactionManagerSalesgate")
-public class LavoriEleServiceImpl implements LavoriEleService {
+public class LavoriEleServiceImpl extends AbstractService implements LavoriEleService {
 
   @Autowired
   private LavoriEleDAO lavoriEleDaoSalesgate;

@@ -1,4 +1,4 @@
-package eu.a2a.salesgate.pratiche.gas.validator;
+package eu.a2a.salesgate.pratiche.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -7,9 +7,10 @@ import org.springframework.validation.Validator;
 import org.springframework.web.util.HtmlUtils;
 
 import eu.a2a.salesgate.pratiche.bean.Tracking;
+import eu.a2a.salesgate.validator.base.AbstractValidator;
 
 @Component
-public class AmmissibilitaValidator implements Validator {
+public class AmmissibilitaValidator extends AbstractValidator implements Validator {
 
   @Override
   public boolean supports(Class<?> obj) {

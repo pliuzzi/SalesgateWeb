@@ -26,11 +26,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.files.bean.Files;
 import eu.a2a.salesgate.files.service.FilesService;
 
 @Controller
-public class FilesController {
+public class FilesController extends AbstractController {
 
   @Autowired
   private FilesService filesServiceSalesgate;

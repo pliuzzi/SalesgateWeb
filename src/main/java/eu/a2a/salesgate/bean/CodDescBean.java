@@ -2,9 +2,9 @@ package eu.a2a.salesgate.bean;
 
 import java.io.Serializable;
 
-import eu.a2a.salesgate.bean.base.BaseBean;
+import eu.a2a.salesgate.bean.base.AbstractBean;
 
-public class CodDescBean extends BaseBean implements Serializable {
+public class CodDescBean extends AbstractBean implements Serializable {
 
   /**
 	 * 

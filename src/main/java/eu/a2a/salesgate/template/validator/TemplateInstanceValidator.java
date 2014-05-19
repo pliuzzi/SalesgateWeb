@@ -8,9 +8,10 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import eu.a2a.salesgate.template.bean.TemplateInstance;
+import eu.a2a.salesgate.validator.base.AbstractValidator;
 
 @Component("templateInstanceValidatorSalesgate")
-public class TemplateInstanceValidator implements Validator {
+public class TemplateInstanceValidator extends AbstractValidator implements Validator {
 
   @Autowired
   Validator cloneTemplateInstanceValidatorSalesgate;
@@ -25,8 +26,9 @@ public class TemplateInstanceValidator implements Validator {
 
     TemplateInstance ti = (TemplateInstance) target;
 
-    if (StringUtils.isEmpty(ti.getId()))
+    if (StringUtils.isEmpty(ti.getId())) {
       ValidationUtils.invokeValidator(cloneTemplateInstanceValidatorSalesgate, target, errors);
+    }
 
     if (StringUtils.isEmpty(ti.getCodiceServizio().getCode())) {
       errors.rejectValue("codiceServizio.code", "required", "Selezionare il codice servizio");
@@ -35,18 +37,14 @@ public class TemplateInstanceValidator implements Validator {
       errors.rejectValue("codFlusso.id", "required", "Selezionare il codice flusso");
     }
 
-    if ((ti.getAnagTemplate().getFirstRow() == null)
-        || (StringUtils.isEmpty(ti.getAnagTemplate().getFirstRow().toString()))) {
+    if ((ti.getAnagTemplate().getFirstRow() == null) || (StringUtils.isEmpty(ti.getAnagTemplate().getFirstRow().toString()))) {
       errors.rejectValue("anagTemplate.firstRow", "required", "Indicare l'inizio riga del file");
     }
-    if ((ti.getAnagTemplate().getnMaxRighe() == null)
-        || (StringUtils.isEmpty(ti.getAnagTemplate().getnMaxRighe().toString()))) {
+    if ((ti.getAnagTemplate().getnMaxRighe() == null) || (StringUtils.isEmpty(ti.getAnagTemplate().getnMaxRighe().toString()))) {
       errors.rejectValue("anagTemplate.nMaxRighe", "required", "Indicare il numero massimo di record del file");
     }
-    if ((ti.getAnagTemplate().getSeparatore() == null) || (StringUtils.isEmpty(ti.getAnagTemplate().getSeparatore()))
-        && (ti.getAnagTemplate().getFileType().getId().equals("2"))) {
-      errors.rejectValue("anagTemplate.separatore", "required",
-          "Il separatore è obbligatorio se il tipo file è \"Testo Delimitato CSV\"");
+    if ((ti.getAnagTemplate().getSeparatore() == null) || (StringUtils.isEmpty(ti.getAnagTemplate().getSeparatore())) && (ti.getAnagTemplate().getFileType().getId().equals("2"))) {
+      errors.rejectValue("anagTemplate.separatore", "required", "Il separatore ï¿½ obbligatorio se il tipo file ï¿½ \"Testo Delimitato CSV\"");
     }
   }
 

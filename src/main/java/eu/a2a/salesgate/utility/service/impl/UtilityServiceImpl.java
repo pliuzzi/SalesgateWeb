@@ -14,12 +14,13 @@ import eu.a2a.salesgate.bean.base.SiNo;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
+import eu.a2a.salesgate.service.base.AbstractService;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
 import eu.a2a.salesgate.utility.service.UtilityService;
 
 @Service("utilityServiceSalesgate")
 @Transactional("transactionManagerSalesgate")
-public class UtilityServiceImpl implements UtilityService {
+public class UtilityServiceImpl extends AbstractService implements UtilityService {
 
   @Autowired
   private UtilityDAO utilityDaoSalesgate;

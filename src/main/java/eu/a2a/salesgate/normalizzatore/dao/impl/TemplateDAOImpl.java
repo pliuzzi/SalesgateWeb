@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Repository;
 
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
 import eu.a2a.salesgate.normalizzatore.dao.TemplateDAO;
 import eu.a2a.salesgate.template.bean.Campo;
@@ -16,7 +17,7 @@ import eu.a2a.salesgate.template.dao.impl.handler.CampoJdbcHandler;
 import eu.a2a.salesgate.template.dao.impl.handler.TemplateInstanceJdbcHandler;
 
 @Repository("templateDaoSdm")
-public class TemplateDAOImpl implements TemplateDAO {
+public class TemplateDAOImpl extends AbstractDAO implements TemplateDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSdm;
@@ -26,10 +27,8 @@ public class TemplateDAOImpl implements TemplateDAO {
 
     String sql = "SELECT ti.id, fk_distributore, fk_cod_servizio, fk_cod_flusso, fk_utility, fk_template, colonne_totali, colonne_effettive, flag_attivo, "
         + " event_code, nome, file_content, first_row, file_type, separatore, n_max_righe, in_out, created, last_updated, af.code, af.description, "
-        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc "
-        + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
-        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility "
-        + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and AT.IN_OUT = AFL.DIREZIONE "
+        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc " + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
+        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility " + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and AT.IN_OUT = AFL.DIREZIONE "
         + " and ti.fk_distributore = ? and in_out = ? ";
 
     return jdbcTemplateSdm.query(sql, new TemplateInstanceJdbcHandler().getRowMapper(), idDistr, direzione);
@@ -39,8 +38,7 @@ public class TemplateDAOImpl implements TemplateDAO {
   public int updateFileTemplate(String id, byte[] file, String fileName, String fileType) {
     String sql = "update anag_template set file_content = ?, nome = ?, file_type = ? where id = ?";
 
-    int nTot = jdbcTemplateSdm.update(sql, new Object[] { new SqlLobValue(file), fileName, fileType, id }, new int[] {
-        Types.BLOB, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR });
+    int nTot = jdbcTemplateSdm.update(sql, new Object[] { new SqlLobValue(file), fileName, fileType, id }, new int[] { Types.BLOB, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR });
     return nTot;
   }
 
@@ -52,16 +50,14 @@ public class TemplateDAOImpl implements TemplateDAO {
 
   @Override
   public List<Campo> getCampiTemplateOutbound(String idTemplate) {
-    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_out_type aot, template_spool_config "
-        + " where aot.id = fk_type_outbound " + " and fk_template_instance = ? " + " order by posizione asc";
+    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_out_type aot, template_spool_config " + " where aot.id = fk_type_outbound " + " and fk_template_instance = ? " + " order by posizione asc";
     List<Campo> list = jdbcTemplateSdm.query(sql, new CampoJdbcHandler().getRowMapper(), idTemplate);
     return list;
   }
 
   @Override
   public List<Campo> getCampiTemplateInbound(String idTemplate) {
-    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_inb_type aot, template_load_config "
-        + " where aot.id = fk_type_inbound " + " and fk_template_instance = ? " + " order by posizione asc";
+    String sql = "select aot.id, nome_logico, categoria, posizione" + " from anag_inb_type aot, template_load_config " + " where aot.id = fk_type_inbound " + " and fk_template_instance = ? " + " order by posizione asc";
     List<Campo> list = jdbcTemplateSdm.query(sql, new CampoJdbcHandler().getRowMapper(), idTemplate);
     return list;
   }
@@ -70,10 +66,8 @@ public class TemplateDAOImpl implements TemplateDAO {
   public TemplateInstance getTemplate(String idTemplate) {
     String sql = "SELECT ti.id, fk_distributore, fk_cod_servizio, fk_cod_flusso, fk_utility, fk_template, colonne_totali, colonne_effettive, flag_attivo, "
         + " event_code, nome, file_content, first_row, file_type, separatore, n_max_righe, in_out, created, last_updated, af.code, af.description, "
-        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc "
-        + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
-        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility "
-        + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and AT.IN_OUT = AFL.DIREZIONE "
+        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc " + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
+        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility " + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and AT.IN_OUT = AFL.DIREZIONE "
         + " and ti.id = ? ";
 
     return jdbcTemplateSdm.query(sql, new TemplateInstanceJdbcHandler().getResultSetExtractor(), idTemplate);
@@ -82,26 +76,22 @@ public class TemplateDAOImpl implements TemplateDAO {
   @Override
   public List<Campo> getCampiOutbound(String utility) {
 
-    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_out_type aot where utility = ? "
-        + " order by categoria asc, nome_logico asc";
+    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_out_type aot where utility = ? " + " order by categoria asc, nome_logico asc";
     List<Campo> list = jdbcTemplateSdm.query(sql, new CampoJdbcHandler().getRowMapper(), utility);
     return list;
   }
 
   @Override
   public List<Campo> getCampiInbound(String utility) {
-    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_inb_type aot where utility = ? "
-        + " order by categoria asc, nome_logico asc";
+    String sql = "select aot.id, nome_logico, categoria, null posizione from anag_inb_type aot where utility = ? " + " order by categoria asc, nome_logico asc";
     List<Campo> list = jdbcTemplateSdm.query(sql, new CampoJdbcHandler().getRowMapper(), utility);
     return list;
   }
 
   @Override
   public int updateTemplate(TemplateInstance ti) {
-    String sql = "update anag_template set first_row = ?, separatore = ?, file_type = ?, n_max_righe = ?"
-        + " where id = ?";
-    int nRows = jdbcTemplateSdm.update(sql, ti.getAnagTemplate().getFirstRow(), ti.getAnagTemplate().getSeparatore(),
-        ti.getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getnMaxRighe(), ti.getAnagTemplate().getId());
+    String sql = "update anag_template set first_row = ?, separatore = ?, file_type = ?, n_max_righe = ?" + " where id = ?";
+    int nRows = jdbcTemplateSdm.update(sql, ti.getAnagTemplate().getFirstRow(), ti.getAnagTemplate().getSeparatore(), ti.getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getnMaxRighe(), ti.getAnagTemplate().getId());
     return nRows;
   }
 
@@ -133,47 +123,37 @@ public class TemplateDAOImpl implements TemplateDAO {
 
   @Override
   public int insertTemplate(TemplateInstance ti) {
-    int idAnagTemplate = jdbcTemplateSdm.query("select seq_template.nextval from dual",
-        new IntegerJdbcHandler().getResultSetExtractor());
+    int idAnagTemplate = jdbcTemplateSdm.query("select seq_template.nextval from dual", new IntegerJdbcHandler().getResultSetExtractor());
     try {
       Thread.sleep(500);
     } catch (InterruptedException e) {
     }
-    int idTemplateInstance = jdbcTemplateSdm.query("select seq_template.nextval from dual",
-        new IntegerJdbcHandler().getResultSetExtractor());
+    int idTemplateInstance = jdbcTemplateSdm.query("select seq_template.nextval from dual", new IntegerJdbcHandler().getResultSetExtractor());
     ti.getAnagTemplate().setId(idAnagTemplate + "");
     ti.setId(idTemplateInstance + "");
 
     // sqlSessionSGUSR.insert(INSERT_ANAG_TEMPLATE, templateInstance);
-    String sqlInsertAnagTemplate = "INSERT INTO ANAG_TEMPLATE (ID, FIRST_ROW, FILE_TYPE, SEPARATORE, N_MAX_RIGHE, IN_OUT, CREATED, NOME, FILE_CONTENT)"
-        + " VALUES ( ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
-    jdbcTemplateSdm.update(sqlInsertAnagTemplate, ti.getAnagTemplate().getId(), ti.getAnagTemplate().getFirstRow(), ti
-        .getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getSeparatore(), ti.getAnagTemplate()
-        .getnMaxRighe(), ti.getAnagTemplate().getInOut() + "BOUND", ti.getAnagTemplate().getNomeFile(), ti
-        .getAnagTemplate().getFileContent());
+    String sqlInsertAnagTemplate = "INSERT INTO ANAG_TEMPLATE (ID, FIRST_ROW, FILE_TYPE, SEPARATORE, N_MAX_RIGHE, IN_OUT, CREATED, NOME, FILE_CONTENT)" + " VALUES ( ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
+    jdbcTemplateSdm.update(sqlInsertAnagTemplate, ti.getAnagTemplate().getId(), ti.getAnagTemplate().getFirstRow(), ti.getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getSeparatore(), ti.getAnagTemplate().getnMaxRighe(), ti
+        .getAnagTemplate().getInOut() + "BOUND", ti.getAnagTemplate().getNomeFile(), ti.getAnagTemplate().getFileContent());
     // sqlSessionSGUSR.insert(INSERT_TEMPLATE_INSTANCE, templateInstance);
-    String sqlInsertTemplateInstance = "INSERT INTO TEMPLATE_INSTANCE (ID, FK_DISTRIBUTORE, FK_COD_SERVIZIO, FK_COD_FLUSSO, FK_UTILITY, FK_TEMPLATE, "
-        + " FLAG_ATTIVO, EVENT_CODE) VALUES (?, ?, ?, ?, ?, ?, 'Y', ?)";
-    jdbcTemplateSdm.update(sqlInsertTemplateInstance, ti.getId(), ti.getDistributore().getId(), ti.getCodiceServizio()
-        .getCode(), ti.getCodFlusso().getId(), ti.getUtility(), ti.getAnagTemplate().getId(), ti.getEventCode());
+    String sqlInsertTemplateInstance = "INSERT INTO TEMPLATE_INSTANCE (ID, FK_DISTRIBUTORE, FK_COD_SERVIZIO, FK_COD_FLUSSO, FK_UTILITY, FK_TEMPLATE, " + " FLAG_ATTIVO, EVENT_CODE) VALUES (?, ?, ?, ?, ?, ?, 'Y', ?)";
+    jdbcTemplateSdm.update(sqlInsertTemplateInstance, ti.getId(), ti.getDistributore().getId(), ti.getCodiceServizio().getCode(), ti.getCodFlusso().getId(), ti.getUtility(), ti.getAnagTemplate().getId(), ti.getEventCode());
     if ("IN".equals(ti.getAnagTemplate().getInOut())) {
       // sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_SCHEDULE, templateInstance);
-      String sqlInsertSchedEventSchedule = "INSERT INTO SCHED_EVENT_SCHEDULE (CD_EVENTO, PKG_NAME, TIME_POLLING, FLAG_ONOFF, PRIORITY) "
-          + " VALUES ( '" + ti.getEventCode() + "', 'ETL_TRANSFORM.MAIN', 1, 1, 1)";
+      String sqlInsertSchedEventSchedule = "INSERT INTO SCHED_EVENT_SCHEDULE (CD_EVENTO, PKG_NAME, TIME_POLLING, FLAG_ONOFF, PRIORITY) " + " VALUES ( '" + ti.getEventCode() + "', 'ETL_TRANSFORM.MAIN', 1, 1, 1)";
       jdbcTemplateSdm.update(sqlInsertSchedEventSchedule);
-      String sqlInsertEventParameters = "INSERT INTO SCHED_EVENT_PARAMETERS (CD_EVENTO, PARAM_NAME, PARAM_VALUE, DESC_EVENTO, CODICE_AUTORITY) "
-          + " VALUES ( ?, 'TABLE', 'LAVORI', ?, ? )";
-      // sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_PARAMETERS, templateInstance);
-      jdbcTemplateSdm.update(sqlInsertEventParameters, ti.getEventCode(), ti.getDistributore().getName(), ti
-          .getDistributore().getId());
+      String sqlInsertEventParameters = "INSERT INTO SCHED_EVENT_PARAMETERS (CD_EVENTO, PARAM_NAME, PARAM_VALUE, DESC_EVENTO, CODICE_AUTORITY) " + " VALUES ( ?, 'TABLE', 'LAVORI', ?, ? )";
+      // sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_PARAMETERS,
+      // templateInstance);
+      jdbcTemplateSdm.update(sqlInsertEventParameters, ti.getEventCode(), ti.getDistributore().getName(), ti.getDistributore().getId());
     }
     return idTemplateInstance;
   }
 
   @Override
   public int verifyEventCode(TemplateInstance templateInstance) {
-    int n = jdbcTemplateSdm.query("select * from template_instance where event_code = ?",
-        new TemplateInstanceJdbcHandler().getRowMapper(), templateInstance.getEventCode()).size();
+    int n = jdbcTemplateSdm.query("select * from template_instance where event_code = ?", new TemplateInstanceJdbcHandler().getRowMapper(), templateInstance.getEventCode()).size();
     return n;
   }
 

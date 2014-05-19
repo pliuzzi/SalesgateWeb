@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import eu.a2a.salesgate.log.bean.TibcoAudit;
 import eu.a2a.salesgate.log.dao.LogDAO;
 import eu.a2a.salesgate.log.service.LogService;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service("logServiceSalesgate")
 @Transactional("transactionManagerSalesgate")
-public class LogServiceImpl implements LogService {
+public class LogServiceImpl extends AbstractService implements LogService {
 
   @Autowired
   LogDAO logDaoSalesgate;

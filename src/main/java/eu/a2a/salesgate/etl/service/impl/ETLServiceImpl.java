@@ -18,10 +18,11 @@ import eu.a2a.salesgate.etl.bean.ETLInstanceItem;
 import eu.a2a.salesgate.etl.bean.ETLItem;
 import eu.a2a.salesgate.etl.dao.ETLDAO;
 import eu.a2a.salesgate.etl.service.ETLService;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service("etlServiceSalesgate")
 @Transactional("transactionManagerSalesgate")
-public class ETLServiceImpl implements ETLService {
+public class ETLServiceImpl extends AbstractService implements ETLService {
 
   @Autowired
   private ETLDAO etlDaoSalesgate;

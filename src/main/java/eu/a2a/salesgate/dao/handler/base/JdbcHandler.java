@@ -9,7 +9,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
-public abstract class JdbcHandler<T> {
+import eu.a2a.salesgate.base.Loggable;
+
+public abstract class JdbcHandler<T> extends Loggable {
 
   protected abstract T createObjectFromResultSet(ResultSet rs) throws SQLException;
 

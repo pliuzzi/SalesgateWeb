@@ -7,10 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import eu.a2a.salesgate.files.bean.Files;
 import eu.a2a.salesgate.files.dao.FilesDAO;
 import eu.a2a.salesgate.files.service.FilesService;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service("filesServiceSalesgate")
 @Transactional("transactionManagerSalesgate")
-public class FilesServiceImpl implements FilesService {
+public class FilesServiceImpl extends AbstractService implements FilesService {
 
   @Autowired
   private FilesDAO filesDaoSalesgate;

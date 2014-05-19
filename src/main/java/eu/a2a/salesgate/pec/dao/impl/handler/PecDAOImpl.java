@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.StringJdbcHandler;
 import eu.a2a.salesgate.pec.dao.PecDAO;
 
 @Repository("pecDaoSalesgate")
-public class PecDAOImpl implements PecDAO {
+public class PecDAOImpl extends AbstractDAO implements PecDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;

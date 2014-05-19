@@ -1,15 +1,15 @@
 package eu.a2a.salesgate.distributori.bean;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Distributore implements Serializable, Cloneable {
+import eu.a2a.salesgate.bean.CodDescBean;
+
+public class Distributore extends CodDescBean implements Cloneable {
 
   private static final long serialVersionUID = -7419619162888448961L;
 
-  private String id;
   private String name;
   private String piva;
   private String utility;
@@ -30,14 +30,6 @@ public class Distributore implements Serializable, Cloneable {
   private List<ServizioPEC> listServizioPEC;
 
   public Distributore() {
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
   }
 
   public String getName() {

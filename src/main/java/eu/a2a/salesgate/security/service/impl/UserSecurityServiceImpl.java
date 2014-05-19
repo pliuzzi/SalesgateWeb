@@ -6,17 +6,18 @@ import org.springframework.stereotype.Service;
 import eu.a2a.salesgate.security.bean.User;
 import eu.a2a.salesgate.security.dao.UserSecurityDAO;
 import eu.a2a.salesgate.security.service.UserSecurityService;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service
-public class UserSecurityServiceImpl implements UserSecurityService {
+public class UserSecurityServiceImpl extends AbstractService implements UserSecurityService {
 
-	@Autowired
-	private UserSecurityDAO userSecurityDAO;
+  @Autowired
+  private UserSecurityDAO userSecurityDAO;
 
-	@Override
-	public User getUserByUsername(String username) {
-		User user = userSecurityDAO.findUserByUsername(username);
-		return user;
-	}
+  @Override
+  public User getUserByUsername(String username) {
+    User user = userSecurityDAO.findUserByUsername(username);
+    return user;
+  }
 
 }

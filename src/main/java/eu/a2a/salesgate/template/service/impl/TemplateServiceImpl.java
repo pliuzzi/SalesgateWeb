@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import eu.a2a.salesgate.service.base.AbstractService;
 import eu.a2a.salesgate.template.bean.Campo;
 import eu.a2a.salesgate.template.bean.TemplateInstance;
 import eu.a2a.salesgate.template.dao.TemplateDAO;
@@ -13,7 +14,7 @@ import eu.a2a.salesgate.template.service.TemplateService;
 
 @Service(value = "templateServiceSalesgate")
 @Transactional("transactionManagerSalesgate")
-public class TemplateServiceImpl implements TemplateService {
+public class TemplateServiceImpl extends AbstractService implements TemplateService {
 
   @Autowired
   private TemplateDAO templateDaoSalesgate;
@@ -68,10 +69,8 @@ public class TemplateServiceImpl implements TemplateService {
 
     if ((templateInstance.getMappingNew() != null) && (templateInstance.getMappingNew().size() > 0)) {
       // Mapping
-      nTot += templateDaoSalesgate.deleteMapping(templateInstance.getId(), templateInstance.getAnagTemplate()
-          .getInOut());
-      nTot += templateDaoSalesgate.insertMapping(templateInstance.getMappingNew(), templateInstance.getId(),
-          templateInstance.getAnagTemplate().getInOut());
+      nTot += templateDaoSalesgate.deleteMapping(templateInstance.getId(), templateInstance.getAnagTemplate().getInOut());
+      nTot += templateDaoSalesgate.insertMapping(templateInstance.getMappingNew(), templateInstance.getId(), templateInstance.getAnagTemplate().getInOut());
     }
 
     return nTot;

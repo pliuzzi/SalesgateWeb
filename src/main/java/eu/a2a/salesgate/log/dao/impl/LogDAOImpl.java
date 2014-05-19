@@ -7,13 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.StringJdbcHandler;
 import eu.a2a.salesgate.log.bean.TibcoAudit;
 import eu.a2a.salesgate.log.dao.LogDAO;
 import eu.a2a.salesgate.log.dao.impl.handler.TibcoAuditJdbcHandler;
 
 @Repository("logDaoSalesgate")
-public class LogDAOImpl implements LogDAO {
+public class LogDAOImpl extends AbstractDAO implements LogDAO {
 
   @Autowired
   JdbcTemplate jdbcTemplateSalesgate;

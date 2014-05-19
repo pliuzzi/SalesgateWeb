@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ch.lambdaj.Lambda;
+import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.ListStringJdbcHandler;
 import eu.a2a.salesgate.dao.handler.StringJdbcHandler;
 import eu.a2a.salesgate.etl.bean.ETLInstanceItem;
@@ -21,7 +22,7 @@ import eu.a2a.salesgate.template.bean.matcher.CampoMatcher;
 import eu.a2a.salesgate.template.service.TemplateService;
 
 @Repository("etlDaoSalesgate")
-public class ETLDAOImpl implements ETLDAO {
+public class ETLDAOImpl extends AbstractDAO implements ETLDAO {
 
   Logger logger = Logger.getLogger(this.getClass());
 

@@ -11,7 +11,7 @@ public class LavoriGasXIndirizzoJdbcHandler extends JdbcHandler<LavoriGasXIndiri
   @Override
   protected LavoriGasXIndirizzo createObjectFromResultSet(ResultSet rs) throws SQLException {
     LavoriGasXIndirizzo lavoriGasXIndirizzo = new LavoriGasXIndirizzo();
-    lavoriGasXIndirizzo.setId(rs.getBigDecimal("ID"));
+    lavoriGasXIndirizzo.setId(rs.getString("ID"));
     lavoriGasXIndirizzo.setToponimo(rs.getString("TOPONIMO"));
     lavoriGasXIndirizzo.setVia(rs.getString("VIA"));
     lavoriGasXIndirizzo.setCivico(rs.getString("CIVICO"));

@@ -30,13 +30,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import eu.a2a.salesgate.bean.tree.RootNode;
+import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 import eu.a2a.salesgate.cutoff.service.CutOffService;
 import eu.a2a.salesgate.pec.service.PecService;
 import eu.a2a.salesgate.utility.MapUtility;
 
 @Controller
-public class CutOffController {
+public class CutOffController extends AbstractController {
 
   @Autowired
   private CutOffService cutOffServiceSalesgate;

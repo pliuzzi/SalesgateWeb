@@ -11,10 +11,11 @@ import org.springframework.validation.ValidationUtils;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.ele.bean.LavoriEle;
 import eu.a2a.salesgate.validator.CustomValidator;
+import eu.a2a.salesgate.validator.base.AbstractValidator;
 
 @Component
 // ("LavoriGasValidator")
-public class LavoriEleValidator implements CustomValidator {
+public class LavoriEleValidator extends AbstractValidator implements CustomValidator {
 
   @Override
   public boolean supports(Class<?> praticaClass) {

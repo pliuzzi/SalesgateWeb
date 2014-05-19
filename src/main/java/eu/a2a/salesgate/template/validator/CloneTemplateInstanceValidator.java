@@ -7,9 +7,10 @@ import org.springframework.validation.Validator;
 
 import eu.a2a.salesgate.template.bean.TemplateInstance;
 import eu.a2a.salesgate.template.service.TemplateService;
+import eu.a2a.salesgate.validator.base.AbstractValidator;
 
 @Component("cloneTemplateInstanceValidatorSalesgate")
-public class CloneTemplateInstanceValidator implements Validator {
+public class CloneTemplateInstanceValidator extends AbstractValidator implements Validator {
 
   @Autowired
   TemplateService templateServiceSalesgate;

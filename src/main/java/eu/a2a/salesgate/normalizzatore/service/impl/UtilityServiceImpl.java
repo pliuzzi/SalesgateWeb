@@ -16,10 +16,11 @@ import eu.a2a.salesgate.normalizzatore.service.UtilityService;
 import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 import eu.a2a.salesgate.pratiche.bean.FlussiSalvabili;
 import eu.a2a.salesgate.pratiche.gas.bean.LavoriGas;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service("utilityServiceSdm")
 @Transactional("transactionManagerSdm")
-public class UtilityServiceImpl implements UtilityService {
+public class UtilityServiceImpl extends AbstractService implements UtilityService {
 
   @Autowired
   private UtilityDAO utilityDaoSdm;

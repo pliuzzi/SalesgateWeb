@@ -15,9 +15,10 @@ import eu.a2a.salesgate.distributori.dao.DistributoreDAO;
 import eu.a2a.salesgate.pec.dao.PecDAO;
 import eu.a2a.salesgate.pec.helper.PecHelper;
 import eu.a2a.salesgate.pec.service.PecService;
+import eu.a2a.salesgate.service.base.AbstractService;
 
 @Service("pecServiceSalesgate")
-public class PecServiceImpl implements PecService {
+public class PecServiceImpl extends AbstractService implements PecService {
 
   @Autowired
   PecDAO pecDaoSalesgate;

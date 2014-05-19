@@ -8,12 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import eu.a2a.salesgate.normalizzatore.dao.TemplateDAO;
 import eu.a2a.salesgate.normalizzatore.service.TemplateService;
+import eu.a2a.salesgate.service.base.AbstractService;
 import eu.a2a.salesgate.template.bean.Campo;
 import eu.a2a.salesgate.template.bean.TemplateInstance;
 
 @Service("templateServiceSdm")
 @Transactional("transactionManagerSdm")
-public class TemplateServiceImpl implements TemplateService {
+public class TemplateServiceImpl extends AbstractService implements TemplateService {
 
   @Autowired
   private TemplateDAO templateDaoSdm;
@@ -69,8 +70,7 @@ public class TemplateServiceImpl implements TemplateService {
     if ((templateInstance.getMappingNew() != null) && (templateInstance.getMappingNew().size() > 0)) {
       // Mapping
       nTot += templateDaoSdm.deleteMapping(templateInstance.getId(), templateInstance.getAnagTemplate().getInOut());
-      nTot += templateDaoSdm.insertMapping(templateInstance.getMappingNew(), templateInstance.getId(), templateInstance
-          .getAnagTemplate().getInOut());
+      nTot += templateDaoSdm.insertMapping(templateInstance.getMappingNew(), templateInstance.getId(), templateInstance.getAnagTemplate().getInOut());
     }
 
     return nTot;
