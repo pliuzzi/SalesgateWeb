@@ -18,6 +18,16 @@
               validationQuery="select * from dual"
               poolPreparedStatements="true"/>
   
+  <Resource name="url/salesgateInboundCoreGas" auth="Container" type="java.lang.String"
+            factory="eu.a2a.salesgate.factory.StringFactory"
+            url="http://10.90.101.177:12060/Business/Services/GecoInboundCore_GAS">
+  </Resource>
+  
+  <Resource name="url/salesgateInboundCoreEle" auth="Container" type="java.lang.String"
+            factory="eu.a2a.salesgate.factory.StringFactory"
+            url="http://10.90.101.177:12050/Business/Services/GecoInboundCore_ELE">
+  </Resource>
+  
   
   <!-- PROD 
   <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource"

@@ -3,14 +3,13 @@ package eu.a2a.salesgate.controller.base;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-public abstract class AbstractController {
+import eu.a2a.salesgate.base.LoggableObject;
 
-  protected Logger logger = Logger.getLogger(this.getClass());
+public abstract class AbstractController extends LoggableObject {
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {

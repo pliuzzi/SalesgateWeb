@@ -31,7 +31,7 @@
             <div class="form-group">
               <form:label path="erroreVerificaEsito" cssClass="col-md-4">Errore Verifica Esito</form:label>
               <div class="col-md-8">
-                <form:checkbox path="erroreVerificaEsito"/>
+                <form:checkbox path="erroreVerificaEsito" />
               </div>
             </div>
           </div>
@@ -61,58 +61,64 @@
       </form:form>
     </div>
   </div>
-    <div class="panel panel-primary">
-      <div class="panel-heading">Risultati</div>
-      <div class="panel-body">
-        <table id="tblResult" class="table table-condensed table-hover unselectable" unselectable="on">
-          <thead>
-            <tr>
-              <th class="middle">N</th>
-              <th class="middle">Codice Pratica Salesgate</th>
-              <th class="middle">Codice Pratica Utente</th>
-              <th class="middle">Codice Pratica Distributore</th>
-              <th class="middle">Codice Distributore</th>
-              <th class="middle">Stato</th>
-              <th class="middle">Apri</th>
-              <th class="middle">Ammissibilit&agrave;</th>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Risultati</div>
+    <div class="panel-body">
+      <table id="tblResult" class="table table-condensed table-hover unselectable" unselectable="on">
+        <thead>
+          <tr>
+            <th class="middle">N</th>
+            <th class="middle">Codice Pratica Salesgate</th>
+            <th class="middle">Codice Pratica Utente</th>
+            <th class="middle">Codice Pratica Distributore</th>
+            <th class="middle">Codice Distributore</th>
+            <th class="middle">Stato</th>
+            <th class="middle">Apri</th>
+            <th class="middle">Ammissibilit&agrave;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach varStatus="iterSt" var="pratica" items="${listPraticheGas}">
+            <c:set var="canSendAmmissibilita" value="${pratica.stato == 'INVIATO DL' or pratica.stato == 'AMMISSIBILE DL' or pratica.stato == 'INAMMISSIBILE DL' or pratica.stato == 'AMMISSIBILE' or pratica.stato == 'INAMMISSIBILE'}"/>
+            <!--<c:set var="canSendEsito" value="${pratica.stato == 'EVASA OK DL' or pratica.stato == 'EVASA KO DL' or pratica.stato == 'AMMISSIBILE' or pratica.stato == 'CONCLUSA OK' or pratica.stato == 'CONCLUSA KO'}"/>-->
+            <tr data-codice-pratica-sg="${pratica.id}">
+              <td class="middle ${fn:trim(pratica.verificaEsito) == '1' ? 'danger' : 'success'}">${iterSt.count}</td>
+              <td class="middle">${pratica.id}</td>
+              <td class="middle">${pratica.idSistemaSorgente}</td>
+              <td class="middle">${pratica.codicePraticaDl}</td>
+              <td class="middle">${pratica.fkDistributore}</td>
+              <td class="middle">${pratica.stato}</td>
+              <td class="middle">
+                <c:if test="${(not canSendAmmissibilita) or pratica.stato == 'AMMISSIBILE'}">
+                  <a title="Visualizza Pratica" href="${pageContext.request.contextPath}/app/pratiche/gas/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span
+                    class="glyphicon glyphicon-new-window"></span></a>
+                </c:if>
+              </td>
+              <td class="middle">
+                <c:if test="${canSendAmmissibilita }">
+                  <a title="Inserisci Ammissibilit&agrave;" href="${pageContext.request.contextPath}/app/pratiche/ammissibilita/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span
+                    class="glyphicon glyphicon-new-window"></span></a>
+                </c:if>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <c:forEach varStatus="iterSt" var="pratica" items="${listPraticheGas}">
-              <tr data-codice-pratica-sg="${pratica.id}">
-                <td class="middle ${fn:trim(pratica.verificaEsito) == '1' ? 'danger' : 'success'}">${iterSt.count}</td>
-                <td class="middle">${pratica.id}</td>
-                <td class="middle">${pratica.idSistemaSorgente}</td>
-                <td class="middle">${pratica.codicePraticaDl}</td>
-                <td class="middle">${pratica.fkDistributore}</td>
-                <td class="middle">${pratica.stato}</td>
-                <td class="middle">
-                  <a title="Visualizza Pratica" href="${pageContext.request.contextPath}/app/pratiche/gas/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>
-                </td>
-                <td class="middle">  
-                  <c:if test="${pratica.stato == 'INVIATO DL'}">
-                    <a title="Inserisci Ammissibilit&agrave;" href="${pageContext.request.contextPath}/app/pratiche/ammissibilita/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>
-                  </c:if>
-                </td>
-              </tr>
-            </c:forEach>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th class="middle">N</th>
-              <th class="middle">Codice Pratica Salesgate</th>
-              <th class="middle">Codice Pratica Utente</th>
-              <th class="middle">Codice Pratica Distributore</th>
-              <th class="middle">Codice Distributore</th>
-              <th class="middle">Stato</th>
-              <th class="middle">Apri</th>
-              <th class="middle">Ammissibilit&agrave;</th>
-            </tr>
-          </tfoot>
-        </table>
-        
-      </div>
+          </c:forEach>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="middle">N</th>
+            <th class="middle">Codice Pratica Salesgate</th>
+            <th class="middle">Codice Pratica Utente</th>
+            <th class="middle">Codice Pratica Distributore</th>
+            <th class="middle">Codice Distributore</th>
+            <th class="middle">Stato</th>
+            <th class="middle">Apri</th>
+            <th class="middle">Ammissibilit&agrave;</th>
+          </tr>
+        </tfoot>
+      </table>
+
     </div>
+  </div>
 </div>
 <script>
 $(function(){

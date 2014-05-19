@@ -31,4 +31,6 @@ public interface UtilityService {
 
   public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id, String utility);
 
+  public int aggiornaAvanzamentoFlussi(String codiceFlusso, String getStato, String getFlagStato, String id);
+
 }

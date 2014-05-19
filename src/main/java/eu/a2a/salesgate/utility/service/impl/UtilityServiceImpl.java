@@ -80,4 +80,9 @@ public class UtilityServiceImpl implements UtilityService {
     return utilityDaoSalesgate.getAllAnagAmmissibilita(id, utility);
   }
 
+  @Override
+  public int aggiornaAvanzamentoFlussi(String codiceFlusso, String getStato, String getFlagStato, String id) {
+    return utilityDaoSalesgate.aggiornaAvanzamentoFlussi(codiceFlusso, getStato, getFlagStato, id);
+  }
+
 }

@@ -52,7 +52,7 @@
         <form:hidden path="avanzamentoFlussi.flagStato" />
         <form:hidden path="avanzamentoFlussi.numReinvio" />
         <form:hidden path="inviaSap" />
-        <div class="well">
+        <div class="">
           <div class="row">
             <div class="col-md-4">
               <fieldset>

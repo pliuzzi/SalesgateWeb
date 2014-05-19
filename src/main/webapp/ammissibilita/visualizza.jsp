@@ -20,14 +20,36 @@
     </div>
     <div class="panel-body">
       <form:form modelAttribute="tracking" commandName="tracking" action="${pageContext.request.contextPath}/app/pratiche/ammissibilita/modifica" class="form-horizontal" method="post">
-        <form:hidden path="canaleSg" />
-        <form:hidden path="codFlusso" />
         <form:hidden path="utility" />
+        <form:hidden path="codFlusso" />
         <form:hidden path="distributore.piva" />
-        <form:hidden path="flussoAcc" />
-        <form:hidden path="pivaUtente" />
-        <form:hidden path="inviaSap" />
-        <div class="well">
+        <c:set var="isSent" value="${fn:substring(tracking.codFlusso, 1, 3) == '10' }"/> <!-- E100, E101, 0100, 0101 -->
+        <div class="">
+          <c:if test="${error}">
+            <div class="row">
+              <div class="col-lg-12 ">
+                <div class="panel panel-danger" align="left" style="margin-top: 10px;">
+                  <div class="panel-heading">
+                    <strong>Attenzione!</strong> Si sono verificati i seguenti errori
+                  </div>
+                  <div class="panel-body">
+                    <form:errors path="*" htmlEscape="false" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </c:if>
+          <c:if test="${not empty fn:trim(code)}">
+            <div class="row">
+              <div class="col-lg-12 ">
+                <div class="alert ${code == 'OK' ? 'alert-success' : (code == 'KO' ? 'alert-warning' : 'alert-danger') } alert-dismissable" align="left" style="margin-top: 10px;">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <span>${message}</span>
+                </div>
+              </div>
+            </div>
+          </c:if>
+
           <div class="row">
             <div class="col-md-4">
               <fieldset>
@@ -53,16 +75,18 @@
                     <form:input type="text" class="form-control input-sm" readOnly="true" path="id" />
                   </div>
                 </div>
-                <div class="form-group">
-                  <form:label path="codicePraticaDl" class="col-lg-7 control-label">Codice Pratica Distributore</form:label>
-                  <div class="col-lg-5">
-                    <!-- <p class="form-control-static" th:text="id}">${id}</p> -->
-                    <spring:bind path="codicePraticaDl">
-                      <form:input type="text" class="form-control input-sm ${status.error ? 'alert-danger' : ''}" path="codicePraticaDl" readonly="${lavoriEle.isCodicePraticaDlReadOnly}"
-                        data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right" />
-                    </spring:bind>
+                <spring:bind path="codicePraticaDl">
+                  <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:label path="${status.expression }" class="col-lg-7 control-label">Codice Pratica Distributore</form:label>
+                    <div class="col-lg-5">
+                      <!-- <p class="form-control-static" th:text="id}">${id}</p> -->
+                      <form:input type="text" class="form-control input-sm" path="${status.expression }" />
+                      <c:if test="${status.error}">
+                        <p class="help-block">${status.errorMessage}</p>
+                      </c:if>
+                    </div>
                   </div>
-                </div>
+                </spring:bind>
                 <div class="form-group">
                   <form:label path="stato" class="col-lg-7 control-label">Stato</form:label>
                   <div class="col-lg-5">
@@ -71,7 +95,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <form:label path="podPdr" class="col-lg-7 control-label">podPdr</form:label>
+                  <form:label path="podPdr" class="col-lg-7 control-label">POD / PDR</form:label>
                   <div class="col-lg-5">
                     <!-- <p class="form-control-static input-sm" th:text="pdr}">${id}</p>-->
                     <form:input type="text" class="form-control input-sm" readOnly="true" path="podPdr" />
@@ -107,21 +131,29 @@
               </fieldset>
               <fieldset>
                 <legend>Ammissibilit&agrave;</legend>
-                <div class="form-group">
-                  <form:label path="anagAmmissibilita.id" class="col-lg-3 control-label"></form:label>
-                  <div class="col-lg-9">
-                    <form:select id="selectAmmissibilita" class="form-control input-sm" path="anagAmmissibilita.id">
-                      <form:option value=""></form:option>
-                      <c:forEach var="itemGroup" items="${listAnagAmmissibilita}" varStatus="itemGroupIndex">
-                        <optgroup label="${itemGroup.key()}">
-                          <form:options items="${itemGroup.findAll() }" itemLabel="description" itemValue="id" />
-                        </optgroup>
-                      </c:forEach>
-                      
-                    </form:select>
-                  </div>
-                </div>
+                <spring:bind path="anagAmmissibilita.id">
+                  <div class="form-group ${status.error ? 'has-error' : (isSent ? 'has-warning' : '')}">
+                    <form:label path="${status.expression }" class="col-lg-3 control-label">Causale</form:label>
+                    <div class="col-lg-9">
+                      <form:select id="selectAmmissibilita" class="form-control input-sm" path="${status.expression }">
+                        <form:option value=""></form:option>
+                        <c:forEach var="itemGroup" items="${listAnagAmmissibilita}" varStatus="itemGroupIndex">
+                          <optgroup label="${itemGroup.key()}">
+                            <form:options items="${itemGroup.findAll() }" itemLabel="description" itemValue="id" />
+                          </optgroup>
+                        </c:forEach>
 
+                      </form:select>
+                      <c:if test="${status.error}">
+                        <p class="help-block">${status.errorMessage}</p>
+                      </c:if>
+                      <c:if test="${isSent and not status.error}">
+                        <!-- faccio cosi per i flusso 0100 e 0101 -->
+                        <p class="help-block">Attenzione! Reinviare l&apos;ammissibilit&agrave; solo se si &egrave; stati autorizzati dal supporto tecnico per evitare incongruenze fra i sistemi.</p>
+                      </c:if>
+                    </div>
+                  </div>
+                </spring:bind>
               </fieldset>
 
             </div>
@@ -131,20 +163,12 @@
                 <button type="submit" class="btn btn-primary">
                   <span class="glyphicon glyphicon-save"></span> Salva
                 </button>
-                </div>
               </div>
-              <c:if test="${error}">
-                <div class="panel panel-danger" align="left" style="margin-top: 10px;">
-                  <div class="panel-heading">
-                    <strong>Attenzione!</strong> Si sono verificati i seguenti errori
-                  </div>
-                  <div class="panel-body">
-                    <form:errors path="*" />
-                  </div>
-                </div>
-              </c:if>
+
+
             </div>
           </div>
+
         </div>
       </form:form>
     </div>
@@ -160,6 +184,7 @@
       </div>
       <div class="modal-body">
         <p>Confermi il salvataggio ?</p>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
