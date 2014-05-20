@@ -155,8 +155,12 @@
                 <form:label path="lavoriEleExtension.esito" class="col-lg-6 control-label">Esito</form:label>
                 <div class="col-lg-6">
                   <spring:bind path="lavoriEleExtension.esito">
-                    <form:input type="text" class="form-control input-sm ${status.error ? 'has-error' : ''}" path="${status.expression}" readonly="${lavoriEle.isLavoriEleEditable}"
-                      data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right" />
+                    <form:select class="form-control input-sm ${status.error ? 'has-error' : ''}" path="${status.expression}" readonly="${lavoriEle.isLavoriEleEditable}"
+                      data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right">
+                      <form:option value="0">Negativo</form:option>
+                      <form:option value="1">Positivo</form:option>
+                      <form:option value="3">Annullata Vendita</form:option>
+                    </form:select>
                   </spring:bind>
                 </div>
               </div>

@@ -15,39 +15,56 @@
     <div class="panel-body">
       <form:form modelAttribute="filtro" action="${pageContext.request.contextPath}/app/pratiche/ele/cerca" class="form-horizontal" method="post">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
-              <form:label path="codicePraticaSG" cssClass="col-md-4">Codice Pratica Salesgate</form:label>
-              <div class="col-md-8">
+              <form:label path="codicePraticaSG" cssClass="col-md-6">Codice Pratica Salesgate</form:label>
+              <div class="col-md-6">
                 <form:input path="codicePraticaSG" cssClass="form-control input-sm" type="text" />
               </div>
             </div>
             <div class="form-group">
-              <form:label path="codicePraticaUtente" cssClass="col-md-4">Codice Pratica Utente</form:label>
-              <div class="col-md-8">
+              <form:label path="codicePraticaUtente" cssClass="col-md-6">Codice Pratica Utente</form:label>
+              <div class="col-md-6">
                 <form:input path="codicePraticaUtente" cssClass="form-control input-sm" type="text" />
               </div>
             </div>
             <div class="form-group">
-              <form:label path="erroreVerificaEsito" cssClass="col-md-4">Errore Verifica Esito</form:label>
-              <div class="col-md-8">
+              <form:label path="erroreVerificaEsito" cssClass="col-md-6">Errore Verifica Esito</form:label>
+              <div class="col-md-6">
                 <form:checkbox path="erroreVerificaEsito" />
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
-              <form:label path="codicePraticaDistributore" cssClass="col-md-4">Codice Pratica Distributore</form:label>
-              <div class="col-md-8">
+              <form:label path="codicePraticaDistributore" cssClass="col-md-6">Codice Pratica Distributore</form:label>
+              <div class="col-md-6">
                 <form:input path="codicePraticaDistributore" cssClass="form-control input-sm" type="text" />
               </div>
             </div>
             <div class="form-group">
-              <form:label path="codiceDistributore" cssClass="col-md-4">Distributore</form:label>
-              <div class="col-md-8">
-                <form:select path="codiceDistributore" cssClass="form-control input-sm">
-                  <form:option value="-" label="--Seleziona" />
+              <form:label path="codiceDistributore" cssClass="col-md-6">Distributore</form:label>
+              <div class="col-md-6">
+                <form:select path="codiceDistributore" cssClass="form-control input-sm" placeholder="Seleziona un distributore">
+                  <form:option value="" label="" />
                   <form:options items="${listDistributori}" itemValue="id" itemLabel="name" />
+                </form:select>
+              </div>
+            </div>
+            <div class="form-group">
+              <form:label path="pod" cssClass="col-md-6">Pod</form:label>
+              <div class="col-md-6">
+                <form:input path="pod" cssClass="form-control input-sm" type="text" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <form:label path="stato" cssClass="col-md-6">Stato Pratica</form:label>
+              <div class="col-md-6">
+                <form:select path="stato" cssClass="form-control input-sm" placeholder="Seleziona uno stato">
+                  <form:option value="" label="" />
+                  <form:options items="${listStati}" itemValue="id" itemLabel="description" />
                 </form:select>
               </div>
             </div>
@@ -122,6 +139,8 @@
 </div>
 <script>
 $(function(){
+  $("#stato").selectize();
+  $("#codiceDistributore").selectize();
   $('#tblResult').dataTable({
     sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
   });

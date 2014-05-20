@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.distributori.bean.Distributore;
@@ -45,19 +45,28 @@ public class PraticheGasController extends AbstractController {
   @Autowired
   private CustomValidator lavoriGasValidator;
 
-  private List<Distributore> list;
+  private List<Distributore> listDistributori;
 
-  private final Logger logger = Logger.getLogger(this.getClass());
+  private List<CodDescBean> listStati;
 
   @ModelAttribute(value = "listDistributori")
   public List<Distributore> getAllDistributori() {
-    if (list == null) {
+    if (listDistributori == null) {
       Distributore distr = new Distributore();
       distr.setUtility("GAS");
-      list = distributoreService.getDistributori(distr);
+      listDistributori = distributoreService.getDistributori(distr);
       // list.add(0, new Distributore());
     }
-    return list;
+    return listDistributori;
+  }
+
+  @ModelAttribute(value = "listStati")
+  public List<CodDescBean> getAllStati() {
+    if (listStati == null) {
+      listStati = utilityService.estraiStati("GAS");
+      // list.add(0, new Distributore());
+    }
+    return listStati;
   }
 
   @RequestMapping(value = { "/app/pratiche/gas/cerca/{init}", "/app/pratiche/GAS/cerca/{init}" }, method = RequestMethod.GET)

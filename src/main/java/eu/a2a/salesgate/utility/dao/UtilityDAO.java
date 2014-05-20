@@ -4,6 +4,7 @@ import java.util.List;
 
 import eu.a2a.salesgate.bean.AnagFlussi;
 import eu.a2a.salesgate.bean.AnagRichieste;
+import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
@@ -36,5 +37,7 @@ public interface UtilityDAO {
   List<AnagFlussi> getAnagFlussi(String utility, String direzione);
 
   Integer getSeqGenericNextVal();
+
+  List<CodDescBean> getAllStati(String utility);
 
 }

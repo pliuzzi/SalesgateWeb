@@ -51,6 +51,14 @@ public class LavoriEleDAOImpl extends AbstractDAO implements LavoriEleDAO {
       sql += " and verifica_esito = '0'";
     }
 
+    if (!StringUtils.isEmpty(filtro.getPod())) {
+      sql += " and pod = '" + filtro.getPod() + "'";
+    }
+
+    if (!StringUtils.isEmpty(filtro.getStato())) {
+      sql += " and stato = '" + filtro.getStato() + "'";
+    }
+
     jdbcTemplateSalesgate.setMaxRows(1000);
     List<LavoriEle> list = jdbcTemplateSalesgate.query(sql, new LavoriEleJdbcHandler().getRowMapper());
     return list;

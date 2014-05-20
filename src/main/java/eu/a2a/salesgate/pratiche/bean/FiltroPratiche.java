@@ -9,8 +9,9 @@ public class FiltroPratiche extends CodDescBean {
   private String codicePraticaUtente;
   private String codicePraticaDistributore;
   private String codiceDistributore;
-  private String podPdr;
+  // private String podPdr;
   private boolean erroreVerificaEsito;
+  private String stato;
 
   public String getCodicePraticaSG() {
     return codicePraticaSG;
@@ -44,13 +45,11 @@ public class FiltroPratiche extends CodDescBean {
     this.codiceDistributore = codiceDistributore;
   }
 
-  public String getPodPdr() {
-    return podPdr;
-  }
-
-  public void setPodPdr(String podPdr) {
-    this.podPdr = podPdr;
-  }
+  /*
+   * public String getPodPdr() { return podPdr; }
+   * 
+   * public void setPodPdr(String podPdr) { this.podPdr = podPdr; }
+   */
 
   public boolean isErroreVerificaEsito() {
     return erroreVerificaEsito;
@@ -58,6 +57,14 @@ public class FiltroPratiche extends CodDescBean {
 
   public void setErroreVerificaEsito(boolean erroreVerificaEsito) {
     this.erroreVerificaEsito = erroreVerificaEsito;
+  }
+
+  public String getStato() {
+    return stato;
+  }
+
+  public void setStato(String stato) {
+    this.stato = stato;
   }
 
 }

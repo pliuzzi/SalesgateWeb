@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import eu.a2a.salesgate.bean.AnagFlussi;
 import eu.a2a.salesgate.bean.AnagRichieste;
+import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.Params;
 import eu.a2a.salesgate.dao.base.AbstractDAO;
+import eu.a2a.salesgate.dao.handler.CodDescBeanJdbcHandler;
 import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
@@ -124,6 +126,12 @@ public class UtilityDAOImpl extends AbstractDAO implements UtilityDAO {
     String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione " + " from anag_flussi " + " where direzione = decode('" + direzione + "', 'IN', 'INBOUND', 'OUTBOUND') " + " and utility = '" + utility
         + "'";
     return jdbcTemplateSalesgate.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
+  }
+
+  @Override
+  public List<CodDescBean> getAllStati(String utility) {
+    String sql = "select short_desc id, short_desc description from anag_stati where utility = ? order by short_desc asc";
+    return jdbcTemplateSalesgate.query(sql, new CodDescBeanJdbcHandler().getRowMapper(), utility);
   }
 
 }
