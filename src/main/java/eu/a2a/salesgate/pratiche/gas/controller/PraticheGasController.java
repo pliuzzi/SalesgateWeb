@@ -139,8 +139,8 @@ public class PraticheGasController extends AbstractController {
     }
 
     logger.debug(model);
-
-    return "app/pratiche/gas/visualizza";
+    model.addAttribute("codServizio", pratica.getCodServizio());
+    return "app/pratiche/gas/visualizza/" + pratica.getCodServizio();
   }
 
   @RequestMapping(value = "/app/pratiche/gas/modifica", method = RequestMethod.POST)

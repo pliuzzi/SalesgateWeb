@@ -11,6 +11,19 @@
     <put-attribute name="title" value="Visualizza Pratica Gas" />
     <put-attribute name="content" value="app/pratiche/gas/visualizza/sub" />
   </definition>
+  <definition name="WILDCARD:app/pratiche/gas/visualizza/*" extends="app">
+    <put-attribute name="title" value="Visualizza Pratica Gas Wildcard" />
+    <put-attribute name="content" value="app/pratiche/gas/visualizza/{1}/sub" />
+  </definition>
+  <definition name="WILDCARD:app/pratiche/gas/visualizza/*/sub" template="/pratiche/gas/visualizza.jsp">
+    <put-attribute name="formAnagrafica" value="/pratiche/gas/service/{1}.jsp" />
+    <put-attribute name="formIndirizzo" value="/pratiche/gas/service/{1}.jsp" />
+    <put-attribute name="formMisuratore" value="/pratiche/gas/service/{1}.jsp" />
+    <put-attribute name="formConvertitore" value="/pratiche/gas/service/{1}.jsp" />
+    <put-attribute name="formNote" value="/pratiche/gas/service/{1}.jsp" />
+    <put-attribute name="formDate" value="/pratiche/gas/service/{1}.jsp" />
+    <put-attribute name="formDatiTecnici" value="/pratiche/gas/service/{1}.jsp" />
+  </definition>
   <definition name="app/pratiche/gas/visualizza/sub" template="/pratiche/gas/visualizza.jsp">
     <put-attribute name="formAnagrafica" value="/pratiche/gas/sub/anagrafica.jsp" />
     <put-attribute name="formIndirizzo" value="/pratiche/gas/sub/indirizzo.jsp" />

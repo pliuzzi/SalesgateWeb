@@ -122,7 +122,8 @@ public class LavoriEleServiceImpl extends AbstractService implements LavoriEleSe
         pratica.setStato("EVASA OK DL");
       }
     }
-    lavoriEleDaoSalesgate.aggiornaLavoriEle(pratica);
+    // lavoriEleDaoSalesgate.aggiornaLavoriEle(pratica);
+
     if (inviaMittente) {
       pratica.getAvanzamentoFlussi().setCodFlusso(pratica.getFlussoAcc());
       pratica.getAvanzamentoFlussi().setStato("RICEVUTO_DL");

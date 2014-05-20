@@ -35,6 +35,7 @@ public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
     if ((canale != null) && (!canale.equalsIgnoreCase("TUTTI"))) {
       sql += sqlCanale;
     }
+    sql += "order by f.created desc";
     List<CutOffItem> list = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getRowMapper());
     return list;
   }

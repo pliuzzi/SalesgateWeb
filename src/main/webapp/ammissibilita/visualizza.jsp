@@ -23,7 +23,8 @@
         <form:hidden path="utility" />
         <form:hidden path="codFlusso" />
         <form:hidden path="distributore.piva" />
-        <c:set var="isSent" value="${fn:substring(tracking.codFlusso, 1, 3) == '10' }"/> <!-- E100, E101, 0100, 0101 -->
+        <!--<c:set var="isSent" value="${fn:substring(tracking.codFlusso, 1, 3) == '10' and not tracking.stato == 'INVIATO DL'}"/>  E100, E101, 0100, 0101 -->
+        <c:set var="isSent" value="${not (tracking.stato == 'PRESA IN CARICO SG' or tracking.stato == 'INVIATO DL')}"/>
         <c:set var="isAppuntamento" value="${tracking.codFlusso == '0160' or tracking.codFlusso == '0165' or tracking.codFlusso == '0185' or tracking.codFlusso == '0190' or tracking.codFlusso == '0200' or tracking.codFlusso == '0210' or tracking.codFlusso == '0170' or tracking.codFlusso == '0175' or tracking.codFlusso == 'DispAgenda'}"/> <!-- E100, E101, 0100, 0101 -->
         <div class="">
           <c:if test="${error}">
