@@ -25,7 +25,7 @@ public class HtmlHelper {
         ret = ret.replace("{sottogruppo}", "");
       }
       if (formItem.getType().getName().contains("Date")) {
-        ret = ret.replace("{1}", "datetime");
+        ret = ret.replace("{1}", "form_date");
       } else {
         ret = ret.replace("{1}", "");
       }

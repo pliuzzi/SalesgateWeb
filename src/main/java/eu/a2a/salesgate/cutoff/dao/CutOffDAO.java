@@ -6,7 +6,7 @@ import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 
 public interface CutOffDAO {
 
-  List<CutOffItem> estraiAllCutOff(String stato, String canale);
+  List<CutOffItem> estraiAllCutOff(String stato, String canale, String servizio);
 
   CutOffItem estraiCutOff(String id);
 

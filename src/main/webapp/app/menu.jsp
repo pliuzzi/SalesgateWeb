@@ -14,7 +14,7 @@
         <span class="icon-bar"></span>
       </button> -->
       <ul class="nav navbar-nav">
-        <li><a href="<c:url value="/app/home" />" class="btn btn-link"><strong><span class="glyphicon glyphicon-home"></span> Home</strong></a></li>
+        <li><a href="<c:url value="/app/home" />" class="btn btn-link"><strong><span class="fa fa-home"></span> Home</strong></a></li>
       </ul>
     </div>
     <div class="navbar-collapse collapse">
@@ -28,17 +28,13 @@
         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestione Pratiche<b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<c:url value="/app/pratiche/gas/cerca/init" />">Cerca Pratica GAS</a></li>
-            <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST', 'ADMINISTRATOR')">
-              <li><a href="<c:url value="/app/pratiche/ele/cerca/init" />">Cerca Pratica ELE</a></li>
-            </sec:authorize>
+            <li><a href="<c:url value="/app/pratiche/ele/cerca/init" />">Cerca Pratica ELE</a></li>
             <li class="divider"></li>
             <li><a href="<c:url value="/app/cutoff/elenco" />">Cut Off Vendita</a></li>
-            <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST', 'ADMINISTRATOR')">
-              <li><a href="<c:url value="/app/etl/elenco" />">Esiti Massivi (NEW)</a></li>
-              <li class="divider"></li>
-            </sec:authorize>
-            <li><a href="<c:url value="/app/legacy/initSalesgateBusinessArea" />">Cut Off Vendita (OLD)</a></li>
-            <li><a href="<c:url value="/app/legacy/initCaricamentoEsitiMassivi" />">Esiti Massivi</a></li>
+            <li><a href="<c:url value="/app/etl/elenco" />">Esiti Massivi</a></li>
+            <li class="divider"></li>
+            <!-- <li><a href="<c:url value="/app/legacy/initSalesgateBusinessArea" />">Cut Off Vendita (OLD)</a></li> -->
+            <li><a href="<c:url value="/app/legacy/initCaricamentoEsitiMassivi" />">Esiti Massivi (OLD)</a></li>
             <li><a href="<c:url value="/app/legacy/initSalesgateGestionePratiche" />">Switch In GAS</a>
           </ul></li>
 
@@ -49,9 +45,6 @@
             <li class="divider"></li>
             <li><a href="<c:url value="/app/distributore/nuovo/GAS" />">Nuovo Distributore Gas</a></li>
             <li><a href="<c:url value="/app/distributore/nuovo/ELE" />">Nuovo Distributore Ele</a></li>
-            <li class="divider"></li>
-
-            <li><a href="<c:url value="/app/legacy/initSalesgateUserConsole" />">Anagrafica Distributori (OLD)</a></li>
           </ul></li>
         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestione Anagrafiche<b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -61,9 +54,6 @@
           <ul class="dropdown-menu">
             <li><a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Gestione Template</a></li>
             <li><a href="<c:url value="/app/legacy/initSDMFileUploader" />">File Uploader</a></li>
-            <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'ADMINISTRATOR')">
-              <li><a href="<c:url value="/app/legacy/initSDMBusinessArea" />">Gestione Template (OLD)</a></li>
-            </sec:authorize>
           </ul></li>
         <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Netgate<b class="caret"></b></a>

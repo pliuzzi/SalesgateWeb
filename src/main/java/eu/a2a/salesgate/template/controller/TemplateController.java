@@ -3,7 +3,9 @@ package eu.a2a.salesgate.template.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.tika.detect.Detector;
 import org.apache.tika.metadata.Metadata;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -21,6 +24,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +88,14 @@ public class TemplateController extends AbstractController {
       // list.add(0, new Distributore());
     }
     return listChannel;
+  }
+
+  @Override
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    dateFormat.setLenient(false);
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
   }
 
   @RequestMapping(value = "/app/template/{idDistr}/elenco", method = RequestMethod.GET)

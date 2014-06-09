@@ -29,4 +29,12 @@ public abstract class AbstractBean extends Loggable implements Serializable {
     return (StringUtils.isEmpty(date) ? "" : sdfItalianDateTime.format(date));
   }
 
+  protected String formatDate(String date) {
+    return (StringUtils.isEmpty(date) ? "" : sdfItalianDate.format(date));
+  }
+
+  protected String formatDateTime(String date) {
+    return (StringUtils.isEmpty(date) ? "" : sdfItalianDateTime.format(date));
+  }
+
 }

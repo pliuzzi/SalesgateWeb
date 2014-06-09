@@ -48,6 +48,9 @@
   <logger name="org.springframework.jdbc">
     <level value="debug" />
   </logger>
+  <logger name="org.springframework.integration">
+    <level value="info" />
+  </logger>
   <logger name="eu.a2a.salesgate">
     <level value="debug" />
   </logger>

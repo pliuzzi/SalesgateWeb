@@ -72,7 +72,7 @@
         </div>
         <div class="form-group" align="center">
           <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-search"></span> Cerca
+            <span class="fa fa-search"></span> Cerca
           </button>
         </div>
       </form:form>
@@ -108,13 +108,13 @@
               <td class="middle">
                 <c:if test="${(not canSendAmmissibilita) or pratica.stato == 'AMMISSIBILE'}">
                   <a title="Visualizza Pratica" href="${pageContext.request.contextPath}/app/pratiche/gas/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span
-                    class="glyphicon glyphicon-new-window"></span></a>
+                    class="fa fa-edit"></span></a>
                 </c:if>
               </td>
               <td class="middle">
                 <c:if test="${canSendAmmissibilita }">
                   <a title="Inserisci Ammissibilit&agrave;" href="${pageContext.request.contextPath}/app/pratiche/ammissibilita/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span
-                    class="glyphicon glyphicon-new-window"></span></a>
+                    class="fa fa-edit"></span></a>
                 </c:if>
               </td>
             </tr>

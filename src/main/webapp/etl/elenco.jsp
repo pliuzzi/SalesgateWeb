@@ -12,13 +12,6 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-lg-3">
-          <div class="panel panel-default">
-            <div class="panel-heading text-center">
-              <a href="#" id="filterToggle"><span class="glyphicon glyphicon-chevron-down"></span> Filtri <span
-                class="glyphicon glyphicon-chevron-down"></span></a>
-            </div>
-            <div class="panel-body" id="filters"></div>
-          </div>
           <div id="treePlaceholder"></div>
         </div>
         <!-- End Tree -->
@@ -46,8 +39,12 @@
     $("body").css("cursor", "progress");
     loadTree();
     // fine caricamento pagina
-
+    $("#txtTimeRefresh").on("change", function(){
+      
+    });
     function loadTree() {
+
+      showLoadingBar();
       $('#treePlaceholder').load('${pageContext.request.contextPath}/app/etl/tree #tree', function(responseText, textStatus, XMLHttpRequest) {
         $("body").css("cursor", "default");
 
@@ -68,13 +65,14 @@
           var children = $(this).parent('li.parent_li').find(' > ul > li');
           if (children.is(":visible")) {
             children.hide('fast');
-            $(this).attr('title', 'Espandi').find(' > i').addClass('glyphicon-chevron-right').removeClass('glyphicon-chevron-down');
+            $(this).attr('title', 'Espandi').find(' > i').addClass('fa-chevron-right').removeClass('fa-chevron-down');
           } else {
             children.show('fast');
-            $(this).attr('title', 'Comprimi').find(' > i').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right');
+            $(this).attr('title', 'Comprimi').find(' > i').addClass('fa-chevron-down').removeClass('fa-chevron-right');
           }
           e.stopPropagation();
         });
+        hideLoadingBar();
       });
       $('#etlContent').empty();
     }
@@ -85,25 +83,16 @@
       $("body").css("cursor", "progress");
       $('#etlContent').load('${pageContext.request.contextPath}/app/etl/' + link + '/instanze #content', function(responseText, textStatus, XMLHttpRequest) {
         $("body").css("cursor", "default");
-
-        
-        
-        initDataTable(link);
-
-        //$("#frmTimer").on('submit', function(e){
-          
-          //e.preventDefault();
-        //});
-        //$("#frmTimer").submit();
+        initDataTable(link, $("#txtTimeRefresh").val());
       });
 
     }
-    function setTimerRefresh(link) {
+    function setTimerRefresh(link, timeRefresh) {
       if (typeof timerArr !== 'undefined' && timerArr.length > 0) {
         clearInterval(timerArr.pop());
       }
       var timer = $("#progressTimer").progressTimer({
-        timeLimit: 30,
+        timeLimit: timeRefresh,
         warningThreshold: 2,
         navClass: '',
         baseStyle: 'progress-bar-info',
@@ -115,7 +104,7 @@
         onFinish: function(e) {
           //viewETL(link);
           $('#tblResultContainer').load('${pageContext.request.contextPath}/app/etl/' + link + '/instanze #tblResult', function(responseText, textStatus, XMLHttpRequest) {
-            initDataTable(link);
+            initDataTable(link, $("#txtTimeRefresh").val());
             
           });
           
@@ -126,25 +115,45 @@
       timerArr.push(timer);
       return timer;
     }
-    function initDataTable(link) {
+    function initDataTable(link, timeRefresh) {
       $('#tblResult').dataTable({
-        sDom : "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>"
-      });
-      $('#tblResult').on('page.dt', function(){
-        //alert($('.staging'));
-        $('.staging').popupWindow({
-          centerBrowser : 1,
-          height : 400,
-          width : $(window).width() - 100
-        });
-      });
-      $('.staging').popupWindow({
-        centerBrowser : 1,
-        height : 400,
-        width : $(window).width() - 100
+        sDom : "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+        ordering: false,
+        "drawCallback": function( settings ) {
+          $('.staging').popupWindow({
+            centerBrowser : 1,
+            height : 400,
+            width : $(window).width() - 100
+          });
+          $('.scarti').on('click', function(){
+            
+            showLoadingBar();
+            $.fileDownload("${pageContext.request.contextPath}/app/etl/" + $("#eventCode").val() + "/" + $(this).data('istanza-id') + "/scarti").done(function() {
+              //l.stop();
+              hideLoadingBar();
+              
+            });
+          });
+        },
+        "rowCallback": function( row, data ) {
+          
+          if ( data[1] == "In coda" ) {
+            $('td:eq(1)', row).html( '<i class="text-primary fa fa-circle-o-notch fa-spin" title="' + data[1] + '"></i>' );
+          }else if ( data[1] == "In corso" ) {
+            $('td:eq(1)', row).html( '<i class="text-primary fa fa-spinner fa-spin" title="' + data[1] + '"></i>' );
+          }else if ( data[1] == "OK" ) {
+            $('td:eq(1)', row).html( '<i class="text-success fa fa-check" title="' + data[1] + '"></i>' );
+          }else if ( data[1] == "Errore" ) {
+            $('td:eq(1)', row).html( '<i class="text-danger fa fa-exclamation-triangle" title="' + data[1] + '"></i>' );
+          }else if ( data[1] == "OK (Errore Scarti)" ) {
+            $('td:eq(1)', row).html( '<i class="text-warning fa fa-exclamation-triangle" title="' + data[1] + '"></i>' );
+          }else if ( data[1] == "OK con scarti" ) {
+            $('td:eq(1)', row).html( '<i class="text-warning fa fa-exclamation-triangle" title="' + data[1] + '"></i>' );
+          }
+        }
       });
       
-      var timer = setTimerRefresh(link);
+      var timer = setTimerRefresh(link, timeRefresh);
       $("#btnStop").on('click', function(e){
         clearInterval(timer);
         $("#progressTimer").hide();
@@ -152,10 +161,60 @@
         $('#btnStart').removeAttr('disabled');
       });
       $("#btnStart").on('click', function(e){
-        timer = setTimerRefresh(link);
+        timer = setTimerRefresh(link, timeRefresh);
         $("#progressTimer").show();
         $('#btnStart').attr('disabled', 'disabled');
         $('#btnStop').removeAttr('disabled');
+      });
+      $('#progress').css('display', 'none');
+
+      $("#btnFileUpload").on('click', function(){
+        $('#btnStop').trigger('click');
+      });
+      
+   // Change this to the location of your server-side upload handler:
+      var url = "${pageContext.request.contextPath}/app/json/etl/upload";
+      $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+        //dataType: 'string',
+        done: function (e, data) {
+            $('#files').children().remove();
+            if(data.result.codErrore){
+              $('<p/>').text('Si è verificato un errore: ' + data.result.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#files');
+            }else{
+              $.each(data.result.files, function (index, file) {
+            	$('<p/>').text("File " + file.name + " caricato con successo").prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-success").appendTo('#files');
+              });
+            }
+            //$('#progress').css('display', 'none');
+            window.setTimeout(function(){$('#progress').css('display', 'none');}, 3000);
+            $('#btnStart').trigger('click');
+        },
+        fail: function (e, data) {
+            if(data.errorThrown)
+            	$('<p/>').text('Si è verificato un errore: ' + data.errorThrown).addClass("alert alert-danger").appendTo('#files');
+        },
+        send: function (e, data) {
+          $('#progress').css('display', 'block');
+        },
+        progressall: function (e, data) {
+          //$('#progress').css('display', 'block');
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css('width', progress + '%');
+            $('#progress .progress-bar p').text(progress + '%');
+        }
+      }).prop('disabled', !$.support.fileInput)
+          .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+      $('#fileupload').bind('fileuploadsubmit', function (e, data) {
+        // The example input, doesn't have to be part of the upload form:
+        
+        data.formData = {eventCode: $("#eventCode").val()
+                };
+        if (!data.formData.eventCode) {
+          return false;
+        }
       });
       
     }
@@ -165,52 +224,7 @@
       link.addClass('treeItemSelect');
     }
 
- // Change this to the location of your server-side upload handler:
-    var url = "${pageContext.request.contextPath}/app/json/etl/upload";
-    $('#fileupload').fileupload({
-      url: url,
-      dataType: 'json',
-      //dataType: 'string',
-      done: function (e, data) {
-          $('#files').children().remove();
-          if(data.result.codErrore){
-            $('<p/>').text('Si è verificato un errore: ' + data.result.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#files');
-          }else{
-            $("#fileTypeDesc").text(data.result.fileTypeDesc);
-            $("#anagTemplate\\.fileType\\.id").val(data.result.fileTypeId);
-            $.each(data.result.files, function (index, file) {
-          	  $("#anagTemplate\\.nomeFile").val(file.name);
-          	  $("#nomeFile").text(file.name);
-          		  $('<p/>').text("File " + file.name + " caricato con successo").prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-success").appendTo('#files');
-            });
-          }
-      },
-      fail: function (e, data) {
-          if(data.errorThrown)
-          	$('<p/>').text('Si è verificato un errore: ' + data.errorThrown).addClass("alert alert-danger").appendTo('#files');
-      },
-      send: function (e, data) {
-        $('#progress').css('display', 'block');
-      },
-      progressall: function (e, data) {
-          var progress = parseInt(data.loaded / data.total * 100, 10);
-          $('#progress .progress-bar').css('width', progress + '%');
-          $('#progress .progress-bar p').text(progress + '%');
-      }
-    }).prop('disabled', !$.support.fileInput)
-        .parent().addClass($.support.fileInput ? undefined : 'disabled');
-
-    $('#fileupload').bind('fileuploadsubmit', function (e, data) {
-      // The example input, doesn't have to be part of the upload form:
-      
-      data.formData = {id: $("#anagTemplateId").val(),
-              separatore: $("#anagTemplate\\.separatore").val()
-              };
-      if (!data.formData.id) {
-        input.focus();
-        return false;
-      }
-    });
+    
     
   });
 </script>

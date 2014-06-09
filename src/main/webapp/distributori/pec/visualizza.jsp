@@ -23,7 +23,7 @@
         <form:hidden path="id" />
         <form:hidden path="utility" />
         <!-- <div class="btn-group">
-          <a href="visualizzaDistributore.do?id=${distributore.id}" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+          <a href="visualizzaDistributore.do?id=${distributore.id}" class="btn btn-default"><span class="fa fa-times-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="fa fa-save"></span> Salva</a>
         </div> -->
         <c:if test="${error}">
           <div class="panel panel-danger" align="left" style="margin-top: 10px;">
@@ -42,7 +42,7 @@
           </div>
         </c:if>
         <p class="lead text-warning">
-          <span class="glyphicon glyphicon-info-sign"></span> Per modificare una configurazione, fare doppio click
+          <span class="fa fa-info-sign"></span> Per modificare una configurazione, fare doppio click
         </p>
         <div class="row">
           <div class="col-lg-12">
@@ -69,7 +69,7 @@
                     <td class="middle">${pec.subject}</td>
                     <td class="middle">${pec.oraInizio}</td>
                     <td class="middle">${pec.tempoReinvio}</td>       
-                    <td class="middle"><a title="Modifica" href="${pageContext.request.contextPath}/app/distributore/${distributore.id}/PEC/${pec.id}/modifica" data-id="${distributore.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a></td>             
+                    <td class="middle"><a title="Modifica" href="${pageContext.request.contextPath}/app/distributore/${distributore.id}/PEC/${pec.id}/modifica" data-id="${distributore.id}" class="pointer"><span class="fa fa-edit"></span></a></td>             
                   </tr>
                 </c:forEach>
               </tbody>

@@ -102,13 +102,13 @@
           <div class="col-lg-6" align="center" style="border-right: #cccccc 1px solid">
             <h4>Download File</h4>
             <p class="text-left text-info">Per <b>scaricare</b> il template attualmente utilizzato, fai clic qui sotto.</p>
-            <a class="btn btn-info" id="downloadTemplateFile" href="${pageContext.request.contextPath}/app/template/{id}/dowload"><span class="glyphicon glyphicon-download"></span> Download</a>
+            <a class="btn btn-info" id="downloadTemplateFile" href="${pageContext.request.contextPath}/app/template/{id}/dowload"><span class="fa fa-download"></span> Download</a>
           </div>
           <div class="col-lg-6" align="center">
             <h4>Upload File</h4>
             <p class="text-left text-info">Per <b>cambiare</b> il template attualmente utilizzato, fai clic qui sotto.</p>
             <span class="btn btn-info fileinput-button">
-              <i class="glyphicon glyphicon-upload"></i>
+              <i class="fa fa-upload"></i>
               <span>Upload File</span> <!-- The file input field used as target for the file upload widget -->
               <input id="fileupload" type="file" name="files[]" multiple />
             </span>
@@ -153,7 +153,7 @@
           <dd id="clonaUtility"></dd>
           <dt>Distributore</dt>
           <dd>
-            <select class="form-control input-sm" id="listDistributori">
+            <select class="form-control input-sm selectize" id="listDistributori">
               <c:forEach var="itemDistributore" items="${listDistributori}">
                 <c:choose>
                   <c:when test="${distributore.id != itemDistributore.id }">
@@ -287,13 +287,13 @@ $(function () {
                {mData: "anagTemplate.fileType.description", sClass: "middle"},
                {mData: "anagTemplate.nomeFile", sClass: "middle"}/*,
                {mData: "anagTemplate.id", sClass: "middle", mRender: function ( data, type, full ) {
-                   return '<a title="Modifica File" href="#" onclick="modificaFile($(this).data(\'id\'))" data-id="'+data+'" class="pointer"><span class="glyphicon glyphicon-edit"></span></a>';
+                   return '<a title="Modifica File" href="#" onclick="modificaFile($(this).data(\'id\'))" data-id="'+data+'" class="pointer"><span class="fa fa-edit"></span></a>';
                }}*/,
                {mData: "id", sClass: "middle", mRender: function ( data, type, full ) {
-            	   return '<a title="Clona Template" href="#" onclick="clonaTemplate($(this).data(\'id\'), $(this).data(\'idDistributore\'), $(this).data(\'codiceServizio\'), $(this).data(\'codiceFlusso\'), $(this).data(\'utility\'))" data-id="'+data+'" data-id-distributore="${distributore.id}" data-codice-servizio="'+full.codiceServizio.code+'" data-codice-flusso="'+full.codFlusso.id+'" data-utility="'+full.utility+'" class="pointer"><span class="glyphicon glyphicon-link"></span></a>';
+            	   return '<a title="Clona Template" href="#" onclick="clonaTemplate($(this).data(\'id\'), $(this).data(\'idDistributore\'), $(this).data(\'codiceServizio\'), $(this).data(\'codiceFlusso\'), $(this).data(\'utility\'))" data-id="'+data+'" data-id-distributore="${distributore.id}" data-codice-servizio="'+full.codiceServizio.code+'" data-codice-flusso="'+full.codFlusso.id+'" data-utility="'+full.utility+'" class="pointer"><span class="fa fa-link"></span></a>';
                }},
                {mData: "id", sClass: "middle", mRender: function ( data, type, full ) {
-                   return '<a title="Visualizza Template" href="${pageContext.request.contextPath}/app/template/' + data + '/visualizza" data-id="'+data+'" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>';
+                   return '<a title="Visualizza Template" href="${pageContext.request.contextPath}/app/template/' + data + '/visualizza" data-id="'+data+'" class="pointer"><span class="fa fa-edit"></span></a>';
                }},
              ]
     });
@@ -303,7 +303,7 @@ $(function () {
       bSort: false,
       aoColumns: [
                {mData: "codiceServizio.code", sClass: "middle", mRender: function ( data, type, full ) {
-                   //return '<a title="Visualizza Log" onclick="openDetail($(this).data(\'idDetail\'), $(this).data(\'tag\'))" data-id-detail="'+data+'" data-tag="'+full.tag+'" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>';
+                   //return '<a title="Visualizza Log" onclick="openDetail($(this).data(\'idDetail\'), $(this).data(\'tag\'))" data-id-detail="'+data+'" data-tag="'+full.tag+'" class="pointer"><span class="fa fa-edit"></span></a>';
                    return data;
                }},
                {mData: "codFlusso.id", sClass: "middle", mRender: function ( data, type, full ) {
@@ -316,13 +316,13 @@ $(function () {
                {mData: "anagTemplate.fileType.description", sClass: "middle"},
                {mData: "anagTemplate.nomeFile", sClass: "middle"}/*,
                {mData: "anagTemplate.id", sClass: "middle", mRender: function ( data, type, full ) {
-                   return '<a title="Modifica File" href="#" onclick="modificaFile($(this).data(\'id\'))" data-id="'+data+'" class="pointer"><span class="glyphicon glyphicon-edit"></span></a>';
+                   return '<a title="Modifica File" href="#" onclick="modificaFile($(this).data(\'id\'))" data-id="'+data+'" class="pointer"><span class="fa fa-edit"></span></a>';
                }}*/,
                {mData: "id", sClass: "middle", mRender: function ( data, type, full ) {
-                   return '<a title="Clona Template" href="#" onclick="clonaTemplate($(this).data(\'id\'), $(this).data(\'idDistributore\'), $(this).data(\'codiceServizio\'), $(this).data(\'codiceFlusso\'), $(this).data(\'utility\'))" data-id="'+data+'" data-id-distributore="${distributore.id}" data-codice-servizio="'+full.codiceServizio.code+'" data-codice-flusso="'+full.codFlusso.id+'" data-utility="'+full.utility+'" class="pointer"><span class="glyphicon glyphicon-link"></span></a>';
+                   return '<a title="Clona Template" href="#" onclick="clonaTemplate($(this).data(\'id\'), $(this).data(\'idDistributore\'), $(this).data(\'codiceServizio\'), $(this).data(\'codiceFlusso\'), $(this).data(\'utility\'))" data-id="'+data+'" data-id-distributore="${distributore.id}" data-codice-servizio="'+full.codiceServizio.code+'" data-codice-flusso="'+full.codFlusso.id+'" data-utility="'+full.utility+'" class="pointer"><span class="fa fa-link"></span></a>';
                }},
                {mData: "id", sClass: "middle", mRender: function ( data, type, full ) {
-            	   return '<a title="Visualizza Template" href="${pageContext.request.contextPath}/app/template/' + data + '/visualizza" data-id="'+data+'" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a>';
+            	   return '<a title="Visualizza Template" href="${pageContext.request.contextPath}/app/template/' + data + '/visualizza" data-id="'+data+'" class="pointer"><span class="fa fa-edit"></span></a>';
                }},
              ]
     });

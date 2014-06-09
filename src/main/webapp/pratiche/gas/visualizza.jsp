@@ -13,12 +13,27 @@
   </ol>
   
   <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h4><strong>Visualizza Pratica</strong></h4>
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+        <strong>Visualizza Pratica</strong>
+      </h4>
+      <div class="btn-group pull-right">
+        <a href="${pageContext.request.contextPath}/app/pratiche/gas/cerca" class="btn btn-default"><i class="fa fa-times"></i> Annulla</a>
+        <div class="btn-group" align="left">
+          <button type=button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-save"></i> Salva <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <c:forEach items="${flussiSalvabili}" var="flusso">
+              <li><a href="#" onclick="setFlussoDaSalvare('${flusso.codFlussoAcc}')">${flusso.codFlussoAcc} - ${flusso.descFlussoAcc}</a></li>
+            </c:forEach>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="panel-body">
       <form:form modelAttribute="lavoriGas" commandName="lavoriGas" action="${pageContext.request.contextPath}/app/pratiche/gas/modifica" class="form-horizontal" method="post">
-        <form:hidden path="canaleSg" />
+        <!--<form:hidden path="canaleSg" />-->
         <form:hidden path="codFlusso" />
         <form:hidden path="distributore.piva" />
         <form:hidden path="flussoAcc" />
@@ -105,26 +120,39 @@
                 <div class="form-group">
                   <form:label path="idSistemaSorgente" class="col-lg-7 control-label">Codice Pratica Utente</form:label>
                   <div class="col-lg-5">
-                    <!-- <p class="form-control-static input-sm" th:text="idSistemaSorgente}">${id}</p> -->
-                    <form:input type="text" class="form-control input-sm" readOnly="true" path="idSistemaSorgente" />
+                    
+                    <div class="input-group input-group-sm">
+                      <form:input type="text" class="form-control input-sm" readOnly="true" path="idSistemaSorgente" />
+                      <span class="input-group-btn">
+                        <a class="btn btn-default" href="${pageContext.request.contextPath}/app/log/salesgate?appKey1=${lavoriGas.idSistemaSorgente }"><i class="fa fa-external-link"></i></a>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <form:label path="id" class="col-lg-7 control-label">Codice Pratica Salesgate</form:label>
                   <div class="col-lg-5">
-                    <!-- <p class="form-control-static input-sm" th:text="id}">${id}</p> -->
-                    <form:input type="text" class="form-control input-sm" readOnly="true" path="id" />
+                    <div class="input-group input-group-sm">
+                      <form:input type="text" class="form-control input-sm" readOnly="true" path="id" />
+                      <span class="input-group-btn">
+                        <a class="btn btn-default" href="${pageContext.request.contextPath}/app/log/salesgate?appKey3=${lavoriGas.id }"><i class="fa fa-external-link"></i></a>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <form:label path="codicePraticaDl" class="col-lg-7 control-label">Codice Pratica Distributore</form:label>
                   <div class="col-lg-5">
-                    <!-- <p class="form-control-static" th:text="id}">${id}</p> -->
-                    <spring:bind path="codicePraticaDl" >
-                      <form:input type="text" class="form-control input-sm ${status.error ? 'alert-danger' : ''}" path="codicePraticaDl"
-                        readonly="${lavoriGas.isCodicePraticaDlReadOnly}" 
-                        data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right"/>
-                    </spring:bind>
+                    <div class="input-group input-group-sm">
+                      <spring:bind path="codicePraticaDl" >
+                        <form:input type="text" class="form-control input-sm ${status.error ? 'alert-danger' : ''}" path="codicePraticaDl"
+                          readonly="${lavoriGas.isCodicePraticaDlReadOnly}" 
+                          data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right"/>
+                      </spring:bind>
+                      <span class="input-group-btn">
+                        <a class="btn btn-default ${empty lavoriGas.codicePraticaDl ? 'disabled' : ''}" href="${pageContext.request.contextPath}/app/log/salesgate?appKey2=${lavoriGas.codicePraticaDl }"><i class="fa fa-external-link"></i></a>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -185,32 +213,28 @@
                 </div>
               </fieldset>
               <fieldset>
-                <legend>File</legend>
-                <!-- <button id="btnDownload" onClick="dowloadFile('${lavoriGas.lavoriGasExtension.fkFiles}')"
-                  class="btn btn-success ${empty fn:trim(lavoriGas.lavoriGasExtension.fkFiles) ? 'disabled' : ''}">
-                  <span class="glyphicon glyphicon-download"></span> Download
-                </button> -->
-                <a target="_blank" href="${pageContext.request.contextPath}/app/files/${lavoriGas.lavoriGasExtension.fkFiles}/download" id="lnkDownload"
-                  data-id-file="${lavoriGas.lavoriGasExtension.fkFiles}"
-                  class="btn btn-success ${empty fn:trim(lavoriGas.lavoriGasExtension.fkFiles) ? 'disabled' : ''}">
-                  <span class="glyphicon glyphicon-download"></span> Download
-                </a>
+                <legend>Trasmissione al Dl</legend>
+                <div class="form-group">
+                  <form:label path="canaleSg" class="col-lg-3 control-label">Canale</form:label>
+                  <div class="col-lg-4">
+                    <form:select path="canaleSg" disabled="true" cssClass="form-control input-sm"
+                      items="${canali}" itemValue="value" itemLabel="description"/>
+                    <!--<form:input type="text" class="form-control input-sm" readOnly="true" path="canaleSg" />-->
+                  </div>
+                  <c:if test="${not empty fn:trim(lavoriGas.lavoriGasExtension.fkFiles)}">
+                    <div class="col-lg-5">
+                      <a target="_blank" href="${pageContext.request.contextPath}/app/files/${lavoriGas.lavoriGasExtension.fkFiles}/download" id="lnkDownload"
+                        data-id-file="${lavoriGas.lavoriGasExtension.fkFiles}" class="btn btn-success ${empty fn:trim(lavoriGas.lavoriGasExtension.fkFiles) ? 'disabled' : ''}"> <span
+                        class="fa fa-download"></span> Download
+                      </a>
+                    </div>
+                  </c:if>
+                </div>
+                
               </fieldset>
             </div>
             <div class="col-lg-4" align="right">
-              <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/app/pratiche/gas/cerca" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
-                <div class="btn-group" align="left">
-                  <button type=button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-save"></span> Salva <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <c:forEach items="${flussiSalvabili}" var="flusso">
-                      <li><a href="#" onclick="setFlussoDaSalvare('${flusso.codFlussoAcc}')">${flusso.codFlussoAcc} - ${flusso.descFlussoAcc}</a></li>
-                    </c:forEach>
-                  </ul>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>

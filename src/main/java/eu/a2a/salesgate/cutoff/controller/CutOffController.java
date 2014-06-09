@@ -3,7 +3,6 @@ package eu.a2a.salesgate.cutoff.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,30 +10,27 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tika.detect.CompositeDetector;
 import org.apache.tika.detect.Detector;
-import org.apache.tika.detect.TextDetector;
-import org.apache.tika.detect.TypeDetector;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.mime.MimeTypes;
-import org.apache.tika.parser.microsoft.POIFSContainerDetector;
-import org.apache.tika.parser.pkg.ZipContainerDetector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 import eu.a2a.salesgate.cutoff.service.CutOffService;
 import eu.a2a.salesgate.pec.service.PecService;
 import eu.a2a.salesgate.utility.MapUtility;
+import eu.a2a.salesgate.utility.service.UtilityService;
 
 @Controller
 public class CutOffController extends AbstractController {
@@ -43,27 +39,28 @@ public class CutOffController extends AbstractController {
   private CutOffService cutOffServiceSalesgate;
 
   @Autowired
+  private UtilityService utilityServiceSalesgate;
+
+  @Autowired
   private PecService pecServiceSalesgate;
 
-  private Detector getDefaultDetectors() {
+  private List<AnagRichieste> listRichiesteGas;
+  private List<AnagRichieste> listRichiesteEle;
 
-    Detector detector;
+  @ModelAttribute(value = "listRichiesteEle")
+  public List<AnagRichieste> getListRichiesteEle() {
+    if (listRichiesteEle == null) {
+      listRichiesteEle = utilityServiceSalesgate.estraiRichieste("ELE");
+    }
+    return listRichiesteEle;
+  }
 
-    List<Detector> detectors = new ArrayList<Detector>();
-
-    // zip compressed container types
-    detectors.add(new ZipContainerDetector());
-    // Microsoft stuff
-    detectors.add(new POIFSContainerDetector());
-    detectors.add(new TextDetector());
-    detectors.add(new TypeDetector());
-    // mime magic detection as fallback
-    detectors.add(MimeTypes.getDefaultMimeTypes());
-
-    detector = new CompositeDetector(detectors);
-
-    return detector;
-
+  @ModelAttribute(value = "listRichiesteGas")
+  public List<AnagRichieste> getListRichiesteGas() {
+    if (listRichiesteGas == null) {
+      listRichiesteGas = utilityServiceSalesgate.estraiRichieste("GAS");
+    }
+    return listRichiesteGas;
   }
 
   @RequestMapping(value = { "/app/cutoff/elenco" })
@@ -72,11 +69,11 @@ public class CutOffController extends AbstractController {
     return "app/cutoff/elenco";
   }
 
-  @RequestMapping(value = { "/app/cutoff/tree/{stato}/{canale}" }, method = { RequestMethod.GET, RequestMethod.POST })
-  public String getTreeCutoff(@PathVariable("stato") String stato, @PathVariable("canale") String canale, Model model, WebRequest request, Principal principal, HttpSession session) {
+  @RequestMapping(value = { "/app/cutoff/tree/{stato}/{canale}/{servizio}" }, method = { RequestMethod.GET, RequestMethod.POST })
+  public String getTreeCutoff(@PathVariable("stato") String stato, @PathVariable("canale") String canale, @PathVariable("servizio") String servizio, Model model, WebRequest request, Principal principal, HttpSession session) {
 
-    List<RootNode> list1 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, "distributore.name", "servizio.code");
-    List<RootNode> list2 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, "servizio.code", "distributore.name");
+    List<RootNode> list1 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, servizio, "distributore.name", "servizio.code");
+    List<RootNode> list2 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, servizio, "servizio.code", "distributore.name");
     model.addAttribute("cutOffNodeDistributore", list1);
     model.addAttribute("cutOffNodeServizio", list2);
 

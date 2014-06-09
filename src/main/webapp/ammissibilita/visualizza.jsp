@@ -137,7 +137,7 @@
                   <div class="form-group ${status.error ? 'has-error' : ((isSent or isAppuntamento) ? 'has-warning' : '')}">
                     <form:label path="${status.expression }" class="col-lg-3 control-label">Causale</form:label>
                     <div class="col-lg-9">
-                      <form:select id="selectAmmissibilita" class="form-control input-sm" path="${status.expression }">
+                      <form:select id="selectAmmissibilita" class="form-control input-sm selectize" path="${status.expression }">
                         <form:option value=""></form:option>
                         <c:forEach var="itemGroup" items="${listAnagAmmissibilita}" varStatus="itemGroupIndex">
                           <optgroup label="${itemGroup.key()}">
@@ -165,9 +165,9 @@
             </div>
             <div class="col-lg-2" align="right">
               <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/app/pratiche/ele/cerca" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
+                <a href="${pageContext.request.contextPath}/app/pratiche/ele/cerca" class="btn btn-default"><span class="fa fa-times-circle"></span> Annulla</a>
                 <button id="btnSalva" type="button" class="btn btn-primary">
-                  <span class="glyphicon glyphicon-save"></span> Salva
+                  <span class="fa fa-save"></span> Salva
                 </button>
               </div>
 
@@ -210,7 +210,7 @@
     $('#btnSaveConfirm').on('click', function(e){
       $('#tracking').submit();
     });
-    $("#selectAmmissibilita").selectize();
+    
     //$("#selectAmmissibilita").selectize({
     //  optgroupFiled: 'gruppo',
     //  valueField: 'id',

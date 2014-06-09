@@ -34,6 +34,58 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <form:label path="lavoriEleExtension.noteAmm" class="col-lg-2 control-label">Note Ammissibilit&agrave;</form:label>
+                      <div class="col-lg-10">
+                        <spring:bind path="lavoriEleExtension.noteAmm" >
+                          <form:textarea type="text" class="form-control input-sm ${status.error ? 'has-error' : ''}" rows="5" path="${status.expression}" 
+                            readonly="${lavoriEle.isLavoriEleEditable}" 
+                            data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right"/>
+                        </spring:bind>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <form:label path="lavoriEleExtension.noteIndFor" class="col-lg-2 control-label">Note Indirizzo Fornitura</form:label>
+                      <div class="col-lg-10">
+                        <spring:bind path="lavoriEleExtension.noteIndFor" >
+                          <form:textarea type="text" class="form-control input-sm ${status.error ? 'has-error' : ''}" rows="5" path="${status.expression}" 
+                            readonly="${lavoriEle.isLavoriEleEditable}" 
+                            data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right"/>
+                        </spring:bind>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <form:label path="lavoriEleExtension.noteIntA2A" class="col-lg-2 control-label">Note Interne A2A</form:label>
+                      <div class="col-lg-10">
+                        <spring:bind path="lavoriEleExtension.noteIntA2A" >
+                          <form:textarea type="text" class="form-control input-sm ${status.error ? 'has-error' : ''}" rows="5" path="${status.expression}" 
+                            readonly="${lavoriEle.isLavoriEleEditable}" 
+                            data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right"/>
+                        </spring:bind>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <form:label path="lavoriEleExtension.noteUbicazionePod" class="col-lg-2 control-label">Note Ubicazione Pod</form:label>
+                      <div class="col-lg-10">
+                        <spring:bind path="lavoriEleExtension.noteUbicazionePod" >
+                          <form:textarea type="text" class="form-control input-sm ${status.error ? 'has-error' : ''}" rows="5" path="${status.expression}" 
+                            readonly="${lavoriEle.isLavoriEleEditable}" 
+                            data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right"/>
+                        </spring:bind>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </fieldset>
             </div>
           </div>

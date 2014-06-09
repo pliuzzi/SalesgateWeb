@@ -8,10 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.Message;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.lambdaj.group.Group;
+import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.bean.tree.TreeNode;
 import eu.a2a.salesgate.etl.bean.ETLInstanceItem;
@@ -26,6 +30,9 @@ public class ETLServiceImpl extends AbstractService implements ETLService {
 
   @Autowired
   private ETLDAO etlDaoSalesgate;
+
+  @Autowired
+  private MessageChannel ftpOutputChannel;
 
   @Override
   public List<RootNode> estraiElencoETL(String... groupBy) {
@@ -77,4 +84,16 @@ public class ETLServiceImpl extends AbstractService implements ETLService {
     return etlDaoSalesgate.estraiETLInstance(eventCode, objId);
   }
 
+  @Override
+  public GenericResponse startETL(byte[] fileContent, String fileName, String eventCode, String user) {
+
+    Message<byte[]> message = MessageBuilder.withPayload(fileContent).setHeader("file_name", fileName).build();
+    if (ftpOutputChannel.send(message)) {
+      int idRun = etlDaoSalesgate.startETL(eventCode, fileName, user);
+      return GenericResponse.createOkResponse(idRun + "");
+    } else {
+      return GenericResponse.createKoResponse("Impossibile inviare il file.");
+    }
+
+  }
 }

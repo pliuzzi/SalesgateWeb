@@ -18,25 +18,49 @@ public class ETLInstanceItemJdbcHandler extends JdbcHandler<ETLInstanceItem> {
 
     ETLInstanceItem instance = new ETLInstanceItem();
 
-    instance.setId(rs.getString("obj_id"));
-    instance.setEventCode(rs.getString("cd_evento"));
-    instance.setStato(new CodDescBean(rs.getString("cd_stato"), rs.getString("status")));
-    instance.setFileName(rs.getString("file_name"));
-    instance.setDataCreazione(rs.getDate("d_post_timestamp"));
-    instance.setDataInizioLavorazione(rs.getDate("d_get_timestamp"));
-    instance.setDataFineLavorazione(rs.getDate("d_end_timestamp"));
-    instance.setRecordProcessati(rs.getInt("record_processati"));
-    instance.setRecordScartati(rs.getInt("record_scartati"));
-    instance.setRecordTotali(rs.getInt("record_totali"));
-    instance.setLinkFileScarti(rs.getString("link_file_scarti"));
-    try {
-      InputStream is = rs.getBinaryStream("file_scarti");
-      if (is != null) {
-        instance.setFileScarti(IOUtils.toByteArray(is));
+    if (contains("obj_id")) {
+      instance.setId(rs.getString("obj_id"));
+    }
+    if (contains("cd_evento")) {
+      instance.setEventCode(rs.getString("cd_evento"));
+    }
+    if (contains("cd_stato") && contains("status")) {
+      instance.setStato(new CodDescBean(rs.getString("cd_stato"), rs.getString("status")));
+    }
+    if (contains("file_name")) {
+      instance.setFileName(rs.getString("file_name"));
+    }
+    if (contains("d_post_timestamp")) {
+      instance.setDataCreazione(rs.getString("d_post_timestamp"));
+    }
+    if (contains("d_get_timestamp")) {
+      instance.setDataInizioLavorazione(rs.getString("d_get_timestamp"));
+    }
+    if (contains("d_end_timestamp")) {
+      instance.setDataFineLavorazione(rs.getString("d_end_timestamp"));
+    }
+    if (contains("record_processati")) {
+      instance.setRecordProcessati(rs.getInt("record_processati"));
+    }
+    if (contains("record_scartati")) {
+      instance.setRecordScartati(rs.getInt("record_scartati"));
+    }
+    if (contains("record_totali")) {
+      instance.setRecordTotali(rs.getInt("record_totali"));
+    }
+    if (contains("link_file_scarti")) {
+      instance.setLinkFileScarti(rs.getString("link_file_scarti"));
+    }
+    if (contains("file_scarti")) {
+      try {
+        InputStream is = rs.getBinaryStream("file_scarti");
+        if (is != null) {
+          instance.setFileScarti(IOUtils.toByteArray(is));
+        }
+      } catch (IOException e) {
+        instance.setFileScarti(null);
+        e.printStackTrace();
       }
-    } catch (IOException e) {
-      instance.setFileScarti(null);
-      e.printStackTrace();
     }
 
     return instance;

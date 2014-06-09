@@ -79,8 +79,8 @@
             <div class="col-lg-3">
               <div style="width: 100%; padding-bottom: 15px;" align="right">
                 <div class="btn-group">
-                  <a href="${pageContext.request.contextPath}/app/distributore/visualizza/${distributore.id}" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
-                  <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                  <a href="${pageContext.request.contextPath}/app/distributore/visualizza/${distributore.id}" class="btn btn-default"><span class="fa fa-times-circle"></span> Annulla</a>
+                  <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="fa fa-save"></span> Salva</a>
                 </div>
               </div>
               <div class="panel panel-info">

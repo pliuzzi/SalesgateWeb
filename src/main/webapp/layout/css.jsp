@@ -1,7 +1,7 @@
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css" />
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-theme.css" />
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/salesgate.css" />
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/ext/datepicker/datepicker.css" />
 <link media="screen" rel="stylesheet" href="${pageContext.request.contextPath}/css/ext/datatables/datatables.css" />

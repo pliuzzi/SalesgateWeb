@@ -15,16 +15,16 @@
       <div class="tree">
         <ul>
           <c:forEach items="${etlNodeDistributore}" var="rootNode">
-            <li><span><i class="glyphicon glyphicon-chevron-right"></i>&nbsp;&nbsp;${rootNode.utility}</span>
+            <li><span><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;${rootNode.utility}</span>
               <ul>
                 <c:forEach items="${rootNode.nodes}" var="firstLevel">
-                  <li><span><i class="glyphicon glyphicon-chevron-right"></i>&nbsp;&nbsp;${firstLevel.description}</span>
+                  <li><span><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;${firstLevel.description}</span>
                     <ul>
                       <c:forEach items="${firstLevel.nodes}" var="secondLevel">
-                        <li><span><i class="glyphicon glyphicon-chevron-right" title="${secondLevel.description}"></i>&nbsp;&nbsp;${secondLevel.description}</span>
+                        <li><span><i class="fa fa-chevron-right" title="${secondLevel.description}"></i>&nbsp;&nbsp;${secondLevel.description}</span>
                           <ul>
                             <c:forEach items="${secondLevel.nodes}" var="files">
-                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="glyphicon "></i>&nbsp;&nbsp;${files.description}</a>
+                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="fa "></i>&nbsp;&nbsp;${files.description}</a>
                             </c:forEach>
                           </ul></li>
                       </c:forEach>
@@ -39,16 +39,16 @@
       <div class="tree">
         <ul>
           <c:forEach items="${etlNodeServizio}" var="rootNode">
-            <li><span><i class="glyphicon glyphicon-chevron-right"></i>&nbsp;&nbsp;${rootNode.utility}</span>
+            <li><span><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;${rootNode.utility}</span>
               <ul>
                 <c:forEach items="${rootNode.nodes}" var="firstLevel">
-                  <li><span><i class="glyphicon glyphicon-chevron-right"></i>&nbsp;&nbsp;${firstLevel.description}</span>
+                  <li><span><i class="fa fa-chevron-right"></i>&nbsp;&nbsp;${firstLevel.description}</span>
                     <ul>
                       <c:forEach items="${firstLevel.nodes}" var="secondLevel">
-                        <li><span><i class="glyphicon glyphicon-chevron-right" title="${secondLevel.description}"></i>&nbsp;&nbsp;${secondLevel.description}</span>
+                        <li><span><i class="fa fa-chevron-right" title="${secondLevel.description}"></i>&nbsp;&nbsp;${secondLevel.description}</span>
                           <ul>
                             <c:forEach items="${secondLevel.nodes}" var="files">
-                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="glyphicon "></i>&nbsp;&nbsp;${files.description}</a>
+                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="fa "></i>&nbsp;&nbsp;${files.description}</a>
                             </c:forEach>
                           </ul></li>
                       </c:forEach>
@@ -92,13 +92,13 @@
 		    if (children.is(":visible")) {
 			children.hide('fast');
 			$(this).attr('title', 'Espandi').find(' > i').addClass(
-				'glyphicon-chevron-right').removeClass(
-				'glyphicon-chevron-down');
+				'fa-chevron-right').removeClass(
+				'fa-chevron-down');
 		    } else {
 			children.show('fast');
 			$(this).attr('title', 'Comprimi').find(' > i')
-				.addClass('glyphicon-chevron-down')
-				.removeClass('glyphicon-chevron-right');
+				.addClass('fa-chevron-down')
+				.removeClass('fa-chevron-right');
 		    }
 		    e.stopPropagation();
 		});

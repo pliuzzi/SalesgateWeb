@@ -652,12 +652,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataAttTemp;
   }
 
+  public String getFormattedDataAttTemp() {
+    return formatDate(dataAttTemp);
+  }
+
   public void setDataAttTemp(Date dataAttTemp) {
     this.dataAttTemp = dataAttTemp;
   }
 
   public Date getDataConclusioneRichiesta() {
     return dataConclusioneRichiesta;
+  }
+
+  public String getFormattedDataConclusioneRichiesta() {
+    return formatDate(dataConclusioneRichiesta);
   }
 
   public void setDataConclusioneRichiesta(Date dataConclusioneRichiesta) {
@@ -668,12 +676,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataConfermaAmmissibilita;
   }
 
+  public String getFormattedDataConfermaAmmissibilita() {
+    return formatDate(dataConfermaAmmissibilita);
+  }
+
   public void setDataConfermaAmmissibilita(Date dataConfermaAmmissibilita) {
     this.dataConfermaAmmissibilita = dataConfermaAmmissibilita;
   }
 
   public Date getDataDisattTemp() {
     return dataDisattTemp;
+  }
+
+  public String getFormattedDataDisattTemp() {
+    return formatDate(dataDisattTemp);
   }
 
   public void setDataDisattTemp(Date dataDisattTemp) {
@@ -684,12 +700,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataEsecLavori;
   }
 
+  public String getFormattedDataEsecLavori() {
+    return formatDate(dataEsecLavori);
+  }
+
   public void setDataEsecLavori(Date dataEsecLavori) {
     this.dataEsecLavori = dataEsecLavori;
   }
 
   public Date getDataEvasioneDl() {
     return dataEvasioneDl;
+  }
+
+  public String getFormattedDataEvasioneDl() {
+    return formatDate(dataEvasioneDl);
   }
 
   public void setDataEvasioneDl(Date dataEvasioneDl) {
@@ -700,12 +724,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataFineStag;
   }
 
+  public String getFormattedDataFineStag() {
+    return formatDate(dataFineStag);
+  }
+
   public void setDataFineStag(Date dataFineStag) {
     this.dataFineStag = dataFineStag;
   }
 
   public Date getDataInizioStag() {
     return dataInizioStag;
+  }
+
+  public String getFormattedDataInizioStag() {
+    return formatDate(dataInizioStag);
   }
 
   public void setDataInizioStag(Date dataInizioStag) {
@@ -716,12 +748,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataIntervento;
   }
 
+  public String getFormattedDataIntervento() {
+    return formatDate(dataIntervento);
+  }
+
   public void setDataIntervento(Date dataIntervento) {
     this.dataIntervento = dataIntervento;
   }
 
   public Date getDataInvioPreventivo() {
     return dataInvioPreventivo;
+  }
+
+  public String getFormattedDataInvioPreventivo() {
+    return formatDate(dataInvioPreventivo);
   }
 
   public void setDataInvioPreventivo(Date dataInvioPreventivo) {
@@ -732,12 +772,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataPrevistaRipristino;
   }
 
+  public String getFormattedDataPrevistaRipristino() {
+    return formatDate(dataPrevistaRipristino);
+  }
+
   public void setDataPrevistaRipristino(Date dataPrevistaRipristino) {
     this.dataPrevistaRipristino = dataPrevistaRipristino;
   }
 
   public Date getDataRiattRipr() {
     return dataRiattRipr;
+  }
+
+  public String getFormattedDataRiattRipr() {
+    return formatDate(dataRiattRipr);
   }
 
   public void setDataRiattRipr(Date dataRiattRipr) {
@@ -748,12 +796,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataRichiestaPreventivo;
   }
 
+  public String getFormattedDataRichiestaPreventivo() {
+    return formatDate(dataRichiestaPreventivo);
+  }
+
   public void setDataRichiestaPreventivo(Date dataRichiestaPreventivo) {
     this.dataRichiestaPreventivo = dataRichiestaPreventivo;
   }
 
   public Date getDataSospensione() {
     return dataSospensione;
+  }
+
+  public String getFormattedDataSospensione() {
+    return formatDate(dataSospensione);
   }
 
   public void setDataSospensione(Date dataSospensione) {
@@ -764,12 +820,20 @@ public class LavoriEleExtension extends CodDescBean {
     return dataTentativo;
   }
 
+  public String getFormattedDataTentativo() {
+    return formatDate(dataTentativo);
+  }
+
   public void setDataTentativo(Date dataTentativo) {
     this.dataTentativo = dataTentativo;
   }
 
   public Date getDataVerifica() {
     return dataVerifica;
+  }
+
+  public String getFormattedDataVerifica() {
+    return formatDate(dataVerifica);
   }
 
   public void setDataVerifica(Date dataVerifica) {

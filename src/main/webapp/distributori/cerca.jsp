@@ -50,7 +50,7 @@
         </div>
         <div class="form-group" align="center">
           <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-search"></span> Cerca
+            <span class="fa fa-search"></span> Cerca
           </button>
         </div>
       </form:form>
@@ -82,7 +82,7 @@
                 <td class="middle">${distributore.utility}</td>
                 <td class="middle">${distributore.getFlagNotificaSwoHtml()} (${distributore.getLastUpdatedFlgSwoHtml()})</td>
                 <td class="middle">${distributore.getFlagRucHtml()} (${distributore.getLastUpdatedFlgRucHtml()})</td>
-                <td class="middle"><a title="Visualizza Distributore" href="${pageContext.request.contextPath}/app/distributore/visualizza/${distributore.id}" data-id="${distributore.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                <td class="middle"><a title="Visualizza Distributore" href="${pageContext.request.contextPath}/app/distributore/visualizza/${distributore.id}" data-id="${distributore.id}" class="pointer"><span class="fa fa-edit"></span></a></td>
               </tr>
             </c:forEach>
           </tbody>

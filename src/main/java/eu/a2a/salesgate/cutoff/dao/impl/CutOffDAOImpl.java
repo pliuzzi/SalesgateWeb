@@ -22,18 +22,22 @@ public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
   JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
-  public List<CutOffItem> estraiAllCutOff(String stato, String canale) {
+  public List<CutOffItem> estraiAllCutOff(String stato, String canale, String servizio) {
 
     String sql = "select distinct ad.id as id_distributore, ad.name as name_distributore, f.id, f.cod_servizio, "
         + " f.cod_flusso, f.utility, f.nome_file, f.stato_file, conta_righe, created, closed_by, closed_date, arc.flag_canale cod_canale, p.name desc_canale " + " from files f, anag_dl ad, anag_richieste_canale arc, params p "
         + " where ad.id = f.fk_distributore " + " and fk_distributore = arc.fk_anag_dl" + " and f.cod_servizio = arc.cod_servizio" + " and f.utility = arc.utility" + " and p.value = arc.flag_canale " + " and p.category = 'CHANNELS' ";
     String sqlStato = " and f.stato_file = '" + stato + "'";
     String sqlCanale = " and upper(p.name) = '" + canale.toUpperCase() + "'";
+    String sqlServizio = " and upper(f.cod_servizio) = '" + servizio.toUpperCase() + "'";
     if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) {
       sql += sqlStato;
     }
     if ((canale != null) && (!canale.equalsIgnoreCase("TUTTI"))) {
       sql += sqlCanale;
+    }
+    if ((canale != null) && (!servizio.equalsIgnoreCase("TUTTI"))) {
+      sql += sqlServizio;
     }
     sql += "order by f.created desc";
     List<CutOffItem> list = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getRowMapper());

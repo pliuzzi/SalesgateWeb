@@ -101,7 +101,7 @@ iframe {
 } */
 
 .tree {
-    min-height:500px;
+    min-height:600px;
     padding-top:10px;
     margin-bottom:20px;
     /*background-color:#fbfbfb;
@@ -264,6 +264,7 @@ th, td { white-space: nowrap; }
     -o-transition: width 5s ease-in-out;
     transition: width 5s ease-in-out;
 }
+
 
 
 

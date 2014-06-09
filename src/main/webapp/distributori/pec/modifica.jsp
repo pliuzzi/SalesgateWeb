@@ -100,8 +100,8 @@
             </div>
             <div class="col-lg-3" align="right">
               <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/app/distributore/visualizza/${pec.codiceDistributore}" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
-                <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                <a href="${pageContext.request.contextPath}/app/distributore/visualizza/${pec.codiceDistributore}" class="btn btn-default"><span class="fa fa-times-circle"></span> Annulla</a>
+                <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="fa fa-save"></span> Salva</a>
               </div>
               <c:if test="${error}">
                 <div class="panel panel-danger" align="left" style="margin-top: 10px;">

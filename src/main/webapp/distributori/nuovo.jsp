@@ -157,7 +157,7 @@
                 </fieldset>
               </div>
               <div class="col-lg-6">
-                <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="fa fa-save"></span> Salva</a>
               </div>
             </div>
             

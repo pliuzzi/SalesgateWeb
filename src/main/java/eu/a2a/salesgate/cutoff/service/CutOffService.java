@@ -8,7 +8,7 @@ import eu.a2a.salesgate.cutoff.bean.CutOffItem;
 
 public interface CutOffService {
 
-  List<RootNode> estraiElencoCutoff(String stato, String canale, String... groupBy);
+  List<RootNode> estraiElencoCutoff(String stato, String canale, String servizio, String... groupBy);
 
   CutOffItem estraiCutoff(String id);
 

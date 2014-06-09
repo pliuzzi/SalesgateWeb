@@ -13,4 +13,6 @@ public interface ETLDAO {
 
   ETLInstanceItem estraiETLInstance(String eventCode, String objId);
 
+  int startETL(String eventCode, String fileName, String user);
+
 }

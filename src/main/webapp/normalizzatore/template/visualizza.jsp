@@ -85,7 +85,7 @@
             </div>
             <div class="col-lg-4" align="right">
               <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/app/normalizzatore/template/${templateInstance.distributore.id}/elenco" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                <a href="${pageContext.request.contextPath}/app/normalizzatore/template/${templateInstance.distributore.id}/elenco" class="btn btn-default"><span class="fa fa-times-circle"></span> Annulla</a> <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="fa fa-save"></span> Salva</a>
               </div>
 
               <c:if test="${error}">
@@ -191,14 +191,14 @@
                     <p class="text-left text-info">
                       Per <b>scaricare</b> il template attualmente utilizzato, fai clic qui sotto.
                     </p>
-                    <a class="btn btn-info" id="downloadTemplateFile" href="${pageContext.request.contextPath}/app/normalizzatore/template/${templateInstance.anagTemplate.id}/download"><span class="glyphicon glyphicon-download"></span> Download</a>
+                    <a class="btn btn-info" id="downloadTemplateFile" href="${pageContext.request.contextPath}/app/normalizzatore/template/${templateInstance.anagTemplate.id}/download"><span class="fa fa-download"></span> Download</a>
                   </div>
                   <div class="col-lg-6" align="center">
                     <h4>Upload File</h4>
                     <p class="text-left text-info">
                       Per <b>cambiare</b> il template attualmente utilizzato, fai clic qui sotto.
                     </p>
-                    <span class="btn btn-info fileinput-button"> <i class="glyphicon glyphicon-upload"></i> <span>Upload File</span> <!-- The file input field used as target for the file upload widget --> <input id="fileupload" type="file" name="files[]" multiple />
+                    <span class="btn btn-info fileinput-button"> <i class="fa fa-upload"></i> <span>Upload File</span> <!-- The file input field used as target for the file upload widget --> <input id="fileupload" type="file" name="files[]" multiple />
                     </span>
                   </div>
                 </div>
@@ -434,7 +434,7 @@ function refreshSortableItem(objSortable){
       $(item).children('p').remove();
       $(item).children('a').remove();
       $(item).prepend($('</p>').text(indexItem + 1).addClass('indexSortable'));
-      var removeBtn = $('<a href="#" class="close removeItem" aria-hidden="true"><small class="glyphicon glyphicon-remove" style="color: #e74c3c"></small></a>');
+      var removeBtn = $('<a href="#" class="close removeItem" aria-hidden="true"><small class="fa fa-remove" style="color: #e74c3c"></small></a>');
       removeBtn.on('click', removeBtnClick);
       $(item).append(removeBtn);
       $.each($(item).children('input[type=hidden]'), function (index, campo) {

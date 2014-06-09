@@ -41,6 +41,10 @@
 		this.element = $(element);
 		this.isInline = false;
 		this.isInput = this.element.is('input');
+		this.isDisabled = this.element.is(':disabled') || this.element.prop('readonly');
+		//console.debug("this.element.is(':disabled') = " + this.element.is(':disabled'));
+		//console.debug("this.element.prop('readonly') = " + this.element.prop('readonly'));
+		//console.debug("this.element.prop('readonly') == 'readonly' = " + this.element.prop('readonly') == 'readonly');
 		//this.component = this.element.is('.date') ? this.element.find('.add-on, .btn') : false;
 		this.component = this.element.is('.date') ? this.element.find('.input-group-addon, .btn') : false;
 		this.hasInput = this.component && this.element.find('input').length;
@@ -303,6 +307,7 @@
 		},
 
 		show: function(e) {
+		    if(this.isDisabled) return;
 			if (!this.isInline)
 				this.picker.appendTo('body');
 			this.picker.show();
@@ -376,7 +381,12 @@
 		},
 
 		setValue: function() {
+		  
 			var formatted = this.getFormattedDate();
+			console.debug("setValue = " + formatted);
+			console.debug("this.isDisabled = " + this.isDisabled);
+			if(this.isDisabled)
+			  return;
 			if (!this.isInput) {
 				if (this.component){
 					this.element.find('input').val(formatted).change();

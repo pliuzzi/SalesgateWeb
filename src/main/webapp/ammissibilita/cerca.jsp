@@ -55,7 +55,7 @@
         </div>
         <div class="form-group" align="center">
           <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-search"></span> Cerca
+            <span class="fa fa-search"></span> Cerca
           </button>
         </div>
       </form:form>
@@ -85,7 +85,7 @@
                 <td class="middle">${pratica.codicePraticaDl}</td>
                 <td class="middle">${pratica.fkDistributore}</td>
                 <td class="middle">${pratica.stato}</td>
-                <td class="middle"><a title="Visualizza Template" href="${pageContext.request.contextPath}/app/pratiche/gas/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                <td class="middle"><a title="Visualizza Template" href="${pageContext.request.contextPath}/app/pratiche/gas/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="fa fa-edit"></span></a></td>
               </tr>
             </c:forEach>
           </tbody>

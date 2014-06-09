@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +29,19 @@ public class LogController extends AbstractController {
   LogService logServiceSalesgate;
 
   @RequestMapping(value = "/app/log/salesgate", method = RequestMethod.GET)
-  public String initCercaLog(Model model, WebRequest request, Principal principal, HttpSession session) {
+  public String initCercaLog(@RequestParam(value = "serviceName", required = false) String serviceName, @RequestParam(value = "podPdr", required = false) String podPdr, @RequestParam(value = "appKey1", required = false) String appKey1,
+      @RequestParam(value = "appKey2", required = false) String appKey2, @RequestParam(value = "appKey3", required = false) String appKey3, Model model, WebRequest request, Principal principal, HttpSession session) {
+
+    model.addAttribute("serviceName", serviceName);
+    model.addAttribute("podPdr", podPdr);
+    model.addAttribute("appKey1", appKey1);
+    model.addAttribute("appKey2", appKey2);
+    model.addAttribute("appKey3", appKey3);
+
+    boolean auto = !(StringUtils.isEmpty(serviceName) && StringUtils.isEmpty(podPdr) && StringUtils.isEmpty(appKey1) && StringUtils.isEmpty(appKey2) && StringUtils.isEmpty(appKey3));
+
+    model.addAttribute("auto", auto);
+    logger.debug(model);
 
     return "app/log/salesgate";
   }

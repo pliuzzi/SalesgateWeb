@@ -86,7 +86,7 @@
                         <td class="middle">${pratica.pod}</td>
                         <td class="middle">${pratica.stato}</td>
                         <td class="middle">${pratica.created}</td>
-                        <td class="middle"><a title="Visualizza Pratica" href="${pageContext.request.contextPath}/app/pratiche/${cutoff.utility}/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                        <td class="middle"><a title="Visualizza Pratica" href="${pageContext.request.contextPath}/app/pratiche/${cutoff.utility}/${pratica.id}/visualizza" data-id="${pratica.id}" class="pointer"><span class="fa fa-edit"></span></a></td>
                       </tr>
                     </c:forEach>
                   </tbody>

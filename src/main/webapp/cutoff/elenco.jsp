@@ -15,14 +15,14 @@
         <div class="col-lg-3">
           <div class="panel panel-default">
             <div class="panel-heading text-center">
-              <a href="#" id="filterToggle"><span class="glyphicon glyphicon-chevron-down"></span> Filtri <span class="glyphicon glyphicon-chevron-down"></span></a>
+              <a href="#" id="filterToggle"><span class="fa fa-chevron-down"></span> Filtri <span class="fa fa-chevron-down"></span></a>
             </div>
             <div class="panel-body" id="filters">
               <form role="form" class="form-horizontal">
                 <div class="form-group">
                   <label for="cmbStatoFile" class="col-lg-5 control-label">Stato File</label>
                   <div class="col-lg-7">
-                    <select id="cmbStatoFile" name="cmbStatoFile" class="form-control">
+                    <select id="cmbStatoFile" name="cmbStatoFile" class="form-control input-sm selectize">
                       <option value="TUTTI">Tutti</option>
                       <option value="APERTO" selected="selected">Aperto</option>
                       <option value="ELABORATO">Elaborato</option>
@@ -34,13 +34,33 @@
                 <div class="form-group">
                   <label for="cmbCanale" class="col-lg-5 control-label">Canale</label>
                   <div class="col-lg-7">
-                    <select id="cmbCanale" name="cmbStatoFile" class="form-control">
+                    <select id="cmbCanale" name="cmbCanale" class="form-control input-sm selectize">
                       <option value="TUTTI">Tutti</option>
                       <option value="MASSIVO" selected="selected">Download</option>
                       <option value="PEC">Pec</option>
                     </select>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="cmbServizio" class="col-lg-5 control-label">Servizio</label>
+                  <div class="col-lg-7">
+                    <select id="cmbServizio" name="cmbServizio" class="form-control input-sm selectize">
+                      <option value="TUTTI">Tutti</option>
+                      <optgroup label="GAS">
+                      <c:forEach items="${listRichiesteGas}" var="richiesta">
+                        <option value="${richiesta.code}">${richiesta.code} - ${richiesta.description }</option>
+                      </c:forEach>
+                      </optgroup>
+                      <optgroup label="Elettrico">
+                        <c:forEach items="${listRichiesteEle}" var="richiesta">
+                        <option value="${richiesta.code}">${richiesta.code} - ${richiesta.description }</option>
+                      </c:forEach>
+                      </optgroup>
+
+                    </select>
+                  </div>
+                </div>
+                
                 <div class="form-group">
                   <div class="col-sm-offset-5 col-sm-7">
                     <button id="btnFilter" type="button" class="btn btn-primary">Filtra</button>
@@ -71,7 +91,7 @@
       </div>
       <div class="modal-body">
         <p>Sei sicuro di voler procedere con questa operazione?</p>
-        <p>Effettuare la chiusura del cut-off solo dopo aver caricato il file sul portale del distributore, questa operazione farà avanzare di stato le pratiche contenute nel file.</p>
+        <p>Effettuare la chiusura del cut-off solo dopo aver caricato il file sul portale del distributore, questa operazione far? avanzare di stato le pratiche contenute nel file.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" id="btnCloseCutOffConfirm" data-id="">Salva</button>
@@ -90,11 +110,11 @@
     // in fase di caricamento della pagina  
     //$("loadProgressBar").show();
     //$("body").css("cursor", "progress");
-    loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val());
+    loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val(), $("#cmbServizio").val());
     // fine caricamento pagina
 
     $("#btnFilter").click(function(e) {
-      loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val());
+      loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val(), $("#cmbServizio").val());
     });
 
     $('#filterToggle').click(function(e) {
@@ -103,20 +123,20 @@
       if (children.is(":visible")) {
         children.slideToggle("fast");
         //children.hide('fast');
-        $(this).find(' > span').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+        $(this).find(' > span').addClass('fa-chevron-down').removeClass('fa-chevron-up');
       } else {
         children.slideToggle("fast");
         //children.toggl('fast');
-        $(this).find(' > span').addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        $(this).find(' > span').addClass('fa-chevron-up').removeClass('fa-chevron-down');
       }
       e.stopPropagation();
     });
 
-    function loadTree(stato, canale) {
+    function loadTree(stato, canale, servizio) {
       
       showLoadingBar();
       
-      $('#treePlaceholder').load('${pageContext.request.contextPath}/app/cutoff/tree/' + stato + '/' + canale + ' #tree', function(responseText, textStatus, XMLHttpRequest) {
+      $('#treePlaceholder').load('${pageContext.request.contextPath}/app/cutoff/tree/' + stato + '/' + canale + '/' + servizio + ' #tree', function(responseText, textStatus, XMLHttpRequest) {
         
         
         
@@ -136,10 +156,10 @@
           var children = $(this).parent('li.parent_li').find(' > ul > li');
           if (children.is(":visible")) {
             children.hide('fast');
-            $(this).attr('title', 'Espandi').find(' > i').addClass('glyphicon-chevron-right').removeClass('glyphicon-chevron-down');
+            $(this).attr('title', 'Espandi').find(' > i').addClass('fa-chevron-right').removeClass('fa-chevron-down');
           } else {
             children.show('fast');
-            $(this).attr('title', 'Comprimi').find(' > i').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right');
+            $(this).attr('title', 'Comprimi').find(' > i').addClass('fa-chevron-down').removeClass('fa-chevron-right');
           }
           e.stopPropagation();
         });
@@ -160,19 +180,19 @@
         $('#btnDoCutOff').addClass('disabled');
         $('#btnDownloadCutOff').addClass('disabled');
         $('#btnCloseCutOff').addClass('disabled');
-        link.children('i').removeClass('glyphicon-folder-open').removeClass('glyphicon-warning-sign').removeClass('glyphicon-envelope').removeClass('glyphicon-hdd');
+        link.children('i').removeClass('fa-folder-open').removeClass('fa-exlamation-triangle').removeClass('fa-envelope').removeClass('fa-hdd-o');
         if ($('#statoFile').val() == "APERTO") {
-          link.children('i').addClass('glyphicon-folder-open');
+          link.children('i').addClass('fa-folder-open');
           $('#btnDoCutOff').removeClass('disabled');
         } else if ($('#statoFile').val() == "IN_ELABORAZIONE") {
-          link.children('i').addClass('glyphicon-folder-sign');
+          link.children('i').addClass('fa-exlamation-triangle');
           $('#btnDoCutOff').removeClass('disabled');
         } else if ($('#statoFile').val() == "ELABORATO") {
-          link.children('i').addClass('glyphicon-envelope');
+          link.children('i').addClass('fa-envelope');
           $('#btnDownloadCutOff').removeClass('disabled');
           $('#btnCloseCutOff').removeClass('disabled');
         } else if ($('#statoFile').val() == "CHIUSO") {
-          link.children('i').addClass('glyphicon-hdd');
+          link.children('i').addClass('fa-hdd-o');
           $('#btnDownloadCutOff').removeClass('disabled');
         }
         $('#btnDoCutOff').on('click', function(e) {
@@ -181,10 +201,10 @@
           if($(this).data("canale") == "PEC"){
             $.get("${pageContext.request.contextPath}/app/cutoff/" + $(this).data("id") + "/esegui", {}, function(data, textStatus, jqXHR) {
               if (data.result == "OK_PEC") {
-                bootbox.alert("La PEC è stata inviata con successo", function(){});
+                bootbox.alert("La PEC ? stata inviata con successo", function(){});
                 viewCutOff(link);
               }else{
-                bootbox.alert("Si è verificato un errore, contattare il supporto!", function(){});
+                bootbox.alert("Si ? verificato un errore, contattare il supporto!", function(){});
                 viewCutOff(link);
               }
             });
@@ -199,7 +219,7 @@
           
         });
         $('#btnCloseCutOffConfirm').on('click', function(e) {
-          //$(this).addClass('disabled'); -- perchè l'ho messo???
+          //$(this).addClass('disabled'); -- perch? l'ho messo???
           $.get("${pageContext.request.contextPath}/app/cutoff/" + $(this).data("id") + "/chiudi", {}, function(data, textStatus, jqXHR) {
             $('#closeConfirm').modal('hide');
             if (data.result == "OK") {

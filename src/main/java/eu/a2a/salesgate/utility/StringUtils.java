@@ -15,4 +15,8 @@ public class StringUtils {
     return stringWritter.toString();
   }
 
+  public static String spaceIfNull(Object obj) {
+    return (obj != null ? obj.toString() : "");
+  }
+
 }

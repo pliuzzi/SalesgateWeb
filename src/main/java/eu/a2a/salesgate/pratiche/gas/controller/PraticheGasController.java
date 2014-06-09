@@ -133,6 +133,7 @@ public class PraticheGasController extends AbstractController {
     model.addAttribute("lavoriGas", pratica);
     model.addAttribute("flussiSalvabili", flussiSalvabili);
     model.addAttribute("dettaglioVerificaEsito", pratica.getLavoriGasExtension().getDettaglioVerificaEsito());
+    model.addAttribute("canali", utilityService.estraiParams("CHANNELS"));
     if (code != null) {
       model.addAttribute("code", code);
       model.addAttribute("message", message);
@@ -140,7 +141,7 @@ public class PraticheGasController extends AbstractController {
 
     logger.debug(model);
     model.addAttribute("codServizio", pratica.getCodServizio());
-    return "app/pratiche/gas/visualizza/" + pratica.getCodServizio();
+    return "app/pratiche/gas/visualizza";
   }
 
   @RequestMapping(value = "/app/pratiche/gas/modifica", method = RequestMethod.POST)
@@ -152,6 +153,7 @@ public class PraticheGasController extends AbstractController {
       List<FlussiSalvabili> flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
       model.addAttribute("lavoriGas", pratica);
       model.addAttribute("flussiSalvabili", flussiSalvabili);
+      model.addAttribute("canali", utilityService.estraiParams("CHANNELS"));
       model.addAttribute("error", true);
       logger.debug(model);
       return "app/pratiche/gas/visualizza";

@@ -62,4 +62,32 @@ public class GenericResponse extends CodDescBean {
     return createGenericResponse(code, message, null);
   }
 
+  public static GenericResponse createOkResponse(String message) {
+    return createGenericResponse(OK, message, null);
+  }
+
+  public static GenericResponse createKoResponse(String message) {
+    return createGenericResponse(KO, message, null);
+  }
+
+  public static GenericResponse createErrorResponse(String message, Throwable throwable) {
+    return createGenericResponse(ERROR, message, throwable);
+  }
+
+  public static GenericResponse createErrorResponse(String message) {
+    return createGenericResponse(ERROR, message, null);
+  }
+
+  public boolean isOk() {
+    return this.code.equals(OK);
+  }
+
+  public boolean isKo() {
+    return this.code.equals(KO);
+  }
+
+  public boolean isError() {
+    return this.code.equals(ERROR);
+  }
+
 }

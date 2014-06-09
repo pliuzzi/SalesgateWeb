@@ -478,7 +478,7 @@
                 <form:label path="lavoriGasExtension.esito" class="col-lg-6 control-label">Esito</form:label>
                 <div class="col-lg-6">
                   <spring:bind path="lavoriGasExtension.esito">
-                    <form:select class="form-control input-sm ${status.error ? 'has-error' : ''}" path="${status.expression}" readonly="${lavoriGas.isLavoriGasEditable}"
+                    <form:select class="form-control input-sm ${status.error ? 'has-error' : ''}" path="${status.expression}" disabled="${lavoriGas.isLavoriGasEditable}"
                       data-toggle="tooltip" title="${status.errorMessage}" data-container="body" data-placement="right">
                       <form:option value="0">Negativo</form:option>
                       <form:option value="1">Positivo</form:option>

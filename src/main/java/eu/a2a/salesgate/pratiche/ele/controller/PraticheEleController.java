@@ -107,7 +107,7 @@ public class PraticheEleController extends AbstractController {
     List<LavoriEle> pratiche = lavoriEleService.cercaPerFiltro(filtro);
     model.addAttribute("filtro", filtro);
     model.addAttribute("listPraticheEle", pratiche);
-    session.setAttribute("ricerca_pratica__ele_salvata", pratiche);
+    session.setAttribute("ricerca_pratica_ele_salvata", pratiche);
     logger.debug(model);
     return "app/pratiche/ele/cerca";
   }
@@ -121,9 +121,13 @@ public class PraticheEleController extends AbstractController {
     List<FlussiSalvabili> flussiSalvabili;
     if (request.isUserInRole("ROLE_VPN-ESTERNI-PIC")) {
       FlussiSalvabili fs = new FlussiSalvabili();
-      fs.setCodFlussoAcc("0150");
+      fs.setCodFlussoAcc("E150");
       fs.setDescFlussoAcc("Esito - DEBUG");
       flussiSalvabili = new ArrayList<FlussiSalvabili>();
+      flussiSalvabili.add(fs);
+      fs = new FlussiSalvabili();
+      fs.setCodFlussoAcc("E150bis");
+      fs.setDescFlussoAcc("Esito bis - DEBUG");
       flussiSalvabili.add(fs);
     } else {
       flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
@@ -132,6 +136,7 @@ public class PraticheEleController extends AbstractController {
     model.addAttribute("lavoriEle", pratica);
     model.addAttribute("flussiSalvabili", flussiSalvabili);
     model.addAttribute("dettaglioVerificaEsito", pratica.getLavoriEleExtension().getDettaglioVerificaEsito());
+    model.addAttribute("canali", utilityService.estraiParams("CHANNELS"));
     if (code != null) {
       model.addAttribute("code", code);
       model.addAttribute("message", message);
@@ -151,6 +156,7 @@ public class PraticheEleController extends AbstractController {
       List<FlussiSalvabili> flussiSalvabili = utilityService.estraiFlussiSalvabili(pratica.getCodServizio(), pratica.getCodFlusso(), pratica.getStato(), pratica.getUtility());
       model.addAttribute("lavoriEle", pratica);
       model.addAttribute("flussiSalvabili", flussiSalvabili);
+      model.addAttribute("canali", utilityService.estraiParams("CHANNELS"));
       model.addAttribute("error", true);
       logger.debug(model);
       return "app/pratiche/ele/visualizza";

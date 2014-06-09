@@ -10,16 +10,14 @@
     <div class="col-lg-4">
       <div class="panel panel-index">
         <div class="panel-heading">
-          <span class="glyphicon glyphicon-list"></span> Gestione Pratiche
+          <span class="fa fa-list"></span> Gestione Pratiche
         </div>
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
           <li class="list-group-item">Cerca Pratica GAS <a href="<c:url value="/app/pratiche/gas/cerca/init" />">Vai</a></li>
-          <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST', 'ADMINISTRATOR')">
-            <li class="list-group-item">Cerca Pratica ELE <a href="<c:url value="/app/pratiche/ele/cerca/init" />">Vai</a></li>
-          </sec:authorize>
-          <li class="list-group-item">Cut Off Vendita <a href="<c:url value="/app/legacy/initSalesgateBusinessArea" />">Vai</a></li>
-          <li class="list-group-item">Esiti Massivi <a href="<c:url value="/app/legacy/initCaricamentoEsitiMassivi" />">Vai</a></li>
+          <li class="list-group-item">Cerca Pratica ELE <a href="<c:url value="/app/pratiche/ele/cerca/init" />">Vai</a></li>
+          <li class="list-group-item">Cut Off Vendita <a href="<c:url value="/app/cutoff/elenco" />">Vai</a></li>
+          <li class="list-group-item">Esiti Massivi <a href="<c:url value="/app/etl/elenco" />">Vai</a></li>
           <li class="list-group-item">Switch In GAS <a href="<c:url value="/app/legacy/initSalesgateGestionePratiche" />">Vai</a></li>
         </ul>
         <!-- </div> -->
@@ -27,7 +25,7 @@
       <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST', 'ADMINISTRATOR')">
         <div class="panel panel-index">
           <div class="panel-heading">
-            <span class="glyphicon glyphicon-list"></span> Netgate
+            <span class="fa fa-list"></span> Netgate
           </div>
           <!-- <div class="panel-body"> -->
           <ul class="list-group">
@@ -41,7 +39,7 @@
 
       <div class="panel panel-index">
         <div class="panel-heading">
-          <span class="glyphicon glyphicon-list"></span> Gestione Distributori
+          <span class="fa fa-list"></span> Gestione Distributori
         </div>
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
@@ -49,8 +47,6 @@
           <li class="list-group-item">Cerca Distributore <a href="<c:url value="/app/distributore/cerca/init" />">Vai</a></li>
           <li class="list-group-item">Nuovo Distributore Gas <a href="<c:url value="/app/distributore/nuovo/GAS" />">Vai</a></li>
           <li class="list-group-item">Nuovo Distributore Ele <a href="<c:url value="/app/distributore/nuovo/ELE" />">Vai</a></li>
-
-          <li class="list-group-item">Anagrafica Distributori (OLD) <a href="<c:url value="/app/legacy/initSalesgateUserConsole" />">Vai</a></li>
         </ul>
         <!-- </div> -->
       </div>
@@ -60,7 +56,7 @@
 
       <div class="panel panel-index">
         <div class="panel-heading">
-          <span class="glyphicon glyphicon-list"></span> Gestione Anagrafiche
+          <span class="fa fa-list"></span> Gestione Anagrafiche
         </div>
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
@@ -74,14 +70,11 @@
 
       <div class="panel panel-index">
         <div class="panel-heading">
-          <span class="glyphicon glyphicon-list"></span> SDM
+          <span class="fa fa-list"></span> SDM
         </div>
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
-          <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST', 'ADMINISTRATOR')">
-            <li class="list-group-item">Gestione Template (NEW)<a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Vai</a></li>
-          </sec:authorize>
-          <li class="list-group-item">Gestione Template <a href="<c:url value="/app/legacy/initSDMBusinessArea" />">Vai</a></li>
+          <li class="list-group-item">Gestione Template<a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Vai</a></li>
           <li class="list-group-item">File Uploader <a href="<c:url value="/app/legacy/initSDMFileUploader" />">Vai</a></li>
         </ul>
         <!-- </div> -->

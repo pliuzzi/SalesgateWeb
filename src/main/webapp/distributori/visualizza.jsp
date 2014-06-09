@@ -103,10 +103,10 @@
             </div>
             <div class="col-lg-4" align="right">
               <div class="btn-group">
-                <a href="<c:url value="/app/distributore/cerca/init" />" class="btn btn-default"><span class="glyphicon glyphicon-remove-circle"></span> Annulla</a>
+                <a href="<c:url value="/app/distributore/cerca/init" />" class="btn btn-default"><span class="fa fa-times-circle"></span> Annulla</a>
                 <div class="btn-group" align="left">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-cog"></span> Configura <span class="caret"></span>
+                    <span class="fa fa-cog"></span> Configura <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="${pageContext.request.contextPath}/app/distributore/${distributore.id}/canali/visualizza">Configura Canali</a></li>
@@ -114,7 +114,7 @@
                     <li><a href="${pageContext.request.contextPath}/app/template/${distributore.id}/elenco">Configura Template</a></li>
                   </ul>
                 </div>
-                <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Salva</a>
+                <a href="#" onClick="showConfirm()" class="btn btn-primary"><span class="fa fa-save"></span> Salva</a>
               </div>
               <!-- <fieldset>
                 <legend>Azioni disponibili</legend>

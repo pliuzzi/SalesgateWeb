@@ -3,19 +3,19 @@
 <tiles-definitions>
 
   <definition name="app/etl/elenco" extends="app">
-    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="title" value="Esiti Massivi"/>
     <put-attribute name="content" value="/etl/elenco.jsp"/>
   </definition>
   <definition name="app/etl/tree" extends="app">
-    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="title" value="Esiti Massivi"/>
     <put-attribute name="content" value="/etl/tree.jsp"/>
   </definition>
   <definition name="app/etl/istanze" extends="app">
-    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="title" value="Esiti Massivi"/>
     <put-attribute name="content" value="/etl/istanze.jsp"/>
   </definition>
   <definition name="app/etl/istanza" extends="popup">
-    <put-attribute name="title" value="Cut Off"/>
+    <put-attribute name="title" value="Esiti Massivi"/>
     <put-attribute name="content" value="/etl/istanza.jsp"/>
   </definition>
 

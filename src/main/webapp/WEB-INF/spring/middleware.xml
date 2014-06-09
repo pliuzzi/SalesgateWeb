@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:jee="http://www.springframework.org/schema/jee"
-  xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
+  xmlns:int="http://www.springframework.org/schema/integration" xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
+  xsi:schemaLocation="http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp-2.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean id="gecoInboundCoreGasClient" class="eu.a2a.salesgate.inbound.core.gas.client.GecoInboundCoreGAS_ServiceStub">
     <constructor-arg type="java.lang.String" ref="urlSalesgateInboundCoreGas" />
   </bean>
-  
+
   <bean id="gecoInboundCoreEleClient" class="eu.a2a.salesgate.inbound.core.ele.client.GecoInboundCoreELE_ServiceStub">
     <constructor-arg type="java.lang.String" ref="urlSalesgateInboundCoreEle" />
   </bean>
 
   <jee:jndi-lookup id="urlSalesgateInboundCoreGas" jndi-name="java:comp/env/url/salesgateInboundCoreGas" expected-type="java.lang.String" />
-  
+
   <jee:jndi-lookup id="urlSalesgateInboundCoreEle" jndi-name="java:comp/env/url/salesgateInboundCoreEle" expected-type="java.lang.String" />
+
+  <bean id="ftpSessionFactory" class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory">
+    <property name="host">
+      <jee:jndi-lookup jndi-name="java:comp/env/sftp/salesgate/host" expected-type="java.lang.String" />
+    </property>
+    <property name="port">
+      <jee:jndi-lookup jndi-name="java:comp/env/sftp/salesgate/port" expected-type="java.lang.String" />
+    </property>
+    <property name="username">
+      <jee:jndi-lookup jndi-name="java:comp/env/sftp/salesgate/user" expected-type="java.lang.String" />
+    </property>
+    <property name="password">
+      <jee:jndi-lookup jndi-name="java:comp/env/sftp/salesgate/password" expected-type="java.lang.String" />
+    </property>
+  </bean>
+  
+  <int:channel id="ftpOutputChannel" />
+  
+  <int-ftp:outbound-channel-adapter id="ftpOutboundChannelAdapter" session-factory="ftpSessionFactory" channel="ftpOutputChannel"
+    remote-directory="/user/pic/SALESGATE_PREPROD/in" />
+
+
 
 </beans>

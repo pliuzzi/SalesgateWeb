@@ -1,6 +1,6 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/utils.js"></script>
-<script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.js"></script>
+<script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.1.10.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/jquery.dataTables.bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/datatables/Scroller.js"></script>
 <script src="${pageContext.request.contextPath}/js/ext/jquery/ui/jquery-ui.js"></script>
@@ -47,6 +47,7 @@
 		});
 		$('input').tooltip();
 		$('textarea').tooltip();
+		$('.selectize').selectize();
         console.debug("pre $.ajaxSetup");
 		$.ajaxSetup({
 	      beforeSend:function(xmlHttpRequest){

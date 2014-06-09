@@ -1,7 +1,10 @@
 package eu.a2a.salesgate.etl.bean;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import org.springframework.util.StringUtils;
 
 import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.template.bean.Campo;
@@ -12,9 +15,9 @@ public class ETLInstanceItem extends CodDescBean {
   private String eventCode;
   private CodDescBean stato;
   private String fileName;
-  private Date dataCreazione;
-  private Date dataInizioLavorazione;
-  private Date dataFineLavorazione;
+  private String dataCreazione;
+  private String dataInizioLavorazione;
+  private String dataFineLavorazione;
   private int recordTotali;
   private int recordProcessati;
   private int recordScartati;
@@ -49,26 +52,50 @@ public class ETLInstanceItem extends CodDescBean {
   }
 
   public String getDataCreazione() {
-    return formatDateTime(dataCreazione);
+    try {
+      if (StringUtils.isEmpty(dataCreazione)) {
+        return "";
+      }
+      return formatDateTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(dataCreazione));
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
-  public void setDataCreazione(Date dataCreazione) {
+  public void setDataCreazione(String dataCreazione) {
     this.dataCreazione = dataCreazione;
   }
 
   public String getDataInizioLavorazione() {
-    return formatDateTime(dataInizioLavorazione);
+    try {
+      if (StringUtils.isEmpty(dataInizioLavorazione)) {
+        return "";
+      }
+      return formatDateTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(dataInizioLavorazione));
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
-  public void setDataInizioLavorazione(Date dataInizioLavorazione) {
+  public void setDataInizioLavorazione(String dataInizioLavorazione) {
     this.dataInizioLavorazione = dataInizioLavorazione;
   }
 
   public String getDataFineLavorazione() {
-    return formatDateTime(dataFineLavorazione);
+    try {
+      if (StringUtils.isEmpty(dataFineLavorazione)) {
+        return "";
+      }
+      return formatDateTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(dataFineLavorazione));
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
-  public void setDataFineLavorazione(Date dataFineLavorazione) {
+  public void setDataFineLavorazione(String dataFineLavorazione) {
     this.dataFineLavorazione = dataFineLavorazione;
   }
 

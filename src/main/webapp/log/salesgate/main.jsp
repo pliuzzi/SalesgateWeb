@@ -14,24 +14,24 @@
     <div class="panel-body">
       <form class="form-inline text-center" role="form">
         <div class="form-group">
-          <label class="sr-only" for="inputServiceName">Service Name</label> <input type="text" class="form-control" id="inputServiceName" placeholder="Service Name">
+          <label class="sr-only" for="inputServiceName">Service Name</label> <input type="text" class="form-control" id="inputServiceName" placeholder="Service Name"  value="${serviceName}">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="inputPodPdr">PodPdr</label> <input type="text" class="form-control" id="inputPodPdr" placeholder="PodPdr">
+          <label class="sr-only" for="inputPodPdr">PodPdr</label> <input type="text" class="form-control" id="inputPodPdr" placeholder="PodPdr" value="${podPdr}">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="inputAppKey1">AppKey1</label> <input type="text" class="form-control" id="inputAppKey1" placeholder="AppKey1">
+          <label class="sr-only" for="inputAppKey1">AppKey1</label> <input type="text" class="form-control" id="inputAppKey1" placeholder="AppKey1" value="${appKey1}">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="inputAppKey2">AppKey2</label> <input type="text" class="form-control" id="inputAppKey2" placeholder="AppKey2">
+          <label class="sr-only" for="inputAppKey2">AppKey2</label> <input type="text" class="form-control" id="inputAppKey2" placeholder="AppKey2" value="${appKey2}">
         </div>
         <div class="form-group">
-          <label class="sr-only" for="inputAppKey3">AppKey3</label> <input type="text" class="form-control" id="inputAppKey3" placeholder="AppKey3">
+          <label class="sr-only" for="inputAppKey3">AppKey3</label> <input type="text" class="form-control" id="inputAppKey3" placeholder="AppKey3" value="${appKey3}">
         </div>
         <div class="form-group">
           <label class="sr-only" for="inputMaxRows">MaxRows</label> <input type="text" class="form-control" id="inputMaxRows" placeholder="MaxRows">
         </div>
-        <button id="btnShowLogs" type="button" class="btn btn-default">Visualizza</button>
+        <button id="btnShowLogs" type="button" class="btn btn-default"><i class="fa fa-search"></i> Visualizza</button>
       </form>
       <div class="row">
         <div class="col-md-8">
@@ -99,6 +99,7 @@
 
 $(function(){
 
+  
   $('#inputMaxRows').spinedit({
     minimum: 100,
     maximum: 5000,
@@ -142,6 +143,10 @@ $(function(){
         });
       });
   });
+  
+  if(${auto}){
+    $('#btnShowLogs').click();
+  }
   
   
 });
