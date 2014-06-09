@@ -1,23 +1,23 @@
 <Context path="/SalesgateWeb_PREPROD" reloadable="true">
   <!-- PREPROD -->
-  <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource" username="sgusr" password="sgusr"
-    url="jdbc:oracle:thin:@10.90.100.122:1521:SLGTCOLL" driverClassName="oracle.jdbc.OracleDriver" initialSize="5" maxWait="5000" maxActive="120"
+  <Resource name="jdbc/salesgateDS" auth="Container" type="javax.sql.DataSource" username="sgusr" password="sal3sgat3!"
+    url="jdbc:oracle:thin:@10.90.103.126:1521:SLGTPRD" driverClassName="oracle.jdbc.OracleDriver" initialSize="5" maxWait="5000" maxActive="120"
     maxIdle="5" validationQuery="select * from dual" poolPreparedStatements="true" />
 
-  <Resource name="jdbc/sdmDS" auth="Container" type="javax.sql.DataSource" username="sdmba" password="sdmba"
-    url="jdbc:oracle:thin:@10.90.100.122:1521:SLGTCOLL" driverClassName="oracle.jdbc.OracleDriver" initialSize="5" maxWait="5000" maxActive="120"
+  <Resource name="jdbc/sdmDS" auth="Container" type="javax.sql.DataSource" username="sdmba" password="Verdun13"
+    url="jdbc:oracle:thin:@10.90.105.14:1521:CHEOPEGAS" driverClassName="oracle.jdbc.OracleDriver" initialSize="5" maxWait="5000" maxActive="120"
     maxIdle="5" validationQuery="select * from dual" poolPreparedStatements="true" />
 
   <Resource name="url/salesgateInboundCoreGas" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory"
-    url="http://10.90.101.177:12060/Business/Services/GecoInboundCore_GAS" />
+    url="http://10.90.103.127:12060/Business/Services/GecoInboundCore_GAS" />
 
   <Resource name="url/salesgateInboundCoreEle" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory"
-    url="http://10.90.101.177:12050/Business/Services/GecoInboundCore_ELE" />
+    url="http://10.90.103.127:12050/Business/Services/GecoInboundCore_ELE" />
 
-  <Resource name="sftp/salesgate/host" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory" url="10.90.100.122" />
+  <Resource name="sftp/salesgate/host" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory" url="10.90.103.126" />
   <Resource name="sftp/salesgate/port" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory" url="21" />
   <Resource name="sftp/salesgate/user" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory" url="picuser" />
-  <Resource name="sftp/salesgate/password" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory" url="venice2012" />
+  <Resource name="sftp/salesgate/password" auth="Container" type="java.lang.String" factory="eu.a2a.salesgate.factory.StringFactory" url="picus12" />
 
 
 </Context>
