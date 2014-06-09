@@ -24,7 +24,7 @@
                         <li><span><i class="fa fa-chevron-right" title="${secondLevel.description}"></i>&nbsp;&nbsp;${secondLevel.description}</span>
                           <ul>
                             <c:forEach items="${secondLevel.nodes}" var="files">
-                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="fa "></i>&nbsp;&nbsp;${files.description}</a>
+                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="fa fa-cog"></i>&nbsp;&nbsp;${files.description}</a>
                             </c:forEach>
                           </ul></li>
                       </c:forEach>
@@ -48,7 +48,7 @@
                         <li><span><i class="fa fa-chevron-right" title="${secondLevel.description}"></i>&nbsp;&nbsp;${secondLevel.description}</span>
                           <ul>
                             <c:forEach items="${secondLevel.nodes}" var="files">
-                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="fa "></i>&nbsp;&nbsp;${files.description}</a>
+                              <li><a class="treeItemLink etlLink" data-etl-event-code="${files.id}" href="#"><i class="fa fa-cog"></i>&nbsp;&nbsp;${files.description}</a>
                             </c:forEach>
                           </ul></li>
                       </c:forEach>

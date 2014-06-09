@@ -71,7 +71,7 @@
                         <td class="middle">${istanza.recordTotali}</td>
                         <td class="middle">${istanza.recordProcessati}</td>
                         <td class="middle">${istanza.recordScartati}</td>
-                        <td class="middle"><c:if test="${istanza.recordScartati > 0}"><button name="scarti" class="scarti" style="btn btn-default btn-xs" data-istanza-id="${istanza.id}"><i class="fa fa-download"></i></button></c:if></td>
+                        <td class="middle"><c:if test="${istanza.recordScartati > 0 and istanza.stato.id == 4}"><button name="scarti" class="scarti" style="btn btn-default btn-xs" data-istanza-id="${istanza.id}"><i class="fa fa-download"></i></button></c:if></td>
                         <td class="middle">${istanza.dataInizioLavorazione}</td>
                         <td class="middle">${istanza.dataFineLavorazione}</td>
                       </tr>
