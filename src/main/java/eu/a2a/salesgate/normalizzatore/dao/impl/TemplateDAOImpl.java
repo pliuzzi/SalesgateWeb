@@ -135,7 +135,7 @@ public class TemplateDAOImpl extends AbstractDAO implements TemplateDAO {
     // sqlSessionSGUSR.insert(INSERT_ANAG_TEMPLATE, templateInstance);
     String sqlInsertAnagTemplate = "INSERT INTO ANAG_TEMPLATE (ID, FIRST_ROW, FILE_TYPE, SEPARATORE, N_MAX_RIGHE, IN_OUT, CREATED, NOME, FILE_CONTENT)" + " VALUES ( ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
     jdbcTemplateSdm.update(sqlInsertAnagTemplate, ti.getAnagTemplate().getId(), ti.getAnagTemplate().getFirstRow(), ti.getAnagTemplate().getFileType().getId(), ti.getAnagTemplate().getSeparatore(), ti.getAnagTemplate().getnMaxRighe(), ti
-        .getAnagTemplate().getInOut() + "BOUND", ti.getAnagTemplate().getNomeFile(), ti.getAnagTemplate().getFileContent());
+        .getAnagTemplate().getInOut(), ti.getAnagTemplate().getNomeFile(), ti.getAnagTemplate().getFileContent());
     // sqlSessionSGUSR.insert(INSERT_TEMPLATE_INSTANCE, templateInstance);
     String sqlInsertTemplateInstance = "INSERT INTO TEMPLATE_INSTANCE (ID, FK_DISTRIBUTORE, FK_COD_SERVIZIO, FK_COD_FLUSSO, FK_UTILITY, FK_TEMPLATE, " + " FLAG_ATTIVO, EVENT_CODE) VALUES (?, ?, ?, ?, ?, ?, 'Y', ?)";
     jdbcTemplateSdm.update(sqlInsertTemplateInstance, ti.getId(), ti.getDistributore().getId(), ti.getCodiceServizio().getCode(), ti.getCodFlusso().getId(), ti.getUtility(), ti.getAnagTemplate().getId(), ti.getEventCode());
