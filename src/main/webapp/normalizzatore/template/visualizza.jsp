@@ -434,7 +434,7 @@ function refreshSortableItem(objSortable){
       $(item).children('p').remove();
       $(item).children('a').remove();
       $(item).prepend($('</p>').text(indexItem + 1).addClass('indexSortable'));
-      var removeBtn = $('<a href="#" class="close removeItem" aria-hidden="true"><small class="fa fa-remove" style="color: #e74c3c"></small></a>');
+      var removeBtn = $('<a href="#" class="close removeItem" aria-hidden="true"><small class="fa fa-times" style="color: #e74c3c"></small></a>');
       removeBtn.on('click', removeBtnClick);
       $(item).append(removeBtn);
       $.each($(item).children('input[type=hidden]'), function (index, campo) {
