@@ -1,5 +1,6 @@
 package eu.a2a.salesgate.etl.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
@@ -29,6 +30,7 @@ import eu.a2a.salesgate.bean.FileType;
 import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.controller.base.AbstractController;
+import eu.a2a.salesgate.converter.excel.ExcelConverter;
 import eu.a2a.salesgate.etl.bean.ETLInstanceItem;
 import eu.a2a.salesgate.etl.service.ETLService;
 import eu.a2a.salesgate.utility.service.UtilityService;
@@ -78,9 +80,12 @@ public class ETLController extends AbstractController {
       String mimeType = defaultDetector.detect(null, metadata).toString();
 
       FileType fileType = utilityServiceSalesgate.estraiFileType(mimeType);
+
+      ByteArrayOutputStream convertedFile = ExcelConverter.convert(file.getInputStream(), mimeType);
+
       if (fileType != null) {
 
-        GenericResponse etlResponse = etlServiceSalesgate.startETL(file.getBytes(), file.getOriginalFilename(), eventCode, principal.getName());
+        GenericResponse etlResponse = etlServiceSalesgate.startETL(convertedFile.toByteArray(), file.getOriginalFilename(), eventCode, principal.getName());
 
         if (etlResponse.isOk()) {
           res.put("files", files);
