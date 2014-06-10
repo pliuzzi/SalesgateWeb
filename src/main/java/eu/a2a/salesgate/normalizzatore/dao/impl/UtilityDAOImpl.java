@@ -120,8 +120,7 @@ public class UtilityDAOImpl extends AbstractDAO implements UtilityDAO {
 
   @Override
   public List<AnagFlussi> getAnagFlussi(String utility, String direzione) {
-    String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione " + " from anag_flussi " + " where direzione = decode('" + direzione + "', 'IN', 'INBOUND', 'OUTBOUND') " + " and utility = '" + utility
-        + "'";
+    String sql = "select cod_flusso, description, utility, gruppo_procedure, nome_action, direzione " + " from anag_flussi " + " where direzione = '" + direzione + "' " + " and utility = '" + utility + "'";
     return jdbcTemplateSdm.query(sql, new AnagFlussiJdbcHandler().getRowMapper());
   }
 
