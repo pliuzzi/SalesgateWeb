@@ -36,7 +36,7 @@ public class ETLDAOImpl extends AbstractDAO implements ETLDAO {
   public List<ETLItem> estraiAllETLItem() {
 
     String sql = "SELECT fk_distributore, ad.name, FK_UTILITY,FK_COD_SERVIZIO,FK_COD_FLUSSO, event_code " + " FROM TEMPLATE_INSTANCE ti, sched_event_schedule ses, anag_dl ad " + " WHERE EVENT_CODE = SES.CD_EVENTO "
-        + " and ti.fk_distributore = ad.id";
+        + " and ti.fk_distributore = ad.id order by fk_utility asc, ad.name asc, fk_cod_servizio asc";
 
     List<ETLItem> list = jdbcTemplateSalesgate.query(sql, new ETLItemJdbcHandler().getRowMapper());
 
