@@ -202,7 +202,7 @@ function clonaTemplate(id, idDistributore, codiceServizio, codiceFlusso, utility
         }).done(function(data, textStatus, jqXHR){
         	    $("#cloneResult").children('p').remove();
               if(data.codErrore){
-                $('<p/>').text("Si è verificato un errore: " + data.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#cloneResult');
+                $('<p/>').text("Si ? verificato un errore: " + data.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#cloneResult');
               }else{
                 $('<p/>').text("Template clonato con successo.").append("<a href=\"${pageContext.request.contextPath}/app/template/" + data.idTemplateNew + "/visualizza\" class=\"alert-link\">Vai al template</a>").prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-success").appendTo('#cloneResult');
               }
@@ -232,7 +232,7 @@ $(function () {
         done: function (e, data) {
           $('#files').children().remove();
             if(data.result.errorThrown){
-              $('<p/>').text('Si è verificato un errore: ' + data.result.errorThrown).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#files');
+              $('<p/>').text('Si ? verificato un errore: ' + data.result.errorThrown).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#files');
             }else{
               $.each(data.result.files, function (index, file) {
                   $('<p/>').text("File " + file.name + " caricato con successo").prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-success").appendTo('#files');
@@ -241,7 +241,7 @@ $(function () {
         },
         fail: function (e, data) {
             if(data.errorThrown)
-              $('<p/>').text('Si è verificato un errore: ' + data.errorThrown).addClass("alert alert-danger").appendTo('#files');
+              $('<p/>').text('Si ? verificato un errore: ' + data.errorThrown).addClass("alert alert-danger").appendTo('#files');
         },
         send: function (e, data) {
           $('#progress').css('display', 'block');

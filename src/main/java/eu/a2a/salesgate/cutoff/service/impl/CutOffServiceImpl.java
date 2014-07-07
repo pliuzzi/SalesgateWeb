@@ -70,6 +70,7 @@ public class CutOffServiceImpl extends AbstractService implements CutOffService 
         firstLevelItem.setNodes(secondLevels);
         firstLevels.add(firstLevelItem);
       }
+      // firstLevels = sort(firstLevels, groupBy[0]);
       node.setNodes(firstLevels);
       nodes.add(node);
     }

@@ -342,7 +342,7 @@ $(function () {
         done: function (e, data) {
             $('#files').children().remove();
             if(data.result.codErrore){
-              $('<p/>').text('Si è verificato un errore: ' + data.result.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#files');
+              $('<p/>').text('Si ? verificato un errore: ' + data.result.descErrore).prepend('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>').addClass("alert alert-danger").appendTo('#files');
             }else{
               $("#fileTypeDesc").text(data.result.fileTypeDesc);
               $("#anagTemplate\\.fileType\\.id").val(data.result.fileTypeId);
@@ -355,7 +355,7 @@ $(function () {
         },
         fail: function (e, data) {
             if(data.errorThrown)
-            	$('<p/>').text('Si è verificato un errore: ' + data.errorThrown).addClass("alert alert-danger").appendTo('#files');
+            	$('<p/>').text('Si ? verificato un errore: ' + data.errorThrown).addClass("alert alert-danger").appendTo('#files');
         },
         send: function (e, data) {
           $('#progress').css('display', 'block');

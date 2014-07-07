@@ -189,7 +189,7 @@ public class TemplateController extends AbstractController {
       byte[] fileContent = file.getAnagTemplate().getFileContent();
 
       response.setHeader("Content-Disposition", "attachment;filename=\"" + nome + "\"");
-      OutputStream out = response.getOutputStream();
+
       /*
        * MimetypesFileTypeMap mft = new MimetypesFileTypeMap();
        * response.setContentType(mft.getContentType(file.getNomeFile()));
@@ -200,7 +200,7 @@ public class TemplateController extends AbstractController {
       response.setContentType(defaultDetector.detect(null, metadata).getType());
       response.setContentLength(fileContent.length);
 
-      // response.setContentType(doc.getContentType());
+      OutputStream out = response.getOutputStream();
       FileCopyUtils.copy(fileContent, out);
       out.flush();
       out.close();

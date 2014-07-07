@@ -32,6 +32,7 @@ public class CampiObbligatori extends CodDescBean {
     decode.put("MATR_MIS", "lavoriGasExtension.misuratore.matricola");
     decode.put("ATTI_AUTORIZZATIVI", "lavoriGasExtension.attiAutorizzativi");
     decode.put("ANNO_FABB_MIS", "lavoriGasExtension.annoFabbMis");
+    decode.put("DATA_INTERVENTO", "lavoriGasExtension.dataIntervento");
   }
 
   public String getCampo() {

@@ -79,6 +79,7 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
         AnagAmmissibilita am = utilityDaoSalesgate.getAllAnagAmmissibilita(tracking.getAnagAmmissibilita().getId(), null).get(0);
         String flussoDaInviare = tracking.getCodFlusso().equals("0052") ? "0101" : "0100";
         GecoInboundCoreGASRequest soapRequest = soapRequestDoc.addNewGecoInboundCoreGASRequest();
+        soapRequest.setPIVADISTRIBUTORE(tracking.getDistributore().getPiva());
         soapRequest.setCODSERVIZIO(tracking.getCodServizio());
         soapRequest.setCODFLUSSO(flussoDaInviare);
         soapRequest.setCODPRATSG(tracking.getId());
@@ -106,6 +107,7 @@ public class AmmissibilitaServiceImpl extends AbstractService implements Ammissi
         AnagAmmissibilita am = utilityDaoSalesgate.getAllAnagAmmissibilita(tracking.getAnagAmmissibilita().getId(), null).get(0);
         String flussoDaInviare = "E100";
         GecoInboundCoreELERequest soapRequest = soapRequestDoc.addNewGecoInboundCoreELERequest();
+        soapRequest.setPIVADISTRIBUTORE(tracking.getDistributore().getPiva());
         soapRequest.setCODSERVIZIO(tracking.getCodServizio());
         soapRequest.setCODFLUSSO(flussoDaInviare);
         soapRequest.setCODPRATSG(tracking.getId());
