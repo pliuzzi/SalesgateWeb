@@ -18,6 +18,7 @@ public class CampiObbligatori extends CodDescBean {
 
     decode.put("ESITO", "lavoriGasExtension.esito");
     decode.put("SOSP_POT_PERICOLO", "lavoriGasExtension.sospPotPericolo");
+    decode.put("SOSP_POT_PER", "lavoriGasExtension.sospPotPericolo");
     decode.put("SOST_MIS", "lavoriGasExtension.misuratore.sostituzione");
     decode.put("COD_FLUSSO", "codFlusso");
     decode.put("COD_SERVIZIO", "codServizio");
