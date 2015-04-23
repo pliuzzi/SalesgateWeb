@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
+import eu.a2a.salesgate.norm.venditore.handler.TemplateVenditoriJdbcHandler;
 import eu.a2a.salesgate.normalizzatore.dao.TemplateDAO;
 import eu.a2a.salesgate.template.bean.Campo;
 import eu.a2a.salesgate.template.bean.TemplateInstance;
@@ -32,6 +34,18 @@ public class TemplateDAOImpl extends AbstractDAO implements TemplateDAO {
         + " and ti.fk_distributore = ? and in_out = ? ";
 
     return jdbcTemplateSdm.query(sql, new TemplateInstanceJdbcHandler().getRowMapper(), idDistr, direzione);
+  }
+  
+  @Override
+  public List<TemplateInstance> getAllTemplateVenditori(String idVend, String direzione) {
+
+    String sql = "SELECT ti.id, fk_distributore, fk_cod_servizio, fk_cod_flusso, fk_utility, fk_template, colonne_totali, colonne_effettive, flag_attivo, "
+        + " event_code, nome, file_content, first_row, file_type, separatore, n_max_righe, in_out, created, last_updated, af.code, af.description, "
+        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc " + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
+        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility " + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and AT.IN_OUT = AFL.DIREZIONE "
+        + " and ti.fk_distributore = ? and in_out = ? ";
+
+    return jdbcTemplateSdm.query(sql, new TemplateVenditoriJdbcHandler().getRowMapper(), idVend, direzione);
   }
 
   @Override
@@ -73,6 +87,16 @@ public class TemplateDAOImpl extends AbstractDAO implements TemplateDAO {
     return jdbcTemplateSdm.query(sql, new TemplateInstanceJdbcHandler().getResultSetExtractor(), idTemplate);
   }
 
+  @Override
+  public TemplateInstance getTemplateVenditore(String idTemplate) {
+	  String sql = "SELECT ti.id, fk_distributore, fk_cod_servizio, fk_cod_flusso, fk_utility, fk_template, colonne_totali, colonne_effettive, flag_attivo, "
+		        + " event_code, nome, file_content, first_row, file_type, separatore, n_max_righe, in_out, created, last_updated, af.code, af.description, "
+		        + " is_template, mime_type, ar.description cod_servizio_desc, afl.description cod_flusso_desc " + " FROM template_instance ti, anag_template at, anag_filetype af, anag_richieste ar, anag_flussi afl "
+		        + " WHERE ti.fk_template = at.id AND at.file_type = af.id and ar.code = ti.fk_cod_servizio and ar.utility = ti.fk_utility " + " and afl.cod_flusso = ti.fk_cod_flusso and afl.utility = ti.fk_utility and AT.IN_OUT = AFL.DIREZIONE "
+		        + " and ti.id = ? ";
+	  return jdbcTemplateSdm.query(sql, new TemplateVenditoriJdbcHandler().getResultSetExtractor(), idTemplate);
+  }
+  
   @Override
   public List<Campo> getCampiOutbound(String utility) {
 
@@ -138,7 +162,7 @@ public class TemplateDAOImpl extends AbstractDAO implements TemplateDAO {
         .getAnagTemplate().getInOut(), ti.getAnagTemplate().getNomeFile(), ti.getAnagTemplate().getFileContent());
     // sqlSessionSGUSR.insert(INSERT_TEMPLATE_INSTANCE, templateInstance);
     String sqlInsertTemplateInstance = "INSERT INTO TEMPLATE_INSTANCE (ID, FK_DISTRIBUTORE, FK_COD_SERVIZIO, FK_COD_FLUSSO, FK_UTILITY, FK_TEMPLATE, " + " FLAG_ATTIVO, EVENT_CODE) VALUES (?, ?, ?, ?, ?, ?, 'Y', ?)";
-    jdbcTemplateSdm.update(sqlInsertTemplateInstance, ti.getId(), ti.getDistributore().getId(), ti.getCodiceServizio().getCode(), ti.getCodFlusso().getId(), ti.getUtility(), ti.getAnagTemplate().getId(), ti.getEventCode());
+    jdbcTemplateSdm.update(sqlInsertTemplateInstance, ti.getId(), StringUtils.isEmpty(ti.getDistributore().getId()) ? ti.getVenditore().getId() : ti.getDistributore().getId(), ti.getCodiceServizio().getCode(), ti.getCodFlusso().getId(), ti.getUtility(), ti.getAnagTemplate().getId(), ti.getEventCode());
     if ("IN".equals(ti.getAnagTemplate().getInOut())) {
       // sqlSessionSGUSR.insert(INSERT_SCHED_EVENT_SCHEDULE, templateInstance);
       String sqlInsertSchedEventSchedule = "INSERT INTO SCHED_EVENT_SCHEDULE (CD_EVENTO, PKG_NAME, TIME_POLLING, FLAG_ONOFF, PRIORITY) " + " VALUES ( '" + ti.getEventCode() + "', 'ETL_TRANSFORM.MAIN', 1, 1, 1)";

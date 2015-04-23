@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import eu.a2a.salesgate.dao.base.AbstractDAO;
 import eu.a2a.salesgate.dao.handler.IntegerJdbcHandler;
+import eu.a2a.salesgate.norm.venditore.handler.TemplateVenditoriJdbcHandler;
 import eu.a2a.salesgate.template.bean.Campo;
 import eu.a2a.salesgate.template.bean.TemplateInstance;
 import eu.a2a.salesgate.template.dao.TemplateDAO;

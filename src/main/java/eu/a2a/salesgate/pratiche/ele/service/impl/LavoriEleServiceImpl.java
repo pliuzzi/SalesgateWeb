@@ -284,7 +284,11 @@ public class LavoriEleServiceImpl extends AbstractService implements LavoriEleSe
     request.setESITOAPP(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getEsitoapp()));
     request.setDATAINTERVENTO(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getFormattedDataIntervento()));
     request.setTIPOLETTURA(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getTipologiaLettura()));
-
+    
+    request.setMISURATOREELETTRONICONEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMisuratoreElettronico()));
+    request.setMATRMISATTIVANEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMatricolaMisAttiva()));
+    request.setMATRMISPOTENZANEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMatricolaMisPotenza()));
+    request.setMATRMISREATTIVANEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMatricolaMisReattiva()));
     request.setLETTATT1NEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getLetturaAttivaF1()));
     request.setLETTATT2NEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getLetturaAttivaF2()));
     request.setLETTATT3NEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getLetturaAttivaF3()));

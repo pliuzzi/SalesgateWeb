@@ -34,6 +34,35 @@ public class CampiObbligatori extends CodDescBean {
     decode.put("ATTI_AUTORIZZATIVI", "lavoriGasExtension.attiAutorizzativi");
     decode.put("ANNO_FABB_MIS", "lavoriGasExtension.annoFabbMis");
     decode.put("DATA_INTERVENTO", "lavoriGasExtension.dataIntervento");
+    decode.put("ADDEBITO_ONERI", "lavoriEleExtension.addebitoOneri");
+    decode.put("COD_FLUSSO", "lavoriEleExtension.codiceFlusso");
+    decode.put("CODICEE02", "lavoriEleExtension.codicee02");
+    decode.put("COD_INAMM", "lavoriEleExtension.codInamm");
+    decode.put("COD_POD", "pod");
+    decode.put("COD_PREV_DISTR", "lavoriEleExtension.codicePrevDl");
+    decode.put("DATA_LETTURA", "lavoriEleExtension.misuratore.dataLettura");
+    decode.put("DATA_RIATT_RIPR", "lavoriEleExtension.dataRiattRipr");
+    decode.put("DATA_SOSPENSIONE", "lavoriEleExtension.dataSospensione");
+    decode.put("ESITO", "lavoriEleExtension.esito");
+    decode.put("ESITO_BASE", "lavoriEleExtension.esitoBase");
+    decode.put("FASE", "lavoriEleExtension.fase");
+    decode.put("LETT_ATT_3", "lavoriEleExtension.misuratore.letturaAttivaF3");
+    decode.put("MATR_MIS_ATTIVA", "lavoriEleExtension.misuratore.matricolaMisAttiva");
+    decode.put("MESE_COMP", "lavoriEleEstension.meseComp");
+    decode.put("MESE_COMP_1", "lavoriEleExtension.meseComp1");
+    decode.put("MISURATORE_ELETTRONICO", "lavoriEleExtension.misuratore.misuratoreElettronico");
+    decode.put("MOTIVAZIONE", "lavoriEleExtension.motivazione");
+    decode.put("ON_OFF", "lavoriEleExtension.onOff");
+    decode.put("OPZIONE_TARIFF", "lavoriEleExtension.opzioneTariffaria");
+    decode.put("POTENZA_FRANCHIGIA", "lavoriEleExtension.potFranchigia");
+    decode.put("POTENZAFRANCHIGIA", "lavoriEleExtension.potFranchigia");
+    decode.put("POTENZAIMPEGNATA", "lavoriEleExtension.potImpegnata");
+    decode.put("REVOCA_DISATT", "lavoriEleExtension.revocaDisatt");
+    decode.put("SETTORE_MERCEOLOGICO", "lavoriEleExtension.settoreMerceologico");
+    decode.put("SOSP_POT_PER", "lavoriEleExtension.sospPotPer");
+    decode.put("TENSIONE", "lavoriEleExtension.tensione");
+    decode.put("TENSIONE_FASE", "lavoriEleExtension.tensioneFase");
+    decode.put("TIPOLOGIA_UTENZA", "lavoriEleExtension.tipologiaUtenza");
   }
 
   public String getCampo() {

@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div>
-
   <ol class="breadcrumb">
     <li><a href="${pageContext.request.contextPath}/app/home">Home</a></li>
     <li class="active">Cerca Pratica Ele</li>

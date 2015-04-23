@@ -12,7 +12,7 @@ public class AnagAmmissibilitaJdbcHandler extends JdbcHandler<AnagAmmissibilita>
   protected AnagAmmissibilita createObjectFromResultSet(ResultSet rs) throws SQLException {
     AnagAmmissibilita aa = new AnagAmmissibilita();
     aa.setId(rs.getString("ID"));
-    aa.setDescription(rs.getString("DESCRIPTION"));
+    aa.setDescription(rs.getString("CODICE") + " - " + rs.getString("DESCRIPTION"));
     aa.setUtility(rs.getString("UTILITY"));
     aa.setCodice(rs.getString("CODICE"));
     aa.setEsito(rs.getInt("ESITO"));

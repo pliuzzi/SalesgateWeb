@@ -5,5 +5,6 @@ import eu.a2a.salesgate.security.bean.User;
 public interface UserSecurityService {
 
   User getUserByUsername(String username);
+  boolean verifyUser(String user);
 
 }

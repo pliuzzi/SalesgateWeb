@@ -59,7 +59,7 @@ public class LavoriGasDAOImpl extends AbstractDAO implements LavoriGasDAO {
       sql += " and stato = '" + filtro.getStato() + "'";
     }
 
-    jdbcTemplateSalesgate.setMaxRows(1000);
+    //jdbcTemplateSalesgate.setMaxRows(1000);
     List<LavoriGas> list = jdbcTemplateSalesgate.query(sql, new LavoriGasJdbcHandler().getRowMapper());
     return list;
   }

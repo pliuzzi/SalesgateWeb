@@ -50,6 +50,19 @@
         </ul>
         <!-- </div> -->
       </div>
+      <!-- 
+      <div class="panel panel-index">
+        <div class="panel-heading">
+          <span class="fa fa-list"></span> Gestione Venditori
+        </div>
+        <!-- <div class="panel-body"> -->
+        <!--
+        <ul class="list-group">
+          <li class="list-group-item">Cerca Venditore <a href="<c:url value="/app/venditore/cerca/init" />">Vai</a></li>
+          <li class="list-group-item">Nuovo Venditore<a href="<c:url value="/app/venditore/nuovo" />">Vai</a></li>
+        </ul>
+        <!-- </div> 
+      </div> -->
 
     </div>
     <div class="col-lg-4">
@@ -75,11 +88,30 @@
         <!-- <div class="panel-body"> -->
         <ul class="list-group">
           <li class="list-group-item">Gestione Template<a href="<c:url value="/app/normalizzatore/cercadistributore/init" />">Vai</a></li>
+          <!-- <li class="list-group-item">Gestione Template Venditori<a href="<c:url value="/app/normalizzatore/cercavenditore/init" />">Vai</a></li>  -->
+          <li class="list-group-item">File Uploader (New) <a href="<c:url value="/app/fileUploader/elenco" />">Vai</a></li>
           <li class="list-group-item">File Uploader <a href="<c:url value="/app/legacy/initSDMFileUploader" />">Vai</a></li>
         </ul>
         <!-- </div> -->
       </div>
-
+      <c:set var = "userAuthorized" value = "${userAuth}" />
+      <c:if test = "${userAuthorized}"> 
+      <div class="panel panel-index">
+        <div class="panel-heading">
+          <span class="fa fa-list"></span> Causali Inammissibilita
+        </div>
+        <!-- <div class="panel-body"> -->
+        <ul class="list-group">
+          <li class="list-group-item">Cerca Causale Inammissibilit&agrave;<a href="<c:url value="/app/motivazione/cerca/init" />">Vai</a></li>
+          <li class="list-group-item">Nuova Causale Inammissibilit&agrave;<a href="<c:url value="/app/motivazione/nuovo/init" />">Vai</a></li>
+          <!-- 
+          <li class="list-group-item">Cerca Motivazione Venditore<a href="<c:url value="/app/motivazioneVendita/cerca/init" />">Vai</a></li>
+          <li class="list-group-item">Nuova Motivazione Venditore<a href="<c:url value="/app/motivazioneVendita/nuovo/init" />">Vai</a></li>
+        	 -->
+        </ul>
+        <!-- </div> -->
+      </div>
+      </c:if>
     </div>
   </div>
 

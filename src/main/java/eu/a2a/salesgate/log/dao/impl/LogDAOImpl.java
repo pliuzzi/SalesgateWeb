@@ -40,7 +40,7 @@ public class LogDAOImpl extends AbstractDAO implements LogDAO {
       sql += " AND APPKEY3 = '" + appKey3 + "' ";
     }
     sql += " ORDER BY ID DESC";
-    jdbcTemplateSalesgate.setMaxRows(maxRows);
+    //jdbcTemplateSalesgate.setMaxRows(maxRows);
     return jdbcTemplateSalesgate.query(sql, new TibcoAuditJdbcHandler().getRowMapper());
   }
 

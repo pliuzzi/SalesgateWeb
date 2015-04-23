@@ -19,5 +19,10 @@ public class UserSecurityServiceImpl extends AbstractService implements UserSecu
     User user = userSecurityDAO.findUserByUsername(username);
     return user;
   }
+  
+  @Override
+  public boolean verifyUser(String user) {
+	  return userSecurityDAO.verifyUser(user);
+  }
 
 }

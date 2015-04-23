@@ -24,6 +24,12 @@ public class TemplateServiceImpl extends AbstractService implements TemplateServ
     List<TemplateInstance> listTemplateInstance = templateDaoSdm.getAllTemplate(idDistr, direzione);
     return listTemplateInstance;
   }
+  
+  @Override
+  public List<TemplateInstance> getTemplatesVenditori(String idVend, String direzione) {
+	  List<TemplateInstance> listTemplateInstanceVenditori = templateDaoSdm.getAllTemplateVenditori(idVend, direzione);
+	  return listTemplateInstanceVenditori;
+  }
 
   @Override
   public int updateFileTemplate(String id, byte[] file, String fileName, String fileType) {
@@ -48,6 +54,11 @@ public class TemplateServiceImpl extends AbstractService implements TemplateServ
   @Override
   public TemplateInstance getTemplate(String idTemplate) {
     return templateDaoSdm.getTemplate(idTemplate);
+  }
+  
+  @Override
+  public TemplateInstance getTemplateVenditore(String idTemplate) {
+	  return templateDaoSdm.getTemplateVenditore(idTemplate);
   }
 
   @Override

@@ -8,8 +8,12 @@ import eu.a2a.salesgate.template.bean.TemplateInstance;
 public interface TemplateService {
 
   public List<TemplateInstance> getTemplates(String idDistr, String direzione);
+  
+  public List<TemplateInstance> getTemplatesVenditori(String idVend, String direzione);
 
   public TemplateInstance getTemplate(String idTemplate);
+  
+  public TemplateInstance getTemplateVenditore(String idTemplate);
 
   public int updateFileTemplate(String id, byte[] file, String fileName, String fileType);
 

@@ -6,6 +6,7 @@ import eu.a2a.salesgate.bean.AnagFlussi;
 import eu.a2a.salesgate.bean.AnagRichieste;
 import eu.a2a.salesgate.bean.CodDescBean;
 import eu.a2a.salesgate.distributori.bean.Distributore;
+import eu.a2a.salesgate.venditori.bean.Venditore;
 
 public class TemplateInstance extends CodDescBean {
 
@@ -14,6 +15,7 @@ public class TemplateInstance extends CodDescBean {
   private AnagRichieste codiceServizio;
   private AnagFlussi codFlusso;
   private String utility;
+  private Venditore venditore;
 
   private Integer colonneTotali;
   private Integer colonneEffettive;
@@ -55,6 +57,14 @@ public class TemplateInstance extends CodDescBean {
 
   public void setUtility(String utility) {
     this.utility = utility;
+  }
+  
+  public Venditore getVenditore() {
+	  return venditore;
+  }
+  
+  public void setVenditore(Venditore venditore) {
+	  this.venditore = venditore;
   }
 
   public Integer getColonneTotali() {

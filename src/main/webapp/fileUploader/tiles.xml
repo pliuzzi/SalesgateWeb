@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <definition name="app/fileUploader/elenco" extends="app">
+    <put-attribute name="title" value="File Uploader"/>
+    <put-attribute name="content" value="/fileUploader/elenco.jsp"/>
+  </definition>
+  <definition name="app/fileUploader/tree" extends="app">
+    <put-attribute name="title" value="File Uploader"/>
+    <put-attribute name="content" value="/fileUploader/tree.jsp"/>
+  </definition>
+  <definition name="app/fileUploader/istanze" extends="app">
+    <put-attribute name="title" value="File Uploader"/>
+    <put-attribute name="content" value="/fileUploader/istanze.jsp"/>
+  </definition>
+  <definition name="app/fileUploader/istanza" extends="popup">
+    <put-attribute name="title" value="FileUploader"/>
+    <put-attribute name="content" value="/fileUploader/istanza.jsp"/>
+  </definition>
+
+</tiles-definitions>

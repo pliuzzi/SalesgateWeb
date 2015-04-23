@@ -10,6 +10,8 @@ import org.springframework.util.StringUtils;
 import eu.a2a.salesgate.bean.base.GenericResponse;
 import eu.a2a.salesgate.distributori.bean.Distributore;
 import eu.a2a.salesgate.distributori.dao.DistributoreDAO;
+//import eu.a2a.salesgate.inbound.core.gas.bind.GecoInboundCoreGASRequestDocument;
+//import eu.a2a.salesgate.inbound.core.gas.bind.GecoInboundCoreGASRequestDocument.GecoInboundCoreGASRequest;
 import eu.a2a.salesgate.pratiche.bean.AnagAmmissibilita;
 import eu.a2a.salesgate.pratiche.bean.AvanzamentoFlussi;
 import eu.a2a.salesgate.pratiche.gas.bean.FiltroPraticheGas;
@@ -21,6 +23,7 @@ import eu.a2a.salesgate.pratiche.gas.bean.LavoriGasXMisuratore;
 import eu.a2a.salesgate.pratiche.gas.dao.LavoriGasDAO;
 import eu.a2a.salesgate.pratiche.gas.service.LavoriGasService;
 import eu.a2a.salesgate.service.base.AbstractService;
+//import eu.a2a.salesgate.utility.StringUtils;
 import eu.a2a.salesgate.utility.dao.UtilityDAO;
 
 @Service
@@ -49,7 +52,7 @@ public class LavoriGasServiceImpl extends AbstractService implements LavoriGasSe
     LavoriGasExtension lavoriGasExtension = estraiLavoriGasExtension(codicePraticaSG);
     Distributore distributore = distributoreDaoSalesgate.getDistributore(pratica.getFkDistributore());
     AnagAmmissibilita anagAmmissibilita;
-    if (!StringUtils.isEmpty(pratica.getFkAmmissibilita())) {
+    if (!org.springframework.util.StringUtils.isEmpty(pratica.getFkAmmissibilita())) {
       anagAmmissibilita = utilityDaoSalesgate.getAnagAmmissibilita(pratica.getFkAmmissibilita());
     } else {
       anagAmmissibilita = new AnagAmmissibilita();
@@ -145,6 +148,13 @@ public class LavoriGasServiceImpl extends AbstractService implements LavoriGasSe
     GenericResponse response = GenericResponse.createGenericResponse(GenericResponse.OK, "Pratica salvata" + (inviaMittente ? " e inviata al sistema mittente " : " ") + "correttamente");
 
     return response;
+    /*
+    GecoInboundCoreGASRequestDocument requestDocument = GecoInboundCoreGASRequestDocument.Factory.newInstance();
+    GenericResponse response = null;
+    GecoInboundCoreGASRequest request = requestDocument.addNewGecoInboundCoreGASRequest();
+    request.setACCMIS(StringUtils.spaceIfNull(pratica.getLavoriGasExtension().getAccMis()));
+    request.setADDEBITOONERI(StringUtils.spaceIfNull(pratica.getLavoriGasExtension()));*/
+    
   }
 
 }

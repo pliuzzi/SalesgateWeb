@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <definition name="app/venditore/cerca" extends="app">
+    <put-attribute name="title" value="Cerca Venditore" />
+    <put-attribute name="content" value="/venditori/cerca.jsp" />
+  </definition>
+
+  <definition name="app/venditore/visualizza" extends="app">
+    <put-attribute name="title" value="Visualizza Venditore"/>
+    <put-attribute name="content" value="/venditori/visualizza.jsp"/>
+  </definition>
+  <definition name="app/venditore/nuovo" extends="app">
+    <put-attribute name="title" value="Nuovo Venditore"></put-attribute>
+    <put-attribute name="content" value="/venditori/nuovo.jsp"></put-attribute>
+  </definition>
+
+</tiles-definitions>

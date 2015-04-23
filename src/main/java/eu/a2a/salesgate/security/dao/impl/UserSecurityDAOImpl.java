@@ -23,5 +23,16 @@ public class UserSecurityDAOImpl extends AbstractDAO implements UserSecurityDAO 
     User user = jdbcTemplateSalesgate.query("select * from users where username = ?", userJdbcHandler.getResultSetExtractor(), username);
     return user;
   }
+  
+  @Override
+	public boolean verifyUser(String user) {
+		int nRow = 0;
+		String query = "SELECT COUNT(*) FROM USER_CAUSALI_INAMMISSIBILITA WHERE LOGIN_NAME = '" + user + "'";
+		nRow = jdbcTemplateSalesgate.queryForObject(query, Integer.class);
+		if (nRow != 0) {
+			return true;
+		}
+		return false;
+	}
 
 }

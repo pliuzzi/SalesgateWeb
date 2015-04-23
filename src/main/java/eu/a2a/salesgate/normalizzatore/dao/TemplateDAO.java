@@ -33,4 +33,8 @@ public interface TemplateDAO {
 
   int verifyEventCode(TemplateInstance templateInstance);
 
+  List<TemplateInstance> getAllTemplateVenditori(String idVend, String direzione);
+  
+  TemplateInstance getTemplateVenditore(String idVend);
+  
 }
