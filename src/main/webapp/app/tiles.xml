@@ -6,7 +6,7 @@
     <put-attribute name="css" value="/layout/css.jsp"/>
     <put-attribute name="jsPre" value="/layout/jsPre.jsp"/>
     <put-attribute name="jsPost" value="/layout/jsPost.jsp"/>
-    <put-attribute name="menu" value="/app/menu.jsp" />
+    <put-attribute name="menu" value="/app/menu" />
     <put-attribute name="loadingBar" value="/layout/loadingBar.jsp"/>
   </definition>
   
@@ -14,7 +14,7 @@
     <put-attribute name="css" value="/layout/css.jsp"/>
     <put-attribute name="jsPre" value="/layout/jsPre.jsp"/>
     <put-attribute name="jsPost" value="/layout/jsPost.jsp"/>
-    <put-attribute name="menu" value="/app/menu.jsp" />
+    <put-attribute name="menu" value="/app/menu" />
   </definition>
   
   <definition name="popup" templateExpression="/layout/popup.jsp">
@@ -26,6 +26,8 @@
   <definition name="app/home" extends="app">
     <put-attribute name="title" value="Benvenuto" />
     <put-attribute name="content" value="/app/home.jsp" />
+  </definition>
+  <definition name="app/menu" templateExpression="/app/menu.jsp">
   </definition>
 
 </tiles-definitions>

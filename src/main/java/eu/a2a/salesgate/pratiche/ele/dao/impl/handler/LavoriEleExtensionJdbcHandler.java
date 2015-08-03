@@ -195,7 +195,7 @@ public class LavoriEleExtensionJdbcHandler extends JdbcHandler<LavoriEleExtensio
     lavoriEleExtension.setLastUpdated(rs.getDate("LAST_UPDATED"));
     lavoriEleExtension.setServizioRichiedibile(rs.getString("SERVIZIO_RICHIEDIBILE"));
     lavoriEleExtension.setAcquistoConsenso(rs.getString("ACQUISTO_CONSENSO"));
-    lavoriEleExtension.setImmediataSostituzione(rs.getString("IMMEDIATA_SOSTITUZIONE"));
+    // lavoriEleExtension.setImmediataSostituzione(rs.getString("IMMEDIATA_SOSTITUZIONE"));
     lavoriEleExtension.setFlagNecessario(rs.getString("FLAG_NECESSARIO"));
     lavoriEleExtension.setFlagVenditore(rs.getString("FLAG_VENDITORE"));
     lavoriEleExtension.setGestApp(rs.getBigDecimal("GEST_APP"));

@@ -30,11 +30,25 @@ public class HomeController extends AbstractController {
      * User loggedUser = userSecurityService.getUserByUsername(principal
      * .getName()); SessionHelper.storeAuthenticatedUserInSession(loggedUser);
      */
-	logger.debug(principal.getName());
-	userAuth = userSecurityService.verifyUser(principal.getName());
-	logger.debug(userAuth);
-	model.addAttribute("userAuth", userAuth);
+    logger.debug(principal.getName());
+    userAuth = userSecurityService.verifyUser(principal.getName());
+    logger.debug(userAuth);
+    model.addAttribute("userAuth", userAuth);
     return "app/home";
+  }
+
+  @RequestMapping(value = "/app/menu", method = RequestMethod.GET)
+  public String goToAppMenu(Model model, WebRequest request, Principal principal, HttpSession session) {
+
+    /*
+     * User loggedUser = userSecurityService.getUserByUsername(principal
+     * .getName()); SessionHelper.storeAuthenticatedUserInSession(loggedUser);
+     */
+    logger.debug(principal.getName());
+    userAuth = userSecurityService.verifyUser(principal.getName());
+    logger.debug(userAuth);
+    model.addAttribute("userAuth", userAuth);
+    return "app/menu";
   }
 
   @RequestMapping(value = "/", method = RequestMethod.GET)

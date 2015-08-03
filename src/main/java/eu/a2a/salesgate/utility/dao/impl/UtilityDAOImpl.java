@@ -36,7 +36,7 @@ public class UtilityDAOImpl extends AbstractDAO implements UtilityDAO {
 
   @Override
   public List<AnagAmmissibilita> getAllAnagAmmissibilita(String id, String utility) {
-    String sql = "select * from anag_ammissibilita where 1 = 1";
+    String sql = "select * from anag_ammissibilita where 1 = 1 and esito != 5 ";
     if (id != null) {
       sql += " and id = " + id;
     }
