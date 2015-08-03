@@ -60,7 +60,7 @@ public class UtilityDAOImpl extends AbstractDAO implements UtilityDAO {
   public List<CampiObbligatori> getAllCampiObbligatori(LavoriGas pratica) {
     String sql = "SELECT distinct CAMPO, ALERT FROM ANAG_VERIFICA_ESITO ave " + " where 1=1 " + " and piva_dl in ('00000000000', '" + pratica.getDistributore().getPiva() + "') " + " and fk_anag_ric_id = '" + pratica.getCodServizio() + "' "
         + " and fk_anag_ric_utl = '" + pratica.getUtility() + "' " + " and cod_flusso = '" + pratica.getCodFlusso() + "' " + " and obbligatorio = 'Y'";
-    List<CampiObbligatori> list = jdbcTemplateSdm.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
+    List<CampiObbligatori> list = jdbcTemplateSdm.query(sql, new CampiObbligatoriJdbcHandler("Gas").getRowMapper());
     return list;
   }
 
