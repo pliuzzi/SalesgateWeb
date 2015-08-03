@@ -15,12 +15,14 @@
     <div class="col-sm-6 col-md-4 col-md-offset-4">
       <h1 class="text-center login-title">Accedi per continuare su Salesgate</h1>
       <div class="account-wall">
-        <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
+        <!-- <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">-->
+        <img class="profile-img" src="https:////ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="">
+        
         <form id="signin" class="form-signin" role="form" action="<c:url value="/j_spring_security_check" />" method="post">
             <input type="hidden" name="_csrf" value="<c:out value="${_csrf.token}" />" />
           <input type="text" class="form-control" placeholder="Username" required autofocus id="j_username" name="j_username"> <input type="password" class="form-control" placeholder="Password" required id="j_password" name="j_password">
           <button class="btn btn-lg btn-primary btn-block" type="submit">Accedi</button>
-          <label class="checkbox pull-left"> <input type="checkbox" value="remember-me"> Ricordami
+          <label class="checkbox pull-left"> <!-- <input type="checkbox" id="chk-remember-me" name="chk-remember-me"> Ricordami -->
           </label> <a href="#" class="pull-right need-help">Bisogno di aiuto? </a><span class="clearfix"></span>
         </form>
       </div>

@@ -65,16 +65,16 @@
             <li class="divider"></li>
             <li><a href="<c:url value="/app/legacy/initSDMFileUploader" />">File Uploader</a></li>
           </ul></li>
-        <c:set var = "userAuthorized" value = "${userAuth}" />
-        <c:if test = "${userAuthorized}">
-        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Causali Inammissibilit&agrave;<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="<c:url value="/app/motivazione/cerca/init" />">Cerca Causali Inammissibilit&agrave;</a></li>
-            <li><a href="<c:url value="/app/motivazione/nuovo/init" />">Nuova Causale Inammissibilit&agrave;</a></li>
-            <!-- <li class="divider"></li>
+        <c:set var="userAuthorized" value="${userAuth}" />
+        <c:if test="${userAuthorized}">
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Causali Inammissibilit&agrave;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="<c:url value="/app/motivazione/cerca/init" />">Cerca Causali Inammissibilit&agrave;</a></li>
+              <li><a href="<c:url value="/app/motivazione/nuovo/init" />">Nuova Causale Inammissibilit&agrave;</a></li>
+              <!-- <li class="divider"></li>
             <li><a href="<c:url value="/app/motivazioneVendita/cerca/init" />">Cerca Motivazione Venditore</a></li>
             <li><a href="<c:url value="/app/motivazioneVendita/nuovo/init" />">Nuova Motivazione Venditore</a></li>  -->
-          </ul></li>
+            </ul></li>
         </c:if>
         <sec:authorize access="hasAnyRole('ROLE_VPN-ESTERNI-PIC', 'PIC_SVILUPPO', 'PIC_TEST')">
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Netgate<b class="caret"></b></a>
@@ -84,7 +84,9 @@
             </ul></li>
         </sec:authorize>
       </ul>
+
       <ul class="nav navbar-nav navbar-right">
+        <li><p class="navbar-text">Ver. ${version}</p></li>
         <li><p class="navbar-text">
             (
             <sec:authentication property="principal.username" />

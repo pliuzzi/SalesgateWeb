@@ -10,10 +10,11 @@
   <import resource="security.xml" />
 
   <import resource="middleware.xml" />
+  <context:property-placeholder location="classpath:application.properties" />
+  
 
+  
   <context:component-scan base-package="eu.a2a.salesgate" />
-
-  <context:property-placeholder location="classpath:eu/a2a/salesgate/config/application.properties" />
 
   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
     <property name="host" value="smtpapp.group.local" />

@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,12 @@ public class HomeController extends AbstractController {
   @Autowired
   private UserSecurityService userSecurityService;
   private boolean userAuth;
+
+  @Value("${version}")
+  String version;
+
+  @Value("${build.date}")
+  String buildDate;
 
   @RequestMapping(value = "/app/home", method = RequestMethod.GET)
   public String goToAppHome(Model model, WebRequest request, Principal principal, HttpSession session) {
@@ -48,6 +55,8 @@ public class HomeController extends AbstractController {
     userAuth = userSecurityService.verifyUser(principal.getName());
     logger.debug(userAuth);
     model.addAttribute("userAuth", userAuth);
+    model.addAttribute("version", version);
+    model.addAttribute("build-date", buildDate);
     return "app/menu";
   }
 
