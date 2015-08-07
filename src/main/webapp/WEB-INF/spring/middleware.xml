@@ -38,7 +38,7 @@
   <int:channel id="ftpOutputChannel" />
   
   <int-ftp:outbound-channel-adapter id="ftpOutboundChannelAdapter" session-factory="ftpSessionFactory" channel="ftpOutputChannel"
-    remote-directory="/user/pic/SALESGATE_PREPROD/in" />
+    remote-directory="/home/picuser/SALESGATE/in" />
 
 
 
