@@ -37,9 +37,9 @@ public class CutOffServiceImpl extends AbstractService implements CutOffService 
   private TemplateService templateServiceSalesgate;
 
   @Override
-  public List<RootNode> estraiElencoCutoff(String stato, String canale, String servizio, String... groupBy) {
+  public List<RootNode> estraiElencoCutoff(String stato, String canale, String servizio, String periodo, String... groupBy) {
 
-    List<CutOffItem> list = cutOffDaoSalesgate.estraiAllCutOff(stato, canale, servizio);
+    List<CutOffItem> list = cutOffDaoSalesgate.estraiAllCutOff(stato, canale, servizio, periodo);
 
     List<RootNode> nodes = null;
     Group<CutOffItem> groupUtility = group(list, by(on(CutOffItem.class).getUtility()));

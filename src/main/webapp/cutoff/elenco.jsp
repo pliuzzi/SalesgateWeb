@@ -60,6 +60,16 @@
                     </select>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="cmbServizio" class="col-lg-5 control-label">Periodo</label>
+                  <div class="col-lg-7">
+                    <select id="cmbPeriodo" name="cmbPeriodo" class="form-control input-sm selectize">
+                      <option value="1" selected="selected">1 mese</option>
+                      <option value="3">3 mesi</option>
+                      <option value="6">6 mesi</option>
+                    </select>
+                  </div>
+                </div>
                 
                 <div class="form-group">
                   <div class="col-sm-offset-5 col-sm-7">
@@ -110,11 +120,11 @@
     // in fase di caricamento della pagina  
     //$("loadProgressBar").show();
     //$("body").css("cursor", "progress");
-    loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val(), $("#cmbServizio").val());
+    loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val(), $("#cmbServizio").val(), $("#cmbPeriodo").val());
     // fine caricamento pagina
 
     $("#btnFilter").click(function(e) {
-      loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val(), $("#cmbServizio").val());
+      loadTree($("#cmbStatoFile").val(), $("#cmbCanale").val(), $("#cmbServizio").val(), $("#cmbPeriodo").val());
     });
 
     $('#filterToggle').click(function(e) {
@@ -132,11 +142,11 @@
       e.stopPropagation();
     });
 
-    function loadTree(stato, canale, servizio) {
+    function loadTree(stato, canale, servizio, periodo) {
       
       showLoadingBar();
       
-      $('#treePlaceholder').load('${pageContext.request.contextPath}/app/cutoff/tree/' + stato + '/' + canale + '/' + servizio + ' #tree', function(responseText, textStatus, XMLHttpRequest) {
+      $('#treePlaceholder').load('${pageContext.request.contextPath}/app/cutoff/tree/' + stato + '/' + canale + '/' + servizio + '/' + periodo + ' #tree', function(responseText, textStatus, XMLHttpRequest) {
         
         
         

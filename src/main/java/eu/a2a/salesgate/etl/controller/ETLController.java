@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +33,7 @@ import eu.a2a.salesgate.bean.tree.RootNode;
 import eu.a2a.salesgate.controller.base.AbstractController;
 import eu.a2a.salesgate.converter.excel.ExcelConverter;
 import eu.a2a.salesgate.etl.bean.ETLInstanceItem;
+import eu.a2a.salesgate.etl.exception.EtlException;
 import eu.a2a.salesgate.etl.service.ETLService;
 import eu.a2a.salesgate.utility.service.UtilityService;
 
@@ -66,7 +68,7 @@ public class ETLController extends AbstractController {
 
   @RequestMapping(value = "/app/json/etl/upload", method = RequestMethod.POST)
   public @ResponseBody
-  Object uploadTemplateFile(@RequestParam("files[]") MultipartFile file, @RequestParam("eventCode") String eventCode, Model model, WebRequest request, Principal principal, HttpSession session) {
+  Object uploadTemplateFile(@RequestParam("files[]") MultipartFile file, @RequestParam("eventCode") String eventCode, Model model, WebRequest request, Principal principal, HttpSession session) throws EtlException {
     HashMap<String, Object> res = new HashMap<>();
     try {
 
@@ -100,12 +102,22 @@ public class ETLController extends AbstractController {
         res.put("descErrore", "Il tipo file non è supportato");
       }
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       res.put("codErrore", "GEN_ERR");
       res.put("descErrore", e.getMessage());
+      throw new EtlException("GEN_ERR", e.getMessage());
     }
     return res;
 
+  }
+
+  @ExceptionHandler(EtlException.class)
+  public @ResponseBody
+  Object handleJsonException(EtlException e) {
+    HashMap<String, Object> res = new HashMap<>();
+    res.put("codErrore", e.getCode());
+    res.put("descErrore", e.getMessage());
+    return res;
   }
 
   @RequestMapping(value = { "/app/etl/{eventCode}/instanze" }, method = RequestMethod.GET)

@@ -202,7 +202,7 @@ public class LavoriEleServiceImpl extends AbstractService implements LavoriEleSe
     request.setDATATENTATIVO(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getFormattedDataTentativo()));
     request.setDATAVERIFICA(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getFormattedDataVerifica()));
     request.setDISALIMENTABILE(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getDisalimentabile()));
-    request.setESITO(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getEsito().toPlainString()));
+    request.setESITO(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getEsito()));
     // request.setESITOVALAUTOLETTURA(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getEsitoValAutolettura()));
     request.setIMMEDIATASOSTITUZIONE(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getImmediataSostituzione()));
 
@@ -284,7 +284,7 @@ public class LavoriEleServiceImpl extends AbstractService implements LavoriEleSe
     request.setESITOAPP(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getEsitoapp()));
     request.setDATAINTERVENTO(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getFormattedDataIntervento()));
     request.setTIPOLETTURA(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getTipologiaLettura()));
-    
+
     request.setMISURATOREELETTRONICONEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMisuratoreElettronico()));
     request.setMATRMISATTIVANEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMatricolaMisAttiva()));
     request.setMATRMISPOTENZANEW(StringUtils.spaceIfNull(pratica.getLavoriEleExtension().getMisuratore().getMatricolaMisPotenza()));

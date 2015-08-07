@@ -64,7 +64,7 @@ public class UtilityDAOImpl extends AbstractDAO implements UtilityDAO {
   public List<CampiObbligatori> getAllCampiObbligatori(String pivaDistributore, String codiceServizio, String utility, String codiceFlusso) {
     String sql = "SELECT distinct CAMPO, ALERT FROM ANAG_VERIFICA_ESITO ave " + " where 1=1 " + " and piva_dl in ('00000000000', '" + pivaDistributore + "') " + " and fk_anag_ric_id = '" + codiceServizio + "' " + " and fk_anag_ric_utl = '"
         + utility + "' " + " and cod_flusso = '" + codiceFlusso + "' " + " and obbligatorio = 'Y'";
-    List<CampiObbligatori> list = jdbcTemplateSalesgate.query(sql, new CampiObbligatoriJdbcHandler().getRowMapper());
+    List<CampiObbligatori> list = jdbcTemplateSalesgate.query(sql, new CampiObbligatoriJdbcHandler(utility).getRowMapper());
     return list;
   }
 

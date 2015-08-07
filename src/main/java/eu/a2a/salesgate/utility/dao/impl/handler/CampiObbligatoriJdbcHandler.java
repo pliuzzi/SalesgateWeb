@@ -8,9 +8,15 @@ import eu.a2a.salesgate.pratiche.bean.CampiObbligatori;
 
 public class CampiObbligatoriJdbcHandler extends JdbcHandler<CampiObbligatori> {
 
+  private final String utility;
+
+  public CampiObbligatoriJdbcHandler(String utility) {
+    this.utility = utility;
+  }
+
   @Override
   protected CampiObbligatori createObjectFromResultSet(ResultSet rs) throws SQLException {
-    CampiObbligatori co = new CampiObbligatori();
+    CampiObbligatori co = new CampiObbligatori(utility);
     co.setCampo(rs.getString("campo"));
     co.setAlert(rs.getString("alert"));
 

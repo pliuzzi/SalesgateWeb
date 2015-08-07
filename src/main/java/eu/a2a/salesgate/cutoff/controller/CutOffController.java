@@ -69,11 +69,12 @@ public class CutOffController extends AbstractController {
     return "app/cutoff/elenco";
   }
 
-  @RequestMapping(value = { "/app/cutoff/tree/{stato}/{canale}/{servizio}" }, method = { RequestMethod.GET, RequestMethod.POST })
-  public String getTreeCutoff(@PathVariable("stato") String stato, @PathVariable("canale") String canale, @PathVariable("servizio") String servizio, Model model, WebRequest request, Principal principal, HttpSession session) {
+  @RequestMapping(value = { "/app/cutoff/tree/{stato}/{canale}/{servizio}/{periodo}" }, method = { RequestMethod.GET, RequestMethod.POST })
+  public String getTreeCutoff(@PathVariable("stato") String stato, @PathVariable("canale") String canale, @PathVariable("servizio") String servizio, @PathVariable("periodo") String periodo, Model model, WebRequest request,
+      Principal principal, HttpSession session) {
 
-    List<RootNode> list1 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, servizio, "distributore.name", "servizio.code");
-    List<RootNode> list2 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, servizio, "servizio.code", "distributore.name");
+    List<RootNode> list1 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, servizio, periodo, "distributore.name", "servizio.code");
+    List<RootNode> list2 = cutOffServiceSalesgate.estraiElencoCutoff(stato, canale, servizio, periodo, "servizio.code", "distributore.name");
     model.addAttribute("cutOffNodeDistributore", list1);
     model.addAttribute("cutOffNodeServizio", list2);
 

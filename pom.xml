@@ -286,6 +286,11 @@
       <artifactId>lambdaj</artifactId>
       <version>2.3.3</version>
     </dependency>
+    <dependency>
+      <groupId>eu.a2a</groupId>
+      <artifactId>sg-gas-inbound-be-client</artifactId>
+      <version>0.0.3</version>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>

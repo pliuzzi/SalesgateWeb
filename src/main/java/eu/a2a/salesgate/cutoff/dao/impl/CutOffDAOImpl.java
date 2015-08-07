@@ -1,8 +1,12 @@
 package eu.a2a.salesgate.cutoff.dao.impl;
 
 import java.sql.Types;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.SqlLobValue;
@@ -22,7 +26,7 @@ public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
   JdbcTemplate jdbcTemplateSalesgate;
 
   @Override
-  public List<CutOffItem> estraiAllCutOff(String stato, String canale, String servizio) {
+  public List<CutOffItem> estraiAllCutOff(String stato, String canale, String servizio, String periodo) {
 
     String sql = "select distinct ad.id as id_distributore, ad.name as name_distributore, f.id, f.cod_servizio, "
         + " f.cod_flusso, f.utility, f.nome_file, f.stato_file, conta_righe, created, closed_by, closed_date, arc.flag_canale cod_canale, p.name desc_canale " + " from files f, anag_dl ad, anag_richieste_canale arc, params p "
@@ -30,6 +34,15 @@ public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
     String sqlStato = " and f.stato_file = '" + stato + "'";
     String sqlCanale = " and upper(p.name) = '" + canale.toUpperCase() + "'";
     String sqlServizio = " and upper(f.cod_servizio) = '" + servizio.toUpperCase() + "'";
+    Calendar todayCalendar = GregorianCalendar.getInstance();
+    Date today = todayCalendar.getTime();
+    Date yesterday = DateUtils.addMonths(today, Integer.parseInt(periodo) * (-1));
+
+    String todayString = getDateFormatter().format(today);
+    String yesterdayString = getDateFormatter().format(yesterday);
+
+    String sqlPeriodo = " and created between to_date('" + yesterdayString + "', 'DD/MM/YYYY') and to_date('" + todayString + "', 'DD/MM/YYYY') ";
+
     if ((stato != null) && (!stato.equalsIgnoreCase("TUTTI"))) {
       sql += sqlStato;
     }
@@ -39,6 +52,9 @@ public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
     if ((canale != null) && (!servizio.equalsIgnoreCase("TUTTI"))) {
       sql += sqlServizio;
     }
+    // if ((periodo != null) && (!periodo.equalsIgnoreCase("TUTTI"))) {
+    sql += sqlPeriodo;
+    // }
     sql += "order by ad.name asc, f.cod_servizio asc, f.created desc";
     List<CutOffItem> list = jdbcTemplateSalesgate.query(sql, new CutOffItemJdbcHandler().getRowMapper());
     return list;

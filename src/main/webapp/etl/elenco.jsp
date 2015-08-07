@@ -189,7 +189,7 @@
             }
             //$('#progress').css('display', 'none');
             window.setTimeout(function(){$('#progress').css('display', 'none');}, 3000);
-            $('#btnStart').trigger('click');
+            //$('#btnStart').trigger('click');
         },
         fail: function (e, data) {
             if(data.errorThrown)
