@@ -35,8 +35,27 @@ public class CutOffDAOImpl extends AbstractDAO implements CutOffDAO {
     String sqlCanale = " and upper(p.name) = '" + canale.toUpperCase() + "'";
     String sqlServizio = " and upper(f.cod_servizio) = '" + servizio.toUpperCase() + "'";
     Calendar todayCalendar = GregorianCalendar.getInstance();
-    Date today = todayCalendar.getTime();
-    Date yesterday = DateUtils.addMonths(today, Integer.parseInt(periodo) * (-1));
+    Date today = DateUtils.addDays(todayCalendar.getTime(), 1); // per prendere
+                                                                // anche i
+                                                                // cutoff creati
+                                                                // oggi aggiungo
+                                                                // un giorno
+                                                                // invece che
+                                                                // usare le ore
+    Date yesterday = DateUtils.addDays(DateUtils.addMonths(today, Integer.parseInt(periodo) * (-1)), -1); // estendo
+                                                                                                          // il
+                                                                                                          // periodo
+                                                                                                          // a
+                                                                                                          // un
+                                                                                                          // mese
+                                                                                                          // meno
+                                                                                                          // un
+                                                                                                          // giorno
+                                                                                                          // per
+                                                                                                          // bypassare
+                                                                                                          // l'addizione
+                                                                                                          // fatta
+                                                                                                          // sopra
 
     String todayString = getDateFormatter().format(today);
     String yesterdayString = getDateFormatter().format(yesterday);
